@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'classPage' => 'error-page', 'activePage' => 'error', 'title' => __('Material Dashboard'), 'pageBackground' => asset("material").'/img/clint-mckoy.jpg'])
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'classPage' => 'error-page', 'activePage' => 'error', 'title' => __('HMA Project Dashboard'), 'pageBackground' => asset("material").'/img/clint-mckoy.jpg'])
 
 @section('content')
   <div class="container text-center">

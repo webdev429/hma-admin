@@ -28,6 +28,8 @@ class AuthServiceProvider extends ServiceProvider
         Item::class => ItemPolicy::class,
         Role::class => RolePolicy::class,
         Tag::class => TagPolicy::class,
+        Make::class => MakePolicy::class,
+        Modeld::class => ModeldPolicy::class,
     ];
 
     /**
@@ -42,5 +44,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-items', 'App\Policies\UserPolicy@manageItems');
 
         Gate::define('manage-users', 'App\Policies\UserPolicy@manageUsers');
+        Gate::define('manage-makes', 'App\Policies\UserPolicy@manageMakes');
+        Gate::define('manage-modelds', 'App\Policies\UserPolicy@manageModelds');
+        Gate::define('manage-specifics', 'App\Policies\UserPolicy@manageSpecifics');
     }
 }

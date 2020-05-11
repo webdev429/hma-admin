@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="container-fluid">
         <div class="header text-center">
-          <h3 class="title">Material Design Icons</h3>
+          <h3 class="title">HMA Project Design Icons</h3>
           <p class="category">Handcrafted by our friends from
             <a target="_blank" href="https://design.google.com/icons/">Google</a>
           </p>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-12 d-none d-sm-block d-md-block d-lg-none d-block d-sm-none text-center ml-auto mr-auto">
                   <h5>The icons are visible on Desktop mode inside an iframe. Since the iframe is not working on Mobile and Tablets please visit the icons on their original page on Google. Check the
-                    <a href="https://design.google.com/icons/" target="_blank">Material Icons</a>
+                    <a href="https://design.google.com/icons/" target="_blank">HMA Project Icons</a>
                   </h5>
                 </div>
               </div>

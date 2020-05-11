@@ -1,7 +1,7 @@
 /*!
 
  =========================================================
- * Material Dashboard PRO - v2.1.0
+ * HMA Project Dashboard PRO - v2.1.0
  =========================================================
 
  * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-laravel
@@ -254,7 +254,7 @@ md = {
 
     $.notify({
       icon: "add_alert",
-      message: "Welcome to <b>Material Dashboard Pro</b> - a beautiful admin panel for every web developer."
+      message: "Welcome to <b>HMA Project Dashboard Pro</b> - a beautiful admin panel for every web developer."
 
     }, {
       type: type[color],

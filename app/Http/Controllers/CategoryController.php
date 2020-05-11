@@ -19,6 +19,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Category;
+use App\Specific;
 use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
@@ -40,15 +41,14 @@ class CategoryController extends Controller
 
         return view('categories.index', ['categories' => $model->all()]);
     }
-
     /**
      * Show the form for creating a new category
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Specific $specific)
     {
-        return view('categories.create');
+        return view('categories.create', ['specifics' => $specific->all()]);
     }
 
     /**
@@ -60,7 +60,8 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request, Category $model)
     {
-        $model->create($request->all());
+        $category = $model->create($request->all());
+        $category->specifics()->sync($request->get('specifics'));
 
         return redirect()->route('category.index')->withStatus(__('Category successfully created.'));
     }
@@ -71,9 +72,12 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\View\View
      */
-    public function edit(Category $category)
+    public function edit(Category $category, Specific $specificModel)
     {
-        return view('categories.edit', compact('category'));
+        return view('categories.edit', [
+            'category' => $category->load('specifics'),
+            'specifics' => $specificModel->get(['id', 'name'])
+        ]);
     }
 
     /**
@@ -87,7 +91,9 @@ class CategoryController extends Controller
     {
         $category->update($request->all());
 
-        return redirect()->route('category.index')->withStatus(__('Category successfully updated.'));
+        $category->specifics()->sync($request->get('specifics'));
+
+        return redirect()->route('category.index')->withStatus(__('Category data successfully updated.'));
     }
 
     /**
@@ -98,10 +104,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if (!$category->items->isEmpty()) {
-            return redirect()->route('category.index')->withErrors(__('This category has items attached and can\'t be deleted.'));
-        }
-
         $category->delete();
 
         return redirect()->route('category.index')->withStatus(__('Category successfully deleted.'));

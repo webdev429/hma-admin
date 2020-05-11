@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Category;
+use App\Specific;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -31,6 +32,12 @@ class CategoryRequest extends FormRequest
             ],
             'description' => [
                 'nullable', 'min:5'
+            ],
+            'specifics' => [
+                
+            ],
+            'specifics.*' => [
+                'exists:'.(new Specific)->getTable().',id'
             ]
         ];
     }

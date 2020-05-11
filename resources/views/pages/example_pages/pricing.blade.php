@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'classPage' => 'pricing-page', 'activePage' => 'pricing', 'title' => __('Material Dashboard'), 'pageBackground' => asset("material").'/img/bg-pricing.jpg'])
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'classPage' => 'pricing-page', 'activePage' => 'pricing', 'title' => __('HMA Project Dashboard'), 'pageBackground' => asset("material").'/img/bg-pricing.jpg'])
 
 @section('content')
 <div class="container">

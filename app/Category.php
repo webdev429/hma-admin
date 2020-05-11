@@ -17,7 +17,7 @@
 */
 namespace App;
 
-use App\Item;
+use App\Specific;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -28,14 +28,15 @@ class Category extends Model
      * @var array
      */
     protected $fillable = ['name', 'description'];
-
+    
     /**
-     * Get the items of the category
+     * Get the tags of the item
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function items()
+    public function specifics()
     {
-        return $this->hasMany(Item::class);
+        return $this->belongsToMany(Specific::class);
     }
+
 }

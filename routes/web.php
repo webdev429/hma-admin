@@ -29,6 +29,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('item', 'ItemController', ['except' => ['show']]);
     Route::resource('role', 'RoleController', ['except' => ['show', 'destroy']]);
     Route::resource('user', 'UserController', ['except' => ['show']]);
+    Route::resource('make', 'MakeController', ['except' => ['show']]);
+    Route::resource('modeld', 'ModeldController', ['except' => ['show']]);
+    Route::resource('specific', 'SpecificController', ['except' => ['show']]);
+    
+    Route::get('deal/add', ['as' => 'deal.add', 'uses' => 'DealController@index']);
     
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'category-management', 'menuParent' => 'laravel', 'titlePage' => __('Category Management')])
+@extends('layouts.app', ['activePage' => 'category-management', 'menuParent' => 'characteristics', 'titlePage' => __('Item Management')])
 
 @section('content')
   <div class="content">
@@ -10,7 +10,7 @@
                 <div class="card-icon">
                   <i class="material-icons">category</i>
                 </div>
-                <h4 class="card-title">{{ __('Categories') }}</h4>
+                <h4 class="card-title">{{ __('Heavy Equipment Categories') }}</h4>
               </div>
               <div class="card-body">
                 @can('create', App\Category::class)
@@ -28,6 +28,9 @@
                       </th>
                       <th>
                         {{ __('Description') }}
+                      </th>
+                      <th>
+                        {{ __('Specific Data Field') }}
                       </th>
                       <th>
                         {{ __('Creation date') }}
@@ -48,6 +51,11 @@
                             {{ $category->description }}
                           </td>
                           <td>
+                            @foreach ($category->specifics as $specific)
+                                <span class="badge badge-default">{{ $specific->name }}</span>
+                            @endforeach
+                          </td>
+                          <td>
                             {{ $category->created_at->format('Y-m-d') }}
                           </td>
                           @can('manage-items', App\User::class)
@@ -62,7 +70,7 @@
                                     <div class="ripple-container"></div>
                                   </a>
                                 @endcan
-                                @if ($category->items->isEmpty() && auth()->user()->can('delete', $category))
+                                @if (auth()->user()->can('delete', $category))
                                   <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Are you sure you want to delete this category?") }}') ? this.parentElement.submit() : ''">
                                       <i class="material-icons">close</i>
                                       <div class="ripple-container"></div>

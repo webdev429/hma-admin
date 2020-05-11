@@ -75,4 +75,37 @@ class UserPolicy
     {
         return $user->isAdmin() || $user->isCreator();
     }
+
+    /**
+     * Determine whether the authenticate user can manage items and other related entities(tags, categories).
+     *
+     * @param  \App\User  $user
+     * @return boolean
+     */
+    public function manageMakes(User $user)
+    {
+        return $user->isAdmin() || $user->isCreator();
+    }
+
+    /**
+     * Determine whether the authenticate user can manage items and other related entities(tags, categories).
+     *
+     * @param  \App\User  $user
+     * @return boolean
+     */
+    public function manageModelds(User $user)
+    {
+        return $user->isAdmin() || $user->isCreator();
+    }
+
+    /**
+     * Determine whether the authenticate user can manage items and other related entities(tags, categories).
+     *
+     * @param  \App\User  $user
+     * @return boolean
+     */
+    public function manageSpecifics(User $user)
+    {
+        return $user->isAdmin() || $user->isCreator();
+    }
 }

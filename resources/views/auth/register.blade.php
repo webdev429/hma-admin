@@ -2,7 +2,7 @@
   'class' => 'off-canvas-sidebar',
   'classPage' => 'register-page',
   'activePage' => 'register',
-  'title' => __('Material Dashboard'),
+  'title' => __('HMA Project Dashboard'),
   'pageBackground' => asset("material").'/img/register.jpg'
 ])
 

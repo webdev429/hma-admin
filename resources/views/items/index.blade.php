@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'item-management', 'menuParent' => 'laravel', 'titlePage' => __('Item Management')])
+@extends('layouts.app', ['activePage' => 'item-management', 'menuParent' => 'characteristics', 'titlePage' => __('Configuration Management')])
 
 @section('content')
   <div class="content">
@@ -10,7 +10,7 @@
                 <div class="card-icon">
                   <i class="material-icons">filter_none</i>
                 </div>
-                <h4 class="card-title">{{ __('Items') }}</h4>
+                <h4 class="card-title">{{ __('Specific Form Field Configuration') }}</h4>
               </div>
               <div class="card-body">
                 @can('create', App\Item::class)
@@ -28,9 +28,6 @@
                       </th>
                       <th>
                         {{ __('Category') }}
-                      </th>
-                      <th>
-                        {{ __('Picture') }}
                       </th>
                       <th>
                         {{ __('Tags') }}
@@ -51,10 +48,7 @@
                             {{ $item->name }}
                           </td>
                           <td>
-                            {{ $item->category->name }}
-                          </td>
-                          <td>
-                            <img src="{{ $item->path() }}" alt="" style="max-width: 200px;">
+                            category->name
                           </td>
                           <td>
                             @foreach ($item->tags as $tag)

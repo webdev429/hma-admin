@@ -4,7 +4,7 @@
 <div class="content">
     <div class="container-fluid">
       <div class="header text-center ml-auto mr-auto">
-        <h3 class="title">Material Dashboard Heading</h3>
+        <h3 class="title">HMA Project Dashboard Heading</h3>
         <p class="category">Created using Roboto Font Family</p>
       </div>
       <div class="row">
@@ -18,27 +18,27 @@
                 <div class="row">
                   <div class="tim-typo">
                     <h1>
-                      <span class="tim-note">Header 1</span>The Life of Material Dashboard </h1>
+                      <span class="tim-note">Header 1</span>The Life of HMA Project Dashboard </h1>
                   </div>
                   <div class="tim-typo">
                     <h2>
-                      <span class="tim-note">Header 2</span>The Life of Material Dashboard</h2>
+                      <span class="tim-note">Header 2</span>The Life of HMA Project Dashboard</h2>
                   </div>
                   <div class="tim-typo">
                     <h3>
-                      <span class="tim-note">Header 3</span>The Life of Material Dashboard</h3>
+                      <span class="tim-note">Header 3</span>The Life of HMA Project Dashboard</h3>
                   </div>
                   <div class="tim-typo">
                     <h4>
-                      <span class="tim-note">Header 4</span>The Life of Material Dashboard</h4>
+                      <span class="tim-note">Header 4</span>The Life of HMA Project Dashboard</h4>
                   </div>
                   <div class="tim-typo">
                     <h5>
-                      <span class="tim-note">Header 5</span>The Life of Material Dashboard</h5>
+                      <span class="tim-note">Header 5</span>The Life of HMA Project Dashboard</h5>
                   </div>
                   <div class="tim-typo">
                     <h6>
-                      <span class="tim-note">Header 6</span>The Life of Material Dashboard</h6>
+                      <span class="tim-note">Header 6</span>The Life of HMA Project Dashboard</h6>
                   </div>
                   <div class="tim-typo">
                     <p>

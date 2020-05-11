@@ -6,7 +6,7 @@
 
      Lines: 236 was changed from top: 5px to top: 50% and we added margin-top: -9px. In this way the close button will be aligned vertically
      Line:219 - modified when the icon is set, we add the class "alert-with-icon", so there will be enough space for the icon.
-	 Lines: 179/222 - class() was changed to html() so we can add the Material Design Icons
+	 Lines: 179/222 - class() was changed to html() so we can add the HMA Project Design Icons
 
 
 

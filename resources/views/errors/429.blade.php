@@ -1,4 +1,4 @@
-@extends('errors.layout', ['classPage' => 'error-page', 'activePage' => '429', 'title' => __('Material Dashboard'), 'pageBackground' => asset("material").'/img/clint-mckoy.jpg'])
+@extends('errors.layout', ['classPage' => 'error-page', 'activePage' => '429', 'title' => __('HMA Project Dashboard'), 'pageBackground' => asset("material").'/img/clint-mckoy.jpg'])
 
 @section('content')
   <div class="container text-center">

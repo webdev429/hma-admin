@@ -2,29 +2,19 @@
   'class' => 'off-canvas-sidebar',
   'classPage' => 'login-page',
   'activePage' => 'login',
-  'title' => __('Material Dashboard'),
+  'title' => __('HMA Project Dashboard'),
   'pageBackground' => asset("material").'/img/login.jpg'
 ])
 
 @section('content')
 <div class="container">
     <div class="row">
-      <div class="col-md-9 ml-auto mr-auto mb-1 text-center">
-        <h3>{{ __('Welcome to Material Dashboard Pro Laravel Live Preview.') }} </h3>
+      <div class="col-md-9 ml-auto mr-auto mb-3 text-center">
+        <h3>{{ __('Welcome to HMA Project.') }} </h3>
 
-        <p class="text-lead text-light mt-3 mb-0">
-            {{ __('Log in and see how you can save more than 90 hours of work with CRUDs for managing: #users, #roles, #items, #categories, #tags and more.') }}
+        <p class="text-lead text-light mt-2 mb-5 mb-0">
+            {{ __('Please join here.') }}
         </p>
-      </div>
-      <div class="col-lg-5 col-md-8 col-sm-10 ml-auto mr-auto mb-3 text-center">
-          <h5 class="text-lead text-white mt-2 mb-0">
-              <strong>{{ __('You can log in with 3 user types:') }}</strong>
-          </h5>
-          <ol class="text-lead text-light mt-3 mb-3">
-              <li>{!! __('Username <b>admin@material.com</b> Password <b>secret</b>') !!}</li>
-              <li>{!! __('Username <b>creator@material.com</b> Password <b>secret</b>') !!}</li>
-              <li>{!! __('Username <b>member@material.com</b> Password <b>secret</b>') !!}</li>
-          </ol>
       </div>
     </div>
     <div class="row">
