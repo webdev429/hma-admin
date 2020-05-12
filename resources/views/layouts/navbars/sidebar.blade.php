@@ -108,7 +108,7 @@
                     <ul class="nav">
                         @can('manage-items', App\User::class)
                         <li class="nav-item{{ $activePage == 'deal_add' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('deal.add') }}">
+                            <a class="nav-link" href="{{ route('deal.index') }}">
                                 <span class="sidebar-mini"> AD </span>
                                 <span class="sidebar-normal"> {{ __('Add Deal') }} </span>
                             </a>

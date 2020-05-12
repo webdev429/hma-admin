@@ -52,7 +52,7 @@
                           </td>
                           <td>
                             @foreach ($category->specifics as $specific)
-                                <span class="badge badge-default">{{ $specific->name }}</span>
+                                <span class="badge badge-default">{{ $specific->name }} ({{ $specific->unit }})</span>
                             @endforeach
                           </td>
                           <td>

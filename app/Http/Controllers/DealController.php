@@ -1,27 +1,18 @@
 <?php
-/*
 
-*/
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Category;
 use App\Make;
 use App\Modeld;
-use App\Http\Requests\CategoryRequest;
+use Illuminate\Http\Request;
 
 class DealController extends Controller
 {
-    public function __construct()
-    {
-        // $this->authorizeResource(Category::class);
-    }
-
     /**
-     * Display a listing of the categories
+     * Display a listing of the resource.
      *
-     * @param \App\Category  $model
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\Response
      */
     public function index(Category $model, Make $make, Modeld $modeld)
     {
@@ -30,8 +21,77 @@ class DealController extends Controller
         $data['equipment_category'] = $model->all();
         $data['makes'] = $make->all();
         $data['modelds'] = $modeld->all();
-
+        
         return view('deal.add', ['data' => $data]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+
+    public function ajax_get_specific_properties(Request $request) {
+        print_r($request);exit();
+    }
 }

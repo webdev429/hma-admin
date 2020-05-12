@@ -23,6 +23,7 @@ Route::get('pricing', 'ExamplePagesController@pricing')->name('page.pricing');
 Route::get('lock', 'ExamplePagesController@lock')->name('page.lock');
 Route::get('error', ['as' => 'page.error', 'uses' => 'ExamplePagesController@error']);
 
+
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('category', 'CategoryController', ['except' => ['show']]);
     Route::resource('tag', 'TagController', ['except' => ['show']]);
@@ -32,8 +33,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('make', 'MakeController', ['except' => ['show']]);
     Route::resource('modeld', 'ModeldController', ['except' => ['show']]);
     Route::resource('specific', 'SpecificController', ['except' => ['show']]);
-    
-    Route::get('deal/add', ['as' => 'deal.add', 'uses' => 'DealController@index']);
+    Route::resource('deal', 'DealController', ['except' => ['show']]);
+  
+    // Routes for Ajax Communications
+    Route::post('ajax_get_specific_properties', 'AjaxController@get_specific_properties');
     
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);

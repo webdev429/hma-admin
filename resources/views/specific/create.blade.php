@@ -15,7 +15,7 @@ __('Specific Data Management')])
                             <div class="card-icon">
                                 <i class="material-icons">category</i>
                             </div>
-                            <h4 class="card-title">{{ __('Add Model Item') }}</h4>
+                            <h4 class="card-title">{{ __('Add Specific Data') }}</h4>
                         </div>
                         <div class="card-body ">
                             <div class="row">
@@ -42,7 +42,7 @@ __('Specific Data Management')])
                                         <textarea cols="30" rows="10"
                                             class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
                                             name="description" id="input-description" type="text"
-                                            placeholder="{{ __('Description') }}" required="true"
+                                            placeholder="{{ __('Description') }}"
                                             aria-required="true">{{ old('description') }}</textarea>
                                         @include('alerts.feedback', ['field' => 'description'])
                                     </div>

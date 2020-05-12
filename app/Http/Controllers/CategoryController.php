@@ -76,7 +76,7 @@ class CategoryController extends Controller
     {
         return view('categories.edit', [
             'category' => $category->load('specifics'),
-            'specifics' => $specificModel->get(['id', 'name'])
+            'specifics' => $specificModel->get(['id', 'name', 'unit'])
         ]);
     }
 
@@ -107,5 +107,9 @@ class CategoryController extends Controller
         $category->delete();
 
         return redirect()->route('category.index')->withStatus(__('Category successfully deleted.'));
+    }
+
+    public function ajax_get_specific_properties(Request $request) {
+
     }
 }
