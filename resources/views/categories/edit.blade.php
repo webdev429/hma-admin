@@ -38,19 +38,6 @@ Management')])
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
-                                <div class="col-sm-7">
-                                    <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">
-                                        <textarea cols="30" rows="10"
-                                            class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
-                                            name="description" id="input-description" type="text"
-                                            placeholder="{{ __('Description') }}" required="true"
-                                            aria-required="true">{{ old('description', $category->description) }}</textarea>
-                                        @include('alerts.feedback', ['field' => 'description'])
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <label class="col-sm-2 col-form-label">{{ __('Specific Data') }}</label>
                                 <div class="col-sm-7">
                                     <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">

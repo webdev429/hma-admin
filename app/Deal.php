@@ -2,6 +2,10 @@
 
 namespace App;
 
+use App\Category;
+use App\Make;
+use App\Modeld;
+use App\Type;
 use Illuminate\Database\Eloquent\Model;
 
 class Deal extends Model
@@ -14,6 +18,7 @@ class Deal extends Model
     protected $fillable = [
         'title',
         'deal_type',
+        'type_id',
         'category_id',
         'description',
         'year',
@@ -34,6 +39,61 @@ class Deal extends Model
         'truck_model',
         'truck_engine',
         'truck_trans',
-        'title',
+        'truck_suspension',
+        'truck_condition',
+        'truck_condition_unit',
+        'spec_capacity_ton',
+        'spec_capacity_ton_unit',
+        'spec_capacity_weight',
+        'spec_capacity_weight_unit',
+        'spec_capacity_cubic',
+        'spec_capacity_cubic_unit',
+        'spec_length',
+        'spec_length_unit',
+        'spec_hours',
+        'spec_extendahoe',
+        'spec_rear_aux_hyd',
+        'spec_cabin',
+        'spec_4wd'
     ];
+
+    /**
+     * Get the category 
+     *
+     * @return \App\Type
+     */
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
+
+    /**
+     * Get the category 
+     *
+     * @return \App\Category
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Get the make
+     *
+     * @return \App\Make
+     */
+    public function make()
+    {
+        return $this->belongsTo(Make::class);
+    }
+
+    /**
+     * Get the modeld
+     *
+     * @return \App\Modeld
+     */
+    public function modeld()
+    {
+        return $this->belongsTo(Modeld::class);
+    }
 }

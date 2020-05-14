@@ -27,9 +27,6 @@
                           {{ __('Name') }}
                       </th>
                       <th>
-                        {{ __('Description') }}
-                      </th>
-                      <th>
                         {{ __('Make') }}
                       </th>
                       <th>
@@ -49,9 +46,6 @@
                         <tr>
                           <td>
                             {{ $item->name }}
-                          </td>
-                          <td>
-                            {{ $item->description }}
                           </td>
                           <td>
                             {{ $item->make->name }} 

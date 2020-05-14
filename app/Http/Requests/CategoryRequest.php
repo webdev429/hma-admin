@@ -31,9 +31,6 @@ class CategoryRequest extends FormRequest
             'name' => [
                 'required', 'min:3', Rule::unique((new Category)->getTable())->ignore($this->route()->category->id ?? null)
             ],
-            'description' => [
-                'nullable', 'min:5'
-            ],
             'specifics' => [
                 
             ],

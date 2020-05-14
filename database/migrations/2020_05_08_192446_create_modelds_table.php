@@ -16,7 +16,6 @@ class CreateModeldsTable extends Migration
         Schema::create('modelds', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50);
-            $table->text('description');
             $table->unsignedInteger('make_id');
             $table->unsignedInteger('category_id');
             $table->timestamps();

@@ -16,7 +16,6 @@ class CreateMakesTable extends Migration
         Schema::create('makes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50);
-            $table->text('description');
             $table->timestamps();
         });
     }

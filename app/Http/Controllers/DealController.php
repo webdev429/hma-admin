@@ -7,7 +7,9 @@ use App\Category;
 use App\Make;
 use App\Modeld;
 use App\Specific;
+use App\Truckmake;
 use Illuminate\Http\Request;
+use App\Http\Requests\DealRequest;
 
 class DealController extends Controller
 {
@@ -16,7 +18,7 @@ class DealController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $model, Make $make, Modeld $modeld, Specific $specific, Type $type)
+    public function index(Category $model, Make $make, Modeld $modeld, Specific $specific, Type $type, Truckmake $truckmake)
     {
         $this->authorize('manage-items', User::class);
 
@@ -25,6 +27,7 @@ class DealController extends Controller
         $data['modelds'] = $modeld ->all();
         $data['specifics'] = $specific ->all();
         $data['types'] = $type ->all();
+        $data['truckmakes'] = $truckmake ->all();
         
         return view('deal.add', $data);
     }
@@ -45,9 +48,14 @@ class DealController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DealRequest $request, Deal $model)
     {
-        //
+        $deal = $model->create($request->merge([
+            'picture' => $request->photo->store('pictures', 'public'),
+            'auc_enddate' => $request->date ? Carbon::parse($request->auc_enddate)->format('Y-m-d') : null
+        ])->all());
+
+        return redirect()->route('deal.add')->withStatus(__('Deal successfully created.'));
     }
 
     /**

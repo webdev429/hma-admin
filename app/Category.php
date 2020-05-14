@@ -28,7 +28,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'truck_mounted', 'type_id'];
+    protected $fillable = ['name', 'truck_mounted', 'type_id'];
     
     /**
      * Get the category of the item

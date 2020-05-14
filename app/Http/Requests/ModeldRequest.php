@@ -31,9 +31,6 @@ class ModeldRequest extends FormRequest
             'name' => [
                 'required', 'min:3', Rule::unique((new Modeld)->getTable())->ignore($this->route()->modeld->id ?? null)
             ],
-            'description' => [
-                'nullable', 'min:5'
-            ],
             'make_id' => [
                 'required', 'exists:'.(new Make)->getTable().',id'
             ],

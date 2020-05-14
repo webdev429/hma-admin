@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Category;
 use App\Make;
 use App\Modeld;
+use App\Type;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DealRequest extends FormRequest
@@ -31,10 +32,13 @@ class DealRequest extends FormRequest
                 'required', 'min:3'
             ],
             'description' => [
-
+                'nullable'
             ],
             'deal_type' => [
                 'required'
+            ],
+            'type_id' => [
+                'required', 'exists:'.(new Type)->getTable().',id'
             ],
             'category_id' => [
                 'required', 'exists:'.(new Category)->getTable().',id'
@@ -64,11 +68,12 @@ class DealRequest extends FormRequest
             'price_currency' => [
                 'required'
             ],
-            'url' => [],
-            'picture' => [
-                'image'
+            'url' => [
+                'nullable'
             ],
-            'truck_mounted' => [],
+            'photo' => [
+                $this->route()->item ? 'nullable' : 'required', 'image'
+            ],
             'auc_enddate' => [
                 'nullable',
                 'date_format:Y-m-d'
@@ -76,7 +81,7 @@ class DealRequest extends FormRequest
             'auc_lot' => [
                 'nullable'
             ],
-            'auc_auctineers' => [
+            'auc_auctineer' => [
                 'nullable'
             ],
             'truck_year' => [

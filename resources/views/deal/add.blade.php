@@ -75,7 +75,7 @@
                                     <label class="col-md-4 col-form-label">{{ __('Description') }}</label>
                                     <div class="col-md-8">
                                         <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">
-                                            <textarea cols="30" rows="7"
+                                            <textarea cols="30" rows="10"
                                                 class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
                                                 name="description" id="input-description" type="text"
                                                 placeholder="{{ __('Description') }}" required="true"
@@ -138,7 +138,7 @@
                                         <label class="col-md-1 col-sm-3 col-form-label">Country</label>
                                         <div class="col-md-3 col-sm-9">
                                             <div class="form-group">
-                                                <select class="selectpicker" data-style="select-with-transition">
+                                                <select class="selectpicker" name="country" data-style="select-with-transition">
                                                     <option value="United States">United States</option>
                                                     <option value="Canada">Canada</option>
                                                     <option value="Mexico">Mexico</option>
@@ -149,21 +149,21 @@
                                         <label class="col-md-1 col-sm-3 col-form-label auction-field">EndDate</label>
                                         <div class="col-md-3 col-sm-9 auction-field">
                                             <div class="form-group">
-                                                <input type="text" class="form-control datepicker" value="05/08/2020">
+                                                <input type="text" class="form-control datepicker" name="auc_date" value="06/08/2020">
                                             </div>
                                         </div>
                                         <!-- LOT -->
                                         <label class="col-md-1 col-sm-3 col-form-label auction-field">LOT</label>
                                         <div class="col-md-3 col-sm-9 auction-field">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="lot" id="lot">
+                                                <input type="text" class="form-control" name="auc_lot" id="lot">
                                             </div>
                                         </div>
                                         <!-- Auctioneer -->
                                         <label class="col-md-1 col-sm-3 col-form-label auction-field">Auctioneer</label>
                                         <div class="col-md-3 col-sm-9 auction-field">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="auctioneer" id="auctioneer">
+                                                <input type="text" class="form-control" name="auc_auctioneer" id="auctioneer">
                                             </div>
                                         </div>
                                         <!-- Price -->
@@ -200,14 +200,14 @@
                                         </div>
                                         <div class="fileinput-preview fileinput-exists thumbnail"></div>
                                         <div>
-                                            <span class="btn btn-rose btn-round btn-file">
-                                                <span class="fileinput-new">Select image</span>
-                                                <span class="fileinput-exists">Change</span>
-                                                <input type="file" name="..." />
+                                            <span class="btn btn-rose btn-file">
+                                            <span class="fileinput-new">{{ __('Select image') }}</span>
+                                            <span class="fileinput-exists">{{ __('Change') }}</span>
+                                            <input type="file" name="photo" id = "input-picture" />
                                             </span>
-                                            <a href="#pablo" class="btn btn-danger btn-round fileinput-exists"
-                                                data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                                            <a href="#pablo" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> {{ __('Remove') }}</a>
                                         </div>
+                                        @include('alerts.feedback', ['field' => 'photo'])
                                     </div>
                                 </div>
                             </div>
@@ -225,7 +225,12 @@
                                     <label class="col-md-1 col-sm-3 col-form-label">Truck Make</label>
                                     <div class="col-md-2 col-sm-9">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_make" require="true">
+                                            <select class="selectpicker" name="truck_make" data-style="select-with-transition">
+                                                <option value=""></option>
+                                                @foreach ($truckmakes as $truckmake)
+                                                <option value="{{ $truckmake->id }}">{{ $truckmake->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <!-- Truck Model -->
@@ -289,7 +294,7 @@
                                         </div>
                                         <div class="col-md-1 col-sm-2 {{ $specific->column_name }} specific_item" style="padding:0;">
                                             <div class='form-group'>
-                                                <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition'>
+                                                <select class='selectpicker' name='{{ $specific->column_name }}_unit' id='{{ $specific->column_name }}_unit' data-style='select-with-transition'>
                                                     @foreach ($unitAry as $unit)
                                                     <option value='{{ $unit }}'>{{ $unit }}</option>
                                                     @endforeach

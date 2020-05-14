@@ -30,9 +30,6 @@
                           {{ __('Type') }}
                       </th>
                       <th>
-                        {{ __('Description') }}
-                      </th>
-                      <th>
                         {{ __('Truck Mounted') }}
                       </th>
                       <th>
@@ -55,9 +52,6 @@
                           </td>
                           <td>
                             {{ $category->type->name }}
-                          </td>
-                          <td>
-                            {{ $category->description }}
                           </td>
                           <td>
                           @if ($category->truck_mounted == 1)

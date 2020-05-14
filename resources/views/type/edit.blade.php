@@ -44,7 +44,7 @@
                                             class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
                                             name="description" id="input-description" type="text"
                                             placeholder="{{ __('Description') }}"
-                                            aria-required="true">{{ old('description', $type->description) }}</textarea>
+                                            >{{ old('description', $type->description) }}</textarea>
                                         @include('alerts.feedback', ['field' => 'description'])
                                     </div>
                                 </div>

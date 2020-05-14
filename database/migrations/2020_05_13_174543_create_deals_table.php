@@ -18,6 +18,7 @@ class CreateDealsTable extends Migration
             $table->increments('id');
             $table->string('title', 100);
             $table->integer('deal_type');
+            $table->unsignedInteger('type_id');
             $table->unsignedInteger('category_id');
             $table->text('description')->nullable();
             $table->string('year', 4);
@@ -60,6 +61,7 @@ class CreateDealsTable extends Migration
 
             $table->timestamps();
 
+            $table->foreign('type_id')->references('id')->on('types');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('make_id')->references('id')->on('makes');
             $table->foreign('modeld_id')->references('id')->on('modelds');

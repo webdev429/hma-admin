@@ -13,7 +13,7 @@ class Modeld extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'make_id', 'category_id'];
+    protected $fillable = ['name', 'make_id', 'category_id'];
     /**
      * Get the category of the item
      *
