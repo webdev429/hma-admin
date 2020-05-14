@@ -23,6 +23,22 @@ class AjaxController extends Controller {
 
         $specific_field_data = Ajax::getSpecificField($category_id);
 
-        return response()->json($specific_field_data);
+        return response() ->json($specific_field_data);
+    }
+
+    public function get_equipment_category(Request $request) {
+        $type_id = $request ->equipment_type_id;
+
+        $category_data = Ajax::getCategoryField($type_id);
+
+        return response() ->json($category_data);
+    }
+
+    public function get_modeld(Request $request) {
+        $make_id = $request ->make_id;
+
+        $modeld_data = Ajax::getModeld($make_id);
+
+        return response() ->json($modeld_data);
     }
 }

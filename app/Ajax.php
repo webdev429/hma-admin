@@ -12,41 +12,29 @@ class Ajax extends Model
     static function getSpecificField($category_id = '') {
         $specificList = DB::table('category_specific')
             ->leftJoin('specifics', 'category_specific.specific_id', '=', 'specifics.id')
-            ->where('category_id', $category_id)
+            ->leftJoin('categories', 'category_specific.category_id', '=', 'categories.id')
+            ->where('category_specific.category_id', $category_id)
             ->get();
 
-        $return_html = "";
+        return $specificList;
+    }
 
-        foreach($specificList as $specific) {
-            if ($specific->type == 1) {
-                $unitStr = "";
-                if ($specific->unit != '') 
-                    $unitStr = '('.$specific->unit.')';
-                $return_html .= "
-                    <label class='col-md-1 col-sm-3 col-form-label'>".$specific->name.$unitStr."</label>
-                    <div class='col-md-2 col-sm-9'>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' name='".$specific->column_name."' require='true'>
-                        </div>
-                    </div>";
-            } else {
-                $optionAry = explode('/', $specific->value);
-                $return_html .= "
-                    <label class='col-md-1 col-sm-3 col-form-label'>".$specific->name."</label>
-                    <div class='col-md-2 col-sm-9'>
-                        <div class='form-group'>
-                        <select class='selectpicker' name='".$specific->column_name."' id='".$specific->column_name."' data-style='select-with-transition'>";
-                foreach ($optionAry as $option) {
-                    $return_html .= "<option value='".$option."'>".$option."</option>";
-                }           
-                $return_html .="
-                        </select>
-                        </div>
-                    </div>";
-            }
-        }
+    static function getCategoryField($type_id = '') {
+        $categoryList = DB::table('categories')
+            ->where('type_id', $type_id)
+            ->select('id')
+            ->get();
+        
+        return $categoryList;
+    }
 
-        return $return_html;
+    static function getModeld($make_id = '') {
+        $modeldList = DB::table('modelds')
+            ->where('make_id', $make_id)
+            ->select('id')
+            ->get();
+
+        return $modeldList;
     }
 
     static function getDoctorlist($per_page='', $page='', $search='', $practice='', $available='') {

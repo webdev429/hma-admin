@@ -2,31 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Type;
-use App\Category;
-use App\Make;
-use App\Modeld;
-use App\Specific;
+use App\Truckmake;
 use Illuminate\Http\Request;
+use App\Http\Requests\TruckmakeRequest;
 
-class DealController extends Controller
+class TruckmakeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $model, Make $make, Modeld $modeld, Specific $specific, Type $type)
+    public function index(Truckmake $model)
     {
-        $this->authorize('manage-items', User::class);
+        $this ->authorize('manage-truckmakes', User::class);
 
-        $data['equipment_category'] = $model->all();
-        $data['makes'] = $make ->all();
-        $data['modelds'] = $modeld ->all();
-        $data['specifics'] = $specific ->all();
-        $data['types'] = $type ->all();
-        
-        return view('deal.add', $data);
+        return view('truckmake.index', ['items' => $model->all()]);
     }
 
     /**
@@ -36,7 +27,7 @@ class DealController extends Controller
      */
     public function create()
     {
-        //
+        return view('truckmake.create');
     }
 
     /**
@@ -45,9 +36,11 @@ class DealController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TruckmakeRequest $request, Truckmake $model)
     {
-        //
+        $model ->create($request->all());
+
+        return redirect() ->route('truckmake.index') ->withStatus(__('Truck Make Data successfully created.'));
     }
 
     /**
@@ -67,9 +60,9 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Truckmake $truckmake)
     {
-        //
+        return view('truckmake.edit', compact('truckmake'));
     }
 
     /**
@@ -79,9 +72,11 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Truckmake $truckmake)
     {
-        //
+        $truckmake ->update($request->all());
+
+        return redirect() ->route('truckmake.index') ->withStatus(__('Truck Make Data successfully updated.'));
     }
 
     /**
@@ -90,9 +85,10 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Truckmake $truckmake)
     {
-        //
-    }
+        $truckmake ->delete();
 
+        return redirect() ->route('truckmake.index') ->withStatus(__('Truck Make data successfully deleted.'));
+    }
 }

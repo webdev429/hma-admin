@@ -30,6 +30,12 @@
                         {{ __('Description') }}
                       </th>
                       <th>
+                        {{ __('Make') }}
+                      </th>
+                      <th>
+                        {{ __('Category') }}
+                      </th>
+                      <th>
                         {{ __('Created Date') }}
                       </th>
                       @can('manage-items', App\User::class)
@@ -46,6 +52,12 @@
                           </td>
                           <td>
                             {{ $item->description }}
+                          </td>
+                          <td>
+                            {{ $item->make->name }} 
+                          </td>
+                          <td>
+                            {{ $item->category->name }}
                           </td>
                           <td>
                             {{ $item->created_at->format('Y-m-d') }}

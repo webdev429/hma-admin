@@ -36,6 +36,19 @@ Management')])
                                 </div>
                             </div>
                             <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Equipment Type') }}</label>
+                                <div class="col-sm-7" >
+                                    <div class="form-group">
+                                        <select class="selectpicker col-sm-12 pl-0 pr-0" name="type_id" value="0" data-style="select-with-transition">
+                                                <option value=""></option>
+                                            @foreach($types as $type)
+                                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
                                 <div class="col-sm-7">
                                     <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">
@@ -59,6 +72,17 @@ Management')])
                                             @endforeach
                                         </select>
                                         @include('alerts.feedback', ['field' => 'specifics'])
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Truck Mounted') }}</label>
+                                <div class="col-sm-2" >
+                                    <div class="form-group">
+                                        <select class="selectpicker" name="truck_mounted" value="0" data-style="select-with-transition">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

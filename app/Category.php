@@ -18,6 +18,7 @@
 namespace App;
 
 use App\Specific;
+use App\Type;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -27,8 +28,18 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'truck_mounted', 'type_id'];
     
+    /**
+     * Get the category of the item
+     *
+     * @return \App\Type
+     */
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
+
     /**
      * Get the tags of the item
      *

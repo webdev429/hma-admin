@@ -27,7 +27,13 @@
                           {{ __('Name') }}
                       </th>
                       <th>
+                          {{ __('Type') }}
+                      </th>
+                      <th>
                         {{ __('Description') }}
+                      </th>
+                      <th>
+                        {{ __('Truck Mounted') }}
                       </th>
                       <th>
                         {{ __('Specific Data Field') }}
@@ -48,11 +54,21 @@
                             {{ $category->name }}
                           </td>
                           <td>
+                            {{ $category->type->name }}
+                          </td>
+                          <td>
                             {{ $category->description }}
                           </td>
                           <td>
+                          @if ($category->truck_mounted == 1)
+                            <span class="badge badge-success">Yes</span>
+                          @else
+                            <span class="badge badge-warning">No</span>
+                          @endif
+                          </td>
+                          <td>
                             @foreach ($category->specifics as $specific)
-                                <span class="badge badge-default">{{ $specific->name }} ({{ $specific->unit }})</span>
+                                <span class="badge badge-default">{{ $specific->name }} {{ $specific->unit != '' ? '('.$specific->unit.')' : "" }}</span>
                             @endforeach
                           </td>
                           <td>

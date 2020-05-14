@@ -47,10 +47,24 @@
                                         <label class="col-md-4 col-form-label">Equipment Type</label>
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <select class="selectpicker" onchange="onChangeEquipmentType();" name="equipment_type" id="equipment_type" data-style="select-with-transition">
+                                                <select class="selectpicker" onchange="onChangeEqupmentType();" name="type_id" id="type_id" data-style="select-with-transition">
                                                     <option value="0"></option>
-                                                    @foreach($data['equipment_category'] as $item)
+                                                    @foreach($types as $item)
                                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Equipment Category -->
+                                    <div class="row">
+                                        <label class="col-md-4 col-form-label">Equipment Category</label>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <select class="selectpicker" onchange="onChangeEquipmentCategory();" name="category_id" id="category_id" data-style="select-with-transition">
+                                                    <option value="0"></option>
+                                                    @foreach($equipment_category as $item)
+                                                        <option class="category_{{ $item->id }}" value="{{ $item->id }}" style="display:none;">{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -86,8 +100,9 @@
                                         <label class="col-md-1 col-sm-3 col-form-label">Make</label>
                                         <div class="col-md-3 col-sm-9">
                                             <div class="form-group">
-                                                <select class="selectpicker" data-style="select-with-transition">
-                                                    @foreach($data['makes'] as $item)
+                                                <select class="selectpicker" onchange="onChangeMake();" data-style="select-with-transition" name="make_id" id="make_id">
+                                                    <option value=""></option>
+                                                    @foreach($makes as $item)
                                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -97,9 +112,10 @@
                                         <label class="col-md-1 col-sm-3 col-form-label">Model</label>
                                         <div class="col-md-3 col-sm-9">
                                             <div class="form-group">
-                                                <select class="selectpicker" data-style="select-with-transition">
-                                                    @foreach($data['modelds'] as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                <select class="selectpicker" data-style="select-with-transition" name="modeld_id" id="modeld_id">
+                                                    <option value=""></option>
+                                                    @foreach($modelds as $item)
+                                                        <option class="modeld_{{ $item->id }}" value="{{ $item->id }}" style="display:none;">{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -152,33 +168,28 @@
                                         </div>
                                         <!-- Price -->
                                         <label class="col-md-1 col-sm-3 col-form-label">Price</label>
-                                        <div class="col-md-3 col-sm-9">
+                                        <div class="col-md-3 col-sm-7">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="price" id="price">
                                             </div>
                                         </div>
+                                        <div class="col-md-1 col-sm-2" style="padding:0;">
+                                            <div class="form-group">
+                                                <select class="selectpicker" name="price_currency" data-style="select-with-transition">
+                                                    <option value="USD">USD</option>
+                                                    <option value="CAD">CAD</option>
+                                                    <option value="MXN">MXN</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <!-- Url -->
                                         <label class="col-md-1 col-sm-3 col-form-label">URL</label>
-                                        <div class="col-md-7 col-sm-9">
+                                        <div class="col-md-6 col-sm-9">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="url" id="url">
                                             </div>
                                         </div>
                                         <div class="col-md-4 col-sm-12"></div>
-                                        <!-- Truck Mounted -->
-                                        <label class="col-md-2 col-sm-3 col-form-label" style="display:inline;">Truck Mounted?</label>
-                                        <div class="col-md-2 col-sm-9" style="display:inline;">
-                                            <div class="form-group">
-                                                <div class="col-sm-10 checkbox-radios">
-                                                    <div class="togglebutton">
-                                                        <label>
-                                                            <input type="checkbox" name="truck_mounted" id="truck_mounted" onchange="onChangeTruckMounted();" value="1" unchecked {{ old('truck_mounted') == 1 ? ' checked' : '' }}>
-                                                            <span class="toggle"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm-12" style="text-align:center;">
@@ -246,21 +257,76 @@
                                         </div>
                                     </div>
                                     <!-- Truck Condition(km/mi) -->
-                                    <label class="col-md-1 col-sm-3 col-form-label">Truck Condition(Km/mile)</label>
-                                    <div class="col-md-2 col-sm-9">
+                                    <label class="col-md-1 col-sm-3 col-form-label">Truck Condition</label>
+                                    <div class="col-md-2 col-sm-6">
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="truck_condition" require="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 col-sm-3">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="truck_condition_unit" data-style="select-with-transition">
+                                                <option value="Km">Km</option>
+                                                <option value="mile">mile</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <h4>Specific Properties</h4>
                             <div class="row" id="specific_field">
+                                @foreach ($specifics as $specific)
+                                    @if ($specific->type == 1)
+                                        @if ($specific->unit != '')
+                                        @php
+                                            $unitAry = explode('/', $specific->unit);
+                                        @endphp
+                                        <label class='col-md-1 col-sm-2 col-form-label {{ $specific->column_name }} specific_item'> {{ $specific->name }}</label>
+                                        <div class='col-md-2 col-sm-8 {{ $specific->column_name }} specific_item'>
+                                            <div class='form-group'>
+                                                <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}'>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 col-sm-2 {{ $specific->column_name }} specific_item" style="padding:0;">
+                                            <div class='form-group'>
+                                                <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition'>
+                                                    @foreach ($unitAry as $unit)
+                                                    <option value='{{ $unit }}'>{{ $unit }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        @else
+                                        <label class='col-md-1 col-sm-3 col-form-label {{ $specific->column_name }} specific_item'> {{ $specific->name }}</label>
+                                        <div class='col-md-2 col-sm-9 {{ $specific->column_name }} specific_item'>
+                                            <div class='form-group'>
+                                                <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}'>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @else
+                                        @php
+                                        $optionAry = explode('/', $specific->value);
+                                        @endphp
+                                        <label class='col-md-1 col-sm-3 col-form-label {{ $specific->column_name }} specific_item'>{{ $specific->name }}</label>
+                                        <div class='col-md-2 col-sm-9 {{ $specific->column_name }} specific_item'>
+                                            <div class='form-group'>
+                                            <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition'>
+                                                @foreach ($optionAry as $option)
+                                                <option value='{{ $option }}'>{{ $option }}</option>
+                                                @endforeach
+                                            </select>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
                         <div class="card-footer ml-auto mr-auto">
                             <button type="submit" class="btn btn-rose">Add Deal</button>
                         </div>
+                        <input type="hidden" id="category_selected" value="1" />
+                        <input type="hidden" id="make_selected" value="1" />
                     </div>
                 </form>
             </div>
@@ -277,23 +343,110 @@
     .truck-mounted-fields {
         display: none;
     }
+    .specific_item {
+        display: none;
+    }
 </style>
 @endsection
 
 @push('js')
 <script>
-    function onChangeEquipmentType() {
-        var eType = $('#equipment_type').val();
-        
+    function onChangeEqupmentType() {
+        var eType = $('#type_id').val();
+        var prev_eType = $('#category_selected').val();
+        $(".specific_item").fadeOut();
+        if (prev_eType != '') {
+            $.ajax({
+                type: "POST",
+                url: "ajax_get_equipment_category",
+                data: {
+                    equipment_type_id: prev_eType,
+                    _token: '<?php echo csrf_token() ?>'       
+                },
+                success: function(data) {
+                    for(var item in data) {
+                        var category_itemId = data[item].id;
+                        $(".category_"+category_itemId).css('display', 'none');     
+                    }
+                }
+            });
+        }
+        $.ajax({
+            type: "POST",
+            url: "ajax_get_equipment_category",
+            data: {
+                equipment_type_id: eType,
+                _token: '<?php echo csrf_token() ?>'       
+            },
+            success: function(data) {
+                for(var item in data) {
+                    var category_itemId = data[item].id;
+                    $(".category_"+category_itemId).css('display', 'block');     
+                }
+            }
+        });
+        $('#category_selected').val(eType);
+    }
+
+    function onChangeMake() {
+        var mId = $('#make_id').val();
+        var prev_mId = $('#make_selected').val();
+        if (prev_mId != '') {
+            $.ajax({
+                type: "POST",
+                url: "ajax_get_modeld",
+                data: {
+                    make_id: prev_mId,
+                    _token: '<?php echo csrf_token() ?>'       
+                },
+                success: function(data) {
+                    for(var item in data) {
+                        var modeld_itemId = data[item].id;
+                        $(".modeld_"+modeld_itemId).css('display', 'none');     
+                    }
+                }
+            });
+        }
+        $.ajax({
+            type: "POST",
+            url: "ajax_get_modeld",
+            data: {
+                make_id: mId,
+                _token: '<?php echo csrf_token() ?>'       
+            },
+            success: function(data) {
+                for(var item in data) {
+                    var modeld_itemId = data[item].id;
+                    $(".modeld_"+modeld_itemId).css('display', 'block');     
+                }
+            }
+        });
+        $('#make_selected').val(mId);
+    }
+
+    function onChangeEquipmentCategory() {
+        var eCategory = $('#category_id').val();
+        $(".specific_item").fadeOut();
         $.ajax({
             type: 'POST',
             url: 'ajax_get_specific_properties',
             data: {
-                equipment_category_id: eType,
+                equipment_category_id: eCategory,
                 _token: '<?php echo csrf_token() ?>'
             },
             success: function(data) {
-                $('#specific_field').html(data);
+                console.log(data);
+                if (data[0].truck_mounted == 1) {
+                    $('.truck-mounted-title').fadeIn();
+                    $('.truck-mounted-fields').fadeIn();
+                } else {
+                    $('.truck-mounted-title').fadeOut();
+                    $('.truck-mounted-fields').fadeOut();
+                }
+                for (var item in data) {
+                    var class_str = '.' + data[item].column_name;
+                    $(".specific_item"+class_str).fadeIn();
+                }
             }
         });
     }
@@ -305,17 +458,6 @@
             $('.auction-field').fadeOut();
         } else {
             $('.auction-field').fadeIn();
-        }
-    }
-
-    function onChangeTruckMounted() {
-        var show_flag = $('#truck_mounted').is(':checked');
-        if (show_flag === true) {
-            $('.truck-mounted-title').fadeIn();
-            $('.truck-mounted-fields').fadeIn();
-        } else {
-            $('.truck-mounted-title').fadeOut();
-            $('.truck-mounted-fields').fadeOut();
         }
     }
 

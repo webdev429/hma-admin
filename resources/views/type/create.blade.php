@@ -1,12 +1,11 @@
-@extends('layouts.app', ['activePage' => 'modeld-management', 'menuParent' => 'characteristics', 'titlePage' => __('Model
-Management')])
+@extends('layouts.app', ['activePage' => 'type-management', 'menuParent' => 'characteristics', 'titlePage' => __('Model Management')])
 
 @section('content')
 <div class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <form method="post" action="{{ route('modeld.store') }}" autocomplete="off" class="form-horizontal">
+                <form method="post" action="{{ route('type.store') }}" autocomplete="off" class="form-horizontal">
                     @csrf
                     @method('post')
 
@@ -20,7 +19,7 @@ Management')])
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-md-12 text-right">
-                                    <a href="{{ route('modeld.index') }}"
+                                    <a href="{{ route('type.index') }}"
                                         class="btn btn-sm btn-rose">{{ __('Back to list') }}</a>
                                 </div>
                             </div>
@@ -42,33 +41,8 @@ Management')])
                                         <textarea cols="30" rows="10"
                                             class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
                                             name="description" id="input-description" type="text"
-                                            placeholder="{{ __('Description') }}" required="true"
-                                            aria-required="true">{{ old('description') }}</textarea>
+                                            placeholder="{{ __('Description') }}">{{ old('description') }}</textarea>
                                         @include('alerts.feedback', ['field' => 'description'])
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-md-2 col-sm-3 col-form-label">Make</label>
-                                <div class="col-md-3 col-sm-9">
-                                    <div class="form-group">
-                                        <select class="selectpicker" name="make_id" data-style="select-with-transition">
-                                            <option value="">-</option>
-                                            @foreach($makes as $make)
-                                            <option value="{{ $make->id }}" {{ $make->id == old('make_id', $make->make_id) ? 'selected' : '' }}>{{ $make->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <label class="col-md-2 col-sm-3 col-form-label">Category</label>
-                                <div class="col-md-3 col-sm-9">
-                                    <div class="form-group">
-                                        <select class="selectpicker" name="category_id" data-style="select-with-transition">
-                                            <option value="">-</option>
-                                            @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" {{ $category->id == old('category_id', $category->category_id) ? 'selected' : '' }}>{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
                                     </div>
                                 </div>
                             </div>

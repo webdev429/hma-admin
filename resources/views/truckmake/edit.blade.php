@@ -1,26 +1,26 @@
-@extends('layouts.app', ['activePage' => 'modeld-management', 'menuParent' => 'characteristics', 'titlePage' => __('Model
-Management')])
+@extends('layouts.app', ['activePage' => 'truckmake-management', 'menuParent' => 'characteristics', 'titlePage' => __('Truck Make Data Management')])
 
 @section('content')
 <div class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <form method="post" action="{{ route('modeld.store') }}" autocomplete="off" class="form-horizontal">
+                <form method="post" action="{{ route('truckmake.update', $truckmake) }}" autocomplete="off"
+                    class="form-horizontal">
                     @csrf
-                    @method('post')
+                    @method('put')
 
                     <div class="card ">
                         <div class="card-header card-header-rose card-header-icon">
                             <div class="card-icon">
                                 <i class="material-icons">category</i>
                             </div>
-                            <h4 class="card-title">{{ __('Add Model Item') }}</h4>
+                            <h4 class="card-title">{{ __('Edit Truck Make') }}</h4>
                         </div>
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-md-12 text-right">
-                                    <a href="{{ route('modeld.index') }}"
+                                    <a href="{{ route('truckmake.index') }}"
                                         class="btn btn-sm btn-rose">{{ __('Back to list') }}</a>
                                 </div>
                             </div>
@@ -30,7 +30,8 @@ Management')])
                                     <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                         <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                             name="name" id="input-name" type="text" placeholder="{{ __('Name') }}"
-                                            value="{{ old('name') }}" required="true" aria-required="true" />
+                                            value="{{ old('name', $truckmake->name) }}" required="true"
+                                            aria-required="true" />
                                         @include('alerts.feedback', ['field' => 'name'])
                                     </div>
                                 </div>
@@ -43,32 +44,8 @@ Management')])
                                             class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
                                             name="description" id="input-description" type="text"
                                             placeholder="{{ __('Description') }}" required="true"
-                                            aria-required="true">{{ old('description') }}</textarea>
+                                            aria-required="true">{{ old('description', $truckmake->description) }}</textarea>
                                         @include('alerts.feedback', ['field' => 'description'])
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-md-2 col-sm-3 col-form-label">Make</label>
-                                <div class="col-md-3 col-sm-9">
-                                    <div class="form-group">
-                                        <select class="selectpicker" name="make_id" data-style="select-with-transition">
-                                            <option value="">-</option>
-                                            @foreach($makes as $make)
-                                            <option value="{{ $make->id }}" {{ $make->id == old('make_id', $make->make_id) ? 'selected' : '' }}>{{ $make->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <label class="col-md-2 col-sm-3 col-form-label">Category</label>
-                                <div class="col-md-3 col-sm-9">
-                                    <div class="form-group">
-                                        <select class="selectpicker" name="category_id" data-style="select-with-transition">
-                                            <option value="">-</option>
-                                            @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" {{ $category->id == old('category_id', $category->category_id) ? 'selected' : '' }}>{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
                                     </div>
                                 </div>
                             </div>

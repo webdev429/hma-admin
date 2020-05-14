@@ -31,12 +31,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('role', 'RoleController', ['except' => ['show', 'destroy']]);
     Route::resource('user', 'UserController', ['except' => ['show']]);
     Route::resource('make', 'MakeController', ['except' => ['show']]);
+    Route::resource('truckmake', 'TruckmakeController', ['except' => ['show']]);
     Route::resource('modeld', 'ModeldController', ['except' => ['show']]);
     Route::resource('specific', 'SpecificController', ['except' => ['show']]);
     Route::resource('deal', 'DealController', ['except' => ['show']]);
+    Route::resource('type', 'TypeController', ['except' => ['show']]);
   
     // Routes for Ajax Communications
     Route::post('ajax_get_specific_properties', 'AjaxController@get_specific_properties');
+    Route::post('ajax_get_equipment_category', 'AjaxController@get_equipment_category');
+    Route::post('ajax_get_modeld', 'AjaxController@get_modeld');
     
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);

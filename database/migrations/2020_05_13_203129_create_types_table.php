@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModeldsTable extends Migration
+class CreateTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,11 @@ class CreateModeldsTable extends Migration
      */
     public function up()
     {
-        Schema::create('modelds', function (Blueprint $table) {
+        Schema::create('types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 50);
+            $table->string('name');
             $table->text('description');
-            $table->unsignedInteger('make_id');
-            $table->unsignedInteger('category_id');
             $table->timestamps();
-
-            $table->foreign('make_id')->references('id')->on('makes');
-            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 
@@ -33,6 +28,6 @@ class CreateModeldsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modelds');
+        Schema::dropIfExists('types');
     }
 }

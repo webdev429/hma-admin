@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Modeld;
+use App\Category;
+use App\Make;
 use App\Http\Requests\ModeldRequest;
 
 class ModeldController extends Controller
@@ -17,7 +19,7 @@ class ModeldController extends Controller
     {
         $this->authorize('manage-modelds', User::class);
 
-        return view('modeld.index', ['items' => $modeld->all()]);
+        return view('modeld.index', ['items' => $modeld->with(['make', 'category'])->get()]);
     }
 
     /**
@@ -25,9 +27,9 @@ class ModeldController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Make $make, Category $category)
     {
-        return view('modeld.create');
+        return view('modeld.create', ['makes' => $make->all(), 'categories' => $category->all()]);
     }
 
     /**
@@ -60,9 +62,12 @@ class ModeldController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Modeld $modeld)
+    public function edit(Modeld $modeld, Make $make, Category $category)
     {
-        return view('modeld.edit', compact('modeld'));
+        $data['modeld'] = $modeld;
+        $data['makes'] = $make->all();
+        $data['categories'] = $category->all();
+        return view('modeld.edit', $data);
     }
 
     /**

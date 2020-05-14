@@ -50,6 +50,28 @@ Management')])
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <label class="col-md-2 col-sm-3 col-form-label">Make</label>
+                                <div class="col-md-3 col-sm-9">
+                                    <div class="form-group">
+                                        <select class="selectpicker" name="make_id" data-style="select-with-transition">
+                                            @foreach($makes as $make)
+                                            <option value="{{ $make->id }}" {{ $make->id == old('make_id', $make->make_id) ? 'selected' : '' }}>{{ $make->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <label class="col-md-2 col-sm-3 col-form-label">Category</label>
+                                <div class="col-md-3 col-sm-9">
+                                    <div class="form-group">
+                                        <select class="selectpicker" name="category_id" data-style="select-with-transition">
+                                            @foreach($categories as $category)
+                                            <option value="{{ $category->id }}" {{ $category->id == old('category_id', $category->category_id) ? 'selected' : '' }}>{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer ml-auto mr-auto">
                             <button type="submit" class="btn btn-rose">{{ __('Save') }}</button>

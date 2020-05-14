@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Category;
+use App\Make;
 use Illuminate\Database\Eloquent\Model;
 
 class Modeld extends Model
@@ -11,5 +13,24 @@ class Modeld extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'make_id', 'category_id'];
+    /**
+     * Get the category of the item
+     *
+     * @return \App\Category
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    /**
+     * Get the category of the item
+     *
+     * @return \App\Category
+     */
+    public function make()
+    {
+        return $this->belongsTo(Make::class);
+    }
+
 }

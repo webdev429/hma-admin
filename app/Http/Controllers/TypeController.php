@@ -3,30 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Type;
-use App\Category;
-use App\Make;
-use App\Modeld;
-use App\Specific;
 use Illuminate\Http\Request;
+use App\Http\Requests\TypeRequest;
 
-class DealController extends Controller
+class TypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $model, Make $make, Modeld $modeld, Specific $specific, Type $type)
+    public function index(Type $model)
     {
-        $this->authorize('manage-items', User::class);
+        $this ->authorize('manage-types', User::class);
 
-        $data['equipment_category'] = $model->all();
-        $data['makes'] = $make ->all();
-        $data['modelds'] = $modeld ->all();
-        $data['specifics'] = $specific ->all();
-        $data['types'] = $type ->all();
-        
-        return view('deal.add', $data);
+        return view('type.index', ['items' => $model->all()]);
     }
 
     /**
@@ -36,7 +27,7 @@ class DealController extends Controller
      */
     public function create()
     {
-        //
+        return view('type.create');
     }
 
     /**
@@ -45,9 +36,11 @@ class DealController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TypeRequest $request, Type $model)
     {
-        //
+        $model ->create($request->all());
+
+        return redirect() ->route('type.index') ->withStatus(__('Equipment type data successfully created.'));
     }
 
     /**
@@ -67,9 +60,9 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Type $type)
     {
-        //
+        return view('type.edit', compact('type'));
     }
 
     /**
@@ -79,9 +72,11 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Type $type)
     {
-        //
+        $type ->update($request ->all());
+
+        return redirect() ->route('type.index') ->withStatus(__('Equipment type data successfully updated.'));
     }
 
     /**
@@ -90,9 +85,10 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Type $type)
     {
-        //
-    }
+        $type ->delete();
 
+        return redirect() ->route('type.index') ->withStatus(__('Equipment type data successfully deleted.'));
+    }
 }

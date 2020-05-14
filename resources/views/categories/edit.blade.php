@@ -64,6 +64,19 @@ Management')])
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Equipment Type') }}</label>
+                                <div class="col-sm-7" >
+                                    <div class="form-group">
+                                        <select class="selectpicker" name="type_id" data-style="select-with-transition">
+                                            <option value=""></option>
+                                        @foreach ($types as $type)
+                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer ml-auto mr-auto">
                             <button type="submit" class="btn btn-rose">{{ __('Save') }}</button>

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Category;
 use App\Specific;
+use App\Type;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -38,7 +39,13 @@ class CategoryRequest extends FormRequest
             ],
             'specifics.*' => [
                 'exists:'.(new Specific)->getTable().',id'
-            ]
+            ],
+            'truck_mounted' => [
+                'nullable'
+            ],
+            'type_id' => [
+                'required', 'exists:'.(new Type)->getTable().',id'
+            ],
         ];
     }
 }

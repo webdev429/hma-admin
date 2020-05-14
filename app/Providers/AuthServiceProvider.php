@@ -47,5 +47,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-makes', 'App\Policies\UserPolicy@manageMakes');
         Gate::define('manage-modelds', 'App\Policies\UserPolicy@manageModelds');
         Gate::define('manage-specifics', 'App\Policies\UserPolicy@manageSpecifics');
+        Gate::define('manage-truckmakes', 'App\Policies\UserPolicy@manageTruckmakes');
+        Gate::define('manage-types', 'App\Policies\UserPolicy@manageTypes');
     }
 }

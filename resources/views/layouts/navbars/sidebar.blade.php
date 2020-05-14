@@ -125,10 +125,16 @@
                             <div class="collapse {{ $menuParent == 'characteristics' ? ' show' : '' }}"
                                 id="characterManage">
                                 <ul class="nav">
+                                    <li class="nav-item{{ $activePage == 'type-management' ? ' active' : '' }}">
+                                        <a class="nav-link" href="{{ route('type.index') }}">
+                                            <span class="sidebar-mini"> TM </span>
+                                            <span class="sidebar-normal"> {{ __('Equipment Type') }} </span>
+                                        </a>
+                                    </li>
                                     <li class="nav-item{{ $activePage == 'category-management' ? ' active' : '' }}">
                                         <a class="nav-link" href="{{ route('category.index') }}">
                                             <span class="sidebar-mini"> CM </span>
-                                            <span class="sidebar-normal"> {{ __('Category Management') }} </span>
+                                            <span class="sidebar-normal"> {{ __('Equipment Category') }} </span>
                                         </a>
                                     </li>
                                     @can('manage-items', App\User::class)
@@ -149,19 +155,25 @@
                                     <li class="nav-item{{ $activePage == 'specific-management' ? ' active' : '' }}">
                                         <a class="nav-link" href="{{ route('specific.index') }}">
                                             <span class="sidebar-mini"> SM </span>
-                                            <span class="sidebar-normal"> {{ __('Specific Data Management') }} </span>
+                                            <span class="sidebar-normal"> {{ __('Specific Data') }} </span>
                                         </a>
                                     </li>
                                     <li class="nav-item{{ $activePage == 'make-management' ? ' active' : '' }}">
                                         <a class="nav-link" href="{{ route('make.index') }}">
                                             <span class="sidebar-mini"> MM </span>
-                                            <span class="sidebar-normal"> {{ __('Make Management') }} </span>
+                                            <span class="sidebar-normal"> {{ __('Make') }} </span>
                                         </a>
                                     </li>
                                     <li class="nav-item{{ $activePage == 'modeld-management' ? ' active' : '' }}">
                                         <a class="nav-link" href="{{ route('modeld.index') }}">
                                             <span class="sidebar-mini"> MM </span>
-                                            <span class="sidebar-normal"> {{ __('Model Management') }} </span>
+                                            <span class="sidebar-normal"> {{ __('Model') }} </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item{{ $activePage == 'truckmake-management' ? ' active' : '' }}">
+                                        <a class="nav-link" href="{{ route('truckmake.index') }}">
+                                            <span class="sidebar-mini"> TM </span>
+                                            <span class="sidebar-normal"> {{ __('Truck Make') }} </span>
                                         </a>
                                     </li>
                                 </ul>

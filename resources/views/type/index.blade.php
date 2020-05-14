@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'item-management', 'menuParent' => 'characteristics', 'titlePage' => __('Configuration Management')])
+@extends('layouts.app', ['activePage' => 'type-management', 'menuParent' => 'characteristics', 'titlePage' => __('Equipment Type Management')])
 
 @section('content')
   <div class="content">
@@ -10,13 +10,13 @@
                 <div class="card-icon">
                   <i class="material-icons">filter_none</i>
                 </div>
-                <h4 class="card-title">{{ __('Specific Form Field Configuration') }}</h4>
+                <h4 class="card-title">{{ __('Equipment Types') }}</h4>
               </div>
               <div class="card-body">
-                @can('create', App\Item::class)
+                @can('create', App\Type::class)
                   <div class="row">
                     <div class="col-12 text-right">
-                      <a href="{{ route('item.create') }}" class="btn btn-sm btn-rose">{{ __('Add Item') }}</a>
+                      <a href="{{ route('type.create') }}" class="btn btn-sm btn-rose">{{ __('Add') }}</a>
                     </div>
                   </div>
                 @endcan
@@ -27,15 +27,12 @@
                           {{ __('Name') }}
                       </th>
                       <th>
-                        {{ __('Category') }}
+                        {{ __('Description') }}
                       </th>
                       <th>
-                        {{ __('Tags') }}
+                        {{ __('Created Date') }}
                       </th>
-                      <th>
-                        {{ __('Creation date') }}
-                      </th>
-                      @can('manage-items', App\User::class)
+                      @can('manage-types', App\User::class)
                         <th class="text-right">
                           {{ __('Actions') }}
                         </th>
@@ -48,25 +45,20 @@
                             {{ $item->name }}
                           </td>
                           <td>
-                            {{ $item->category->name }}
-                          </td>
-                          <td>
-                            @foreach ($item->tags as $tag)
-                                <span class="badge badge-default" style="background-color:{{ $tag->color }}">{{ $tag->name }}</span>
-                            @endforeach
+                            {{ $item->description }}
                           </td>
                           <td>
                             {{ $item->created_at->format('Y-m-d') }}
                           </td>
-                          @can('manage-items', App\User::class)
+                          @can('manage-types', App\User::class)
                             @if (auth()->user()->can('update', $item) || auth()->user()->can('delete', $item))
                               <td class="td-actions text-right">
-                                <form action="{{ route('item.destroy', $item) }}" method="post">
+                                <form action="{{ route('type.destroy', $item) }}" method="post">
                                     @csrf
                                     @method('delete')
                                     
                                     @can('update', $item)
-                                      <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('item.edit', $item) }}" data-original-title="" title="">
+                                      <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('type.edit', $item) }}" data-original-title="" title="">
                                         <i class="material-icons">edit</i>
                                         <div class="ripple-container"></div>
                                       </a>

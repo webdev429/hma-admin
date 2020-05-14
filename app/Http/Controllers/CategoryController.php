@@ -20,6 +20,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Category;
 use App\Specific;
+use App\Type;
 use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
@@ -39,16 +40,19 @@ class CategoryController extends Controller
     {
         $this->authorize('manage-items', User::class);
 
-        return view('categories.index', ['categories' => $model->all()]);
+        return view('categories.index', ['categories' => $model->with(['type'])->get()]);
     }
     /**
      * Show the form for creating a new category
      *
      * @return \Illuminate\View\View
      */
-    public function create(Specific $specific)
+    public function create(Specific $specific, Type $type)
     {
-        return view('categories.create', ['specifics' => $specific->all()]);
+        return view('categories.create', [
+            'specifics' => $specific->all(), 
+            'types' => $type->get(['id', 'name'])
+        ]);
     }
 
     /**
@@ -72,10 +76,11 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\View\View
      */
-    public function edit(Category $category, Specific $specificModel)
+    public function edit(Category $category, Specific $specificModel, Type $type)
     {
         return view('categories.edit', [
             'category' => $category->load('specifics'),
+            'types' => $type->get(['id', 'name']),
             'specifics' => $specificModel->get(['id', 'name', 'unit'])
         ]);
     }
@@ -107,9 +112,5 @@ class CategoryController extends Controller
         $category->delete();
 
         return redirect()->route('category.index')->withStatus(__('Category successfully deleted.'));
-    }
-
-    public function ajax_get_specific_properties(Request $request) {
-
     }
 }
