@@ -6,6 +6,7 @@ use App\Category;
 use App\Make;
 use App\Modeld;
 use App\Type;
+use App\Truckmake;
 use Illuminate\Database\Eloquent\Model;
 
 class Deal extends Model
@@ -35,7 +36,7 @@ class Deal extends Model
         'auc_lot',
         'auc_auctioneer',
         'truck_year',
-        'truck_make',
+        'truckmake_id',
         'truck_model',
         'truck_engine',
         'truck_trans',
@@ -95,5 +96,25 @@ class Deal extends Model
     public function modeld()
     {
         return $this->belongsTo(Modeld::class);
+    }
+
+    /**
+     * Get the modeld
+     *
+     * @return \App\Truckmake
+     */
+    public function truckmake()
+    {
+        return $this->belongsTo(Truckmake::class);
+    }
+    
+    /**
+     * Get the path to the picture
+     *
+     * @return string
+     */
+    public function path()
+    {
+        return "/storage/{$this->picture}";
     }
 }

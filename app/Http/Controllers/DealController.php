@@ -2,34 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Deal;
 use App\Type;
 use App\Category;
 use App\Make;
 use App\Modeld;
 use App\Specific;
 use App\Truckmake;
+
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\DealRequest;
 
 class DealController extends Controller
 {
+    public function __construct()
+    {   
+        $this->authorizeResource(Deal::class);
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $model, Make $make, Modeld $modeld, Specific $specific, Type $type, Truckmake $truckmake)
+    public function index(Deal $model)
     {
-        $this->authorize('manage-items', User::class);
-
-        $data['equipment_category'] = $model->all();
-        $data['makes'] = $make ->all();
-        $data['modelds'] = $modeld ->all();
-        $data['specifics'] = $specific ->all();
-        $data['types'] = $type ->all();
-        $data['truckmakes'] = $truckmake ->all();
+        $this->authorize('manage-deals', User::class);
         
-        return view('deal.add', $data);
+        return view('deal.index', ['items' => $model->all()]);
     }
 
     /**
@@ -37,9 +37,16 @@ class DealController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $category, Make $make, Modeld $modeld, Specific $specific, Type $type, Truckmake $truckmake)
     {
-        //
+        $data['equipment_category'] = $category->get(['id', 'name']);
+        $data['makes'] = $make ->get(['id', 'name']);
+        $data['modelds'] = $modeld ->get(['id', 'name']);
+        $data['specifics'] = $specific ->all();
+        $data['types'] = $type ->get(['id', 'name']);
+        $data['truckmakes'] = $truckmake ->get(['id', 'name']);
+        
+        return view('deal.create', $data);
     }
 
     /**
@@ -52,10 +59,10 @@ class DealController extends Controller
     {
         $deal = $model->create($request->merge([
             'picture' => $request->photo->store('pictures', 'public'),
-            'auc_enddate' => $request->date ? Carbon::parse($request->auc_enddate)->format('Y-m-d') : null
+            'auc_enddate' => $request->auc_enddate ? Carbon::parse($request->auc_enddate)->format('Y-m-d') : null
         ])->all());
 
-        return redirect()->route('deal.add')->withStatus(__('Deal successfully created.'));
+        return redirect()->route('deal.create')->withStatus(__('Deal successfully created.'));
     }
 
     /**
@@ -75,9 +82,17 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Deal $deal, Category $category, Make $make, Modeld $modeld, Specific $specific, Type $type, Truckmake $truckmake)
     {
-        //
+        return view('deal.edit', [
+            'deal' => $deal,
+            'equipment_category' => $category->get(['id', 'name']),
+            'makes' => $make->get(['id', 'name']),
+            'modelds' => $modeld->get(['id', 'name']),
+            'specifics' => $specific->all(),
+            'types' => $type->get(['id', 'name']),
+            'truckmakes' => $truckmake->get(['id', 'name']),
+        ]);
     }
 
     /**
@@ -87,9 +102,16 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DealRequest $request, Deal $deal)
     {
-        //
+        $deal->update(
+            $request->merge([
+                'picture' => $request->photo ? $request->photo->store('pictures', 'public') : null,
+                'auc_enddate' => $request->auc_enddate ? Carbon::parse($request->auc_enddate)->format('Y-m-d') : null
+            ])->except([$request->hasFile('photo') ? '' : 'picture'])
+        );
+
+        return redirect()->route('deal.index')->withStatus(__('Deal successfully updated.'));    
     }
 
     /**
@@ -98,9 +120,11 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Deal $deal)
     {
-        //
+        $deal->delete();
+
+        return redirect()->route('deal.index')->withStatus(__('Deal successfully deleted.'));
     }
 
 }

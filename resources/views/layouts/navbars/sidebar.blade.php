@@ -106,9 +106,15 @@
                 <div class="collapse {{ ($menuParent == 'deal' || $menuParent == 'characteristics') ? ' show' : '' }}"
                     id="dealManage">
                     <ul class="nav">
+                        <li class="nav-item{{ $activePage == 'deal_list' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('deal.index') }}">
+                                <span class="sidebar-mini"> DD </span>
+                                <span class="sidebar-normal"> {{ __('Deals') }} </span>
+                            </a>
+                        </li>
                         @can('manage-items', App\User::class)
                         <li class="nav-item{{ $activePage == 'deal_add' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('deal.index') }}">
+                            <a class="nav-link" href="{{ route('deal.create') }}">
                                 <span class="sidebar-mini"> AD </span>
                                 <span class="sidebar-normal"> {{ __('Add Deal') }} </span>
                             </a>

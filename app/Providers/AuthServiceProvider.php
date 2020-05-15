@@ -7,11 +7,22 @@ use App\Item;
 use App\Role;
 use App\User;
 use App\Category;
+use App\Make;
+use App\Modeld;
+use App\Truckmake;
+use App\Type;
+use App\Deal;
 use App\Policies\TagPolicy;
 use App\Policies\ItemPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
 use App\Policies\CategoryPolicy;
+use App\Policies\SpacificPolicy;
+use App\Policies\MakePolicy;
+use App\Policies\ModeldPolicy;
+use App\Policies\TypePolicy;
+use App\Policies\TruckmakePolicy;
+use App\Policies\DealPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -30,6 +41,10 @@ class AuthServiceProvider extends ServiceProvider
         Tag::class => TagPolicy::class,
         Make::class => MakePolicy::class,
         Modeld::class => ModeldPolicy::class,
+        Specific::class => SpecificPolicy::class,
+        Type::class => TypePolicy::class,
+        Truckmake::class => TruckmakePolicy::class,
+        Deal::class => DealPolicy::class,
     ];
 
     /**
@@ -49,5 +64,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-specifics', 'App\Policies\UserPolicy@manageSpecifics');
         Gate::define('manage-truckmakes', 'App\Policies\UserPolicy@manageTruckmakes');
         Gate::define('manage-types', 'App\Policies\UserPolicy@manageTypes');
+        Gate::define('manage-deals', 'App\Policies\UserPolicy@manageDeals');
     }
 }

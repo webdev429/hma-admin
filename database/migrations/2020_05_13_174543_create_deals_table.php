@@ -21,15 +21,15 @@ class CreateDealsTable extends Migration
             $table->unsignedInteger('type_id');
             $table->unsignedInteger('category_id');
             $table->text('description')->nullable();
-            $table->string('year', 4);
-            $table->unsignedInteger('make_id');
-            $table->unsignedInteger('modeld_id');
-            $table->string('city', 100);
-            $table->string('state', 100);
-            $table->string('country', 50);
-            $table->string('price', 50);
-            $table->string('price_currency', 10);
-            $table->text('url');
+            $table->string('year', 4)->nullable();
+            $table->unsignedInteger('make_id')->nullable();
+            $table->unsignedInteger('modeld_id')->nullable();
+            $table->string('city', 100)->nullable();
+            $table->string('state', 100)->nullable();
+            $table->string('country', 50)->nullable();
+            $table->string('price', 50)->nullable();
+            $table->string('price_currency', 10)->nullable();
+            $table->text('url')->nullable();
             $table->string('picture')->nullable();
             // Auction Fields
             $table->date('auc_enddate')->nullable();
@@ -37,7 +37,7 @@ class CreateDealsTable extends Migration
             $table->string('auc_auctioneer', 50)->nullable();
             // Truck Fields 
             $table->string('truck_year', 4)->nullable();
-            $table->string('truck_make', 50)->nullable();
+            $table->unsignedInteger('truckmake_id')->nullable();
             $table->string('truck_model', 50)->nullable();
             $table->string('truck_engine', 50)->nullable();
             $table->string('truck_trans', 50)->nullable();
@@ -65,6 +65,7 @@ class CreateDealsTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('make_id')->references('id')->on('makes');
             $table->foreign('modeld_id')->references('id')->on('modelds');
+            $table->foreign('truckmake_id')->references('id')->on('truckmakes');
         });
     }
 

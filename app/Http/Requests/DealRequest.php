@@ -6,6 +6,7 @@ use App\Category;
 use App\Make;
 use App\Modeld;
 use App\Type;
+use App\Truckmake;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DealRequest extends FormRequest
@@ -44,29 +45,32 @@ class DealRequest extends FormRequest
                 'required', 'exists:'.(new Category)->getTable().',id'
             ],
             'year' => [
+                'nullable',
                 'min:4',
                 'max:4'
             ],
             'make_id' => [
+                'nullable',
                 'exists:'.(new Make)->getTable().',id'
             ],
             'modeld_id' => [
+                'nullable',
                 'exists:'.(new Modeld)->getTable().',id'
             ],
             'city' => [
-                'required'
+                'nullable'
             ],
             'state' => [
-                'required'
+                'nullable'
             ],
             'country' => [
-                'required'
+                'nullable'
             ],
             'price' => [
-                'required'
+                'nullable'
             ],
             'price_currency' => [
-                'required'
+                'nullable'
             ],
             'url' => [
                 'nullable'
@@ -76,7 +80,7 @@ class DealRequest extends FormRequest
             ],
             'auc_enddate' => [
                 'nullable',
-                'date_format:Y-m-d'
+                'date_format:d-m-Y'
             ],
             'auc_lot' => [
                 'nullable'
@@ -88,7 +92,8 @@ class DealRequest extends FormRequest
                 'nullable'
             ],
             'truck_make' => [
-                'nullable'
+                'nullable',
+                'exists:'.(new Truckmake)->getTable().',id'
             ],
             'truck_model' => [
                 'nullable'
@@ -147,6 +152,19 @@ class DealRequest extends FormRequest
             'spec_4wd' => [
                 'nullable'
             ]
+        ];
+    }
+
+    /**
+     * Get the validation attributes that apply to the request.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            // 'category_id' => 'category',
+            'photo' => 'picture'
         ];
     }
 }

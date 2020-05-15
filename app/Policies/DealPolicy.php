@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Specific;
+use App\Deal;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -18,19 +18,19 @@ class DealPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can view the specific.
      *
      * @param  \App\User  $user
-     * @param  \App\Specific  $specific
+     * @param  \App\Deal  $specific
      * @return mixed
      */
-    public function view(User $user, Specific $specific)
+    public function view(User $user, Deal $specific)
     {
-        //
+        return $user->isAdmin() || $user->isCreator();
     }
 
     /**
@@ -41,54 +41,54 @@ class DealPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->isAdmin() || $user->isCreator();
     }
 
     /**
      * Determine whether the user can update the specific.
      *
      * @param  \App\User  $user
-     * @param  \App\Specific  $specific
+     * @param  \App\Deal  $specific
      * @return mixed
      */
-    public function update(User $user, Specific $specific)
+    public function update(User $user, Deal $specific)
     {
-        //
+        return $user->isAdmin() || $user->isCreator();
     }
 
     /**
      * Determine whether the user can delete the specific.
      *
      * @param  \App\User  $user
-     * @param  \App\Specific  $specific
+     * @param  \App\Deal  $specific
      * @return mixed
      */
-    public function delete(User $user, Specific $specific)
+    public function delete(User $user, Deal $specific)
     {
-        //
+        return $user->isAdmin() || $user->isCreator();
     }
 
     /**
      * Determine whether the user can restore the specific.
      *
      * @param  \App\User  $user
-     * @param  \App\Specific  $specific
+     * @param  \App\Deal  $specific
      * @return mixed
      */
-    public function restore(User $user, Specific $specific)
+    public function restore(User $user, Deal $specific)
     {
-        //
+        return $user->isAdmin() || $user->isCreator();
     }
 
     /**
      * Determine whether the user can permanently delete the specific.
      *
      * @param  \App\User  $user
-     * @param  \App\Specific  $specific
+     * @param  \App\Deal  $specific
      * @return mixed
      */
-    public function forceDelete(User $user, Specific $specific)
+    public function forceDelete(User $user, Deal $specific)
     {
-        //
+        return $user->isAdmin() || $user->isCreator();
     }
 }

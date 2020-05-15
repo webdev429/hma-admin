@@ -38,9 +38,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('type', 'TypeController', ['except' => ['show']]);
   
     // Routes for Ajax Communications
-    Route::post('ajax_get_specific_properties', 'AjaxController@get_specific_properties');
-    Route::post('ajax_get_equipment_category', 'AjaxController@get_equipment_category');
-    Route::post('ajax_get_modeld', 'AjaxController@get_modeld');
+    Route::post('deal/ajax_get_specific_properties', 'AjaxController@get_specific_properties');
+    Route::post('deal/ajax_get_equipment_category', 'AjaxController@get_equipment_category');
+    Route::post('deal/ajax_get_modeld', 'AjaxController@get_modeld');
+    Route::post('deal/{id}/ajax_get_specific_properties', 'AjaxController@get_specific_properties');
+    Route::post('deal/{id}/ajax_get_equipment_category', 'AjaxController@get_equipment_category');
+    Route::post('deal/{id}/ajax_get_modeld', 'AjaxController@get_modeld');
     
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
