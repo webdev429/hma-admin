@@ -27,9 +27,6 @@
                           {{ __('Name') }}
                       </th>
                       <th>
-                        {{ __('Description') }}
-                      </th>
-                      <th>
                         {{ __('Created Date') }}
                       </th>
                       @can('manage-types', App\User::class)
@@ -43,9 +40,6 @@
                         <tr>
                           <td>
                             {{ $item->name }}
-                          </td>
-                          <td>
-                            {{ $item->description }}
                           </td>
                           <td>
                             {{ $item->created_at->format('Y-m-d') }}

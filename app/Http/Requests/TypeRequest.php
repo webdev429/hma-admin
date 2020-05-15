@@ -28,9 +28,6 @@ class TypeRequest extends FormRequest
         return [
             'name' => [
                 'required', 'min:3', Rule::unique((new Type)->getTable())->ignore($this->route()->make->id ?? null)
-            ],
-            'description' => [
-                'nullable', 'min:5'
             ]
         ];
     }
