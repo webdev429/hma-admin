@@ -138,12 +138,12 @@
                                         </a>
                                     </li>
                                     @can('manage-items', App\User::class)
-                                    <li class="nav-item{{ $activePage == 'item-management' ? ' active' : '' }}">
+                                    <!-- <li class="nav-item{{ $activePage == 'item-management' ? ' active' : '' }}">
                                         <a class="nav-link" href="{{ route('item.index') }}">
                                             <span class="sidebar-mini"> IM </span>
                                             <span class="sidebar-normal"> {{ __('Configuration Management') }} </span>
                                         </a>
-                                    </li>
+                                    </li> -->
                                     @else
                                     <li class="nav-item{{ $activePage == 'item-management' ? ' active' : '' }}">
                                         <a class="nav-link" href="{{ route('item.index') }}">
