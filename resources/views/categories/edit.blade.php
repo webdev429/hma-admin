@@ -58,7 +58,7 @@ Management')])
                                         <select class="selectpicker" name="type_id" data-style="select-with-transition">
                                             <option value=""></option>
                                         @foreach ($types as $type)
-                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                            <option value="{{ $type->id }}" {{ $type->id == $category->type_id ? 'selected' : '' }}>{{ $type->name }}</option>
                                         @endforeach
                                         </select>
                                     </div>

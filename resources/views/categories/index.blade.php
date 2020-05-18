@@ -68,7 +68,7 @@
                           <td>
                             {{ $category->created_at->format('Y-m-d') }}
                           </td>
-                          @can('manage-items', App\User::class)
+                          @can('manage-categories', App\User::class)
                             <td class="td-actions text-right">
                               <form action="{{ route('category.destroy', $category) }}" method="post">
                                 @csrf

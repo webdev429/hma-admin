@@ -22,6 +22,8 @@ use App\Category;
 use App\Specific;
 use App\Type;
 use App\Http\Requests\CategoryRequest;
+use Illuminate\Support\Facades\DB;
+
 
 class CategoryController extends Controller
 {
@@ -109,6 +111,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        DB::table('category_specific')
+            ->where('category_id', $category->id)
+            ->delete();
+            
         $category->delete();
 
         return redirect()->route('category.index')->withStatus(__('Category successfully deleted.'));
