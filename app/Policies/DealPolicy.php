@@ -41,7 +41,7 @@ class DealPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin() || $user->isCreator();
+        return $user->isAdmin() || $user->isCreator() || $user->isMember();
     }
 
     /**
@@ -53,7 +53,11 @@ class DealPolicy
      */
     public function update(User $user, Deal $specific)
     {
-        return $user->isAdmin() || $user->isCreator();
+        if ($specific->user->id == auth()->user()->id) {
+            return $user->isAdmin() || $user->isCreator() || $user->isMember();
+        } else {
+            return $user->isAdmin() || $user->isCreator();
+        }
     }
 
     /**
@@ -65,7 +69,11 @@ class DealPolicy
      */
     public function delete(User $user, Deal $specific)
     {
-        return $user->isAdmin() || $user->isCreator();
+        if ($specific->user->id == auth()->user()->id) {
+            return $user->isAdmin() || $user->isCreator() || $user->isMember();
+        } else {
+            return $user->isAdmin() || $user->isCreator();
+        }
     }
 
     /**

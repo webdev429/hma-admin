@@ -28,8 +28,11 @@ class DealController extends Controller
     public function index(Deal $model, Specific $specific)
     {
         $this->authorize('manage-deals', User::class);
-        
-        return view('deal.index', ['items' => $model->all(), 'specifics' => $specific->all()]);
+        if (auth()->user()->isAdmin() || auth()->user()->isCreator()) {
+            return view('deal.index', ['items' => $model->all(), 'specifics' => $specific->all()]);
+        } else if (auth()->user()->isMember()) {
+            return view('deal.index', ['items' => $model->where('user_id', auth()->user()->id)->get(), 'specifics' => $specific->all()]);
+        }
     }
 
     /**

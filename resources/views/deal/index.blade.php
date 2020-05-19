@@ -107,7 +107,7 @@
                             {{ $item->description }}
                           </td>
                           <td>
-                            {{ $item->deal_type == 0 ? 'Sale' : 'Aution' }}
+                            {{ $item->deal_type == 0 ? 'Sale' : 'Auction' }}
                           </td>
                           <td>
                             {{ $item->type_id != NULL ? $item->type->name : '' }}
@@ -169,7 +169,7 @@
                             {{ $item->updated_at->format('Y-m-d') }}
                           </td>
                           <td>
-                            {{ 'Admin' }}
+                            {{ $item->user->name }}
                           </td>
                           @can('manage-deals', App\Deal::class)
                             @if (auth()->user()->can('update', $item) || auth()->user()->can('delete', $item))
@@ -192,6 +192,8 @@
                                     @endcan
                                 </form>
                               </td>
+                            @else
+                              <td></td>
                             @endif
                           @endcan
                         </tr>

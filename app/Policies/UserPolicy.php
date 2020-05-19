@@ -150,6 +150,6 @@ class UserPolicy
      */
     public function manageDeals(User $user)
     {
-        return $user->isAdmin() || $user->isCreator();
+        return $user->isAdmin() || $user->isCreator() || $user->isMember();
     }
 }
