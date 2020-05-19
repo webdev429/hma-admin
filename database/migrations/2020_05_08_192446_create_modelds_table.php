@@ -18,10 +18,12 @@ class CreateModeldsTable extends Migration
             $table->string('name', 50);
             $table->unsignedInteger('make_id');
             $table->unsignedInteger('category_id');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
 
             $table->foreign('make_id')->references('id')->on('makes');
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

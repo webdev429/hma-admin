@@ -70,9 +70,6 @@
                                             <div class="form-group">
                                                 <select class="selectpicker" onchange="onChangeEquipmentCategory();" name="category_id" id="category_id" data-style="select-with-transition" require="true">
                                                     <option value="0"></option>
-                                                    @foreach($equipment_category as $item)
-                                                        <option class="category_{{ $item->id }}" value="{{ $item->id }}" style="display:none;">{{ $item->name }}</option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -109,8 +106,8 @@
                                             <div class="form-group">
                                                 <select class="selectpicker" onchange="onChangeMake();" data-style="select-with-transition" name="make_id" id="make_id">
                                                     <option value=""></option>
-                                                    @foreach($makes as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                    @foreach ($makes as $make)
+                                                        <option value="{{ $make->id }}">{{ $make->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -367,24 +364,7 @@
 <script>
     function onChangeEqupmentType() {
         var eType = $('#type_id').val();
-        var prev_eType = $('#category_selected').val();
         $(".specific_item").fadeOut();
-        if (prev_eType != '') {
-            $.ajax({
-                type: "POST",
-                url: "ajax_get_equipment_category",
-                data: {
-                    equipment_type_id: prev_eType,
-                    _token: '<?php echo csrf_token() ?>'       
-                },
-                success: function(data) {
-                    for(var item in data) {
-                        var category_itemId = data[item].id;
-                        $(".category_"+category_itemId).css('display', 'none');     
-                    }
-                }
-            });
-        }
         $.ajax({
             type: "POST",
             url: "ajax_get_equipment_category",
@@ -393,10 +373,13 @@
                 _token: '<?php echo csrf_token() ?>'       
             },
             success: function(data) {
+                $('#category_id option').remove();
+                $('#category_id').append("<option value=''></option>");
                 for(var item in data) {
                     var category_itemId = data[item].id;
-                    $(".category_"+category_itemId).css('display', 'block');    
+                    $('#category_id').append("<option value='"+data[item].id+"'>"+data[item].name+"</option>");
                 }
+                $('#category_id').selectpicker('destroy').selectpicker();
             }
         });
         $('#category_selected').val(eType);
@@ -431,23 +414,6 @@
 
     function onChangeMake() {
         var mId = $('#make_id').val();
-        var prev_mId = $('#make_selected').val();
-        if (prev_mId != '') {
-            $.ajax({
-                type: "POST",
-                url: "ajax_get_modeld",
-                data: {
-                    make_id: prev_mId,
-                    _token: '<?php echo csrf_token() ?>'       
-                },
-                success: function(data) {
-                    for(var item in data) {
-                        var modeld_itemId = data[item].id;
-                        $(".modeld_"+modeld_itemId).css('display', 'none');     
-                    }
-                }
-            });
-        }
         $.ajax({
             type: "POST",
             url: "ajax_get_modeld",
@@ -456,10 +422,13 @@
                 _token: '<?php echo csrf_token() ?>'       
             },
             success: function(data) {
+                $('#modeld_id option').remove();
+                $('#modeld_id').append("<option value=''></option>");
                 for(var item in data) {
                     var modeld_itemId = data[item].id;
-                    $(".modeld_"+modeld_itemId).css('display', 'block');     
+                    $('#modeld_id').append("<option value='"+data[item].id+"'>"+data[item].name+"</option>");
                 }
+                $('#modeld_id').selectpicker('destroy').selectpicker();
             }
         });
         $('#make_selected').val(mId);

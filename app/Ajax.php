@@ -22,7 +22,7 @@ class Ajax extends Model
     static function getCategoryField($type_id = '') {
         $categoryList = DB::table('categories')
             ->where('type_id', $type_id)
-            ->select('id')
+            ->select('id', 'name')
             ->get();
         
         return $categoryList;
@@ -31,7 +31,7 @@ class Ajax extends Model
     static function getModeld($make_id = '') {
         $modeldList = DB::table('modelds')
             ->where('make_id', $make_id)
-            ->select('id')
+            ->select('id', 'name')
             ->get();
 
         return $modeldList;

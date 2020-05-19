@@ -40,7 +40,7 @@ class ModeldController extends Controller
      */
     public function store(ModeldRequest $request, Modeld $modeld)
     {   
-        $modeld->create($request->all());
+        $modeld->create($request->merge(['user_id' => auth()->user()->id ])->all());
 
         return redirect()->route('modeld.index')->withStatus(__('Model data successfully created.'));
     }
@@ -79,7 +79,7 @@ class ModeldController extends Controller
      */
     public function update(Request $request, Modeld $modeld)
     {
-        $modeld->update($request->all());
+        $modeld->update($request->merge(['user_id' => auth()->user()->id])->all());
 
         return redirect()->route('modeld.index')->withStatus(__('Model Data successfully updated.'));
     }

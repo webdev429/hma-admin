@@ -303,13 +303,13 @@
                                             $unitAry = explode('/', $specific->unit);
                                             $valueUnit = eval('return $deal->'.$specific->column_name.'_unit;');
                                         @endphp
-                                        <label class='col-md-1 col-sm-2 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $show_flag != NULL ? 'block;' : 'none;' }}"> {{ $specific->name }}</label>
-                                        <div class='col-md-2 col-sm-8 {{ $specific->column_name }} specific_item' style="display:{{ $show_flag != NULL ? 'block;' : 'none;' }}">
+                                        <label class='col-md-1 col-sm-2 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}"> {{ $specific->name }}</label>
+                                        <div class='col-md-2 col-sm-8 {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
                                             <div class='form-group'>
                                                 <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' value="{{ $show_flag }}">
                                             </div>
                                         </div>
-                                        <div class="col-md-1 col-sm-2 {{ $specific->column_name }} specific_item" style="padding:0;display:{{ $show_flag != NULL ? 'block;' : 'none;' }}">
+                                        <div class="col-md-1 col-sm-2 {{ $specific->column_name }} specific_item" style="padding:0;display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
                                             <div class='form-group'>
                                                 <select class='selectpicker' name='{{ $specific->column_name }}_unit' id='{{ $specific->column_name }}_unit' data-style='select-with-transition'>
                                                     @foreach ($unitAry as $unit)
@@ -319,8 +319,8 @@
                                             </div>
                                         </div>
                                         @else
-                                        <label class='col-md-1 col-sm-3 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $show_flag != NULL ? 'block;' : 'none;' }}"> {{ $specific->name }}</label>
-                                        <div class='col-md-2 col-sm-9 {{ $specific->column_name }} specific_item' style="display:{{ $show_flag != NULL ? 'block;' : 'none;' }}">
+                                        <label class='col-md-1 col-sm-3 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}"> {{ $specific->name }}</label>
+                                        <div class='col-md-2 col-sm-9 {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
                                             <div class='form-group'>
                                                 <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' value="{{ $show_flag }}">
                                             </div>

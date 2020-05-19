@@ -38,7 +38,7 @@ class TruckmakeController extends Controller
      */
     public function store(TruckmakeRequest $request, Truckmake $model)
     {
-        $model ->create($request->all());
+        $model ->create($request->merge(['user_id' => auth()->user()->id])->all());
 
         return redirect() ->route('truckmake.index') ->withStatus(__('Truck Make Data successfully created.'));
     }
@@ -74,7 +74,7 @@ class TruckmakeController extends Controller
      */
     public function update(Request $request, Truckmake $truckmake)
     {
-        $truckmake ->update($request->all());
+        $truckmake ->update($request->merge(['user_id' => auth()->user()])->all());
 
         return redirect() ->route('truckmake.index') ->withStatus(__('Truck Make Data successfully updated.'));
     }

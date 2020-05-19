@@ -66,7 +66,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request, Category $model)
     {
-        $category = $model->create($request->all());
+        $category = $model->create($request->merge(['user_id' => auth()->user()->id])->all());
         $category->specifics()->sync($request->get('specifics'));
 
         return redirect()->route('category.index')->withStatus(__('Category successfully created.'));
@@ -96,7 +96,7 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        $category->update($request->all());
+        $category->update($request->merge(['user_id' => auth()->user()->id])->all());
 
         $category->specifics()->sync($request->get('specifics'));
 

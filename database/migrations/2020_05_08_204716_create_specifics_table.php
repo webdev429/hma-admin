@@ -16,12 +16,14 @@ class CreateSpecificsTable extends Migration
         Schema::create('specifics', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50);
-            $table->text('description')->nullable();
             $table->string('unit', 20)->nullable();
             $table->string('column_name', 50);
             $table->integer('type');
             $table->text('value')->nullable();
+            $table->unsignedInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

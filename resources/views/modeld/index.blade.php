@@ -35,6 +35,12 @@
                       <th>
                         {{ __('Created Date') }}
                       </th>
+                      <th>
+                        {{ __('Updated Date') }}
+                      </th>
+                      <th>
+                        {{ __('Creator') }}
+                      </th>
                       @can('manage-items', App\User::class)
                         <th class="text-right">
                           {{ __('Actions') }}
@@ -56,6 +62,12 @@
                           <td>
                             {{ $item->created_at->format('Y-m-d') }}
                           </td>
+                          <td>
+                            {{ $item->updated_at->format('Y-m-d') }}
+                          </td>
+                          <td>
+                            {{ $item->user->name }}
+                          </td>
                           @can('manage-modelds', App\User::class)
                             @if (auth()->user()->can('update', $item) || auth()->user()->can('delete', $item))
                               <td class="td-actions text-right">
@@ -69,12 +81,12 @@
                                         <div class="ripple-container"></div>
                                       </a>
                                     @endcan
-                                    @can('delete', $item)
+                                    @if ($item->deals->isEmpty() && auth()->user()->can('delete', $item))
                                       <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
                                           <i class="material-icons">close</i>
                                           <div class="ripple-container"></div>
                                       </button>
-                                    @endcan
+                                    @endif
                                 </form>
                               </td>
                             @endif

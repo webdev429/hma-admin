@@ -36,7 +36,13 @@
                         {{ __('Specific Data Field') }}
                       </th>
                       <th>
-                        {{ __('Creation date') }}
+                        {{ __('Created Date') }}
+                      </th>
+                      <th>
+                        {{ __('Updated Date') }}
+                      </th>
+                      <th>
+                        {{ __('Creator') }}
                       </th>
                       @can('manage-items', App\User::class)
                         <th class="text-right">
@@ -68,6 +74,12 @@
                           <td>
                             {{ $category->created_at->format('Y-m-d') }}
                           </td>
+                          <td>
+                            {{ $category->updated_at->format('Y-m-d') }}
+                          </td>
+                          <td>
+                            {{ $category->user->name }}
+                          </td>
                           @can('manage-categories', App\User::class)
                             <td class="td-actions text-right">
                               <form action="{{ route('category.destroy', $category) }}" method="post">
@@ -80,7 +92,7 @@
                                     <div class="ripple-container"></div>
                                   </a>
                                 @endcan
-                                @if (auth()->user()->can('delete', $category))
+                                @if ($category->deals->isEmpty() && auth()->user()->can('delete', $category))
                                   <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Are you sure you want to delete this category?") }}') ? this.parentElement.submit() : ''">
                                       <i class="material-icons">close</i>
                                       <div class="ripple-container"></div>

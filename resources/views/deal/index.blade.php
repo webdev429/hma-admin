@@ -23,6 +23,11 @@
                 <div class="table-responsive">
                   <table id="datatables" class="table table-striped table-no-bordered table-hover" style="display:none">
                     <thead class="text-primary">
+                    <style>
+                      th {
+                        min-width: 100px;
+                      }
+                    </style>
                       <th>
                         {{ __('Picture') }}
                       </th>
@@ -75,7 +80,13 @@
                           {{ __('Truck Mounted') }}
                       </th>
                       <th>
-                        {{ __('Registered Date') }}
+                        {{ __('Created Date') }}
+                      </th>
+                      <th>
+                        {{ __('Updated Date') }}
+                      </th>
+                      <th>
+                        {{ __('Creator') }}
                       </th>
                       @can('manage-deals', App\User::class)
                         <th class="text-right">
@@ -99,19 +110,19 @@
                             {{ $item->deal_type == 0 ? 'Sale' : 'Aution' }}
                           </td>
                           <td>
-                            {{ $item->type->name }}
+                            {{ $item->type_id != NULL ? $item->type->name : '' }}
                           </td>
                           <td>
-                            {{ $item->category->name }}
+                            {{ $item->category_id != NULL ? $item->category->name : '' }}
                           </td>
                           <td>
                             {{ $item->year }}
                           </td>
                           <td>
-                            {{ $item->make_id ? $item->make->name : '' }}
+                            {{ $item->make_id != NULL ? $item->make->name : '' }}
                           </td>
                           <td>
-                            {{ $item->modeld_id ? $item->modeld->name : '' }}
+                            {{ $item->modeld_id != NULL ? $item->modeld->name : '' }}
                           </td>
                           <td>
                             {{ $item->city }} &nbsp; {{ $item->state }} &nbsp; {{ $item->country }}
@@ -132,13 +143,33 @@
                             {{ $item->url }}
                           </td>
                           <td>
-                            {{ $item->year }}
+                            @foreach ($specifics as $spec)
+                              @php
+                                $spec_value = eval('return $item->'.$spec->column_name.';');
+                                $spec_unit = '';
+                                $spec_unit = eval('if(isset($item->'.$spec->column_name.'_unit)) return $item->'.$spec->column_name.'_unit;');
+                              @endphp
+                              @if ($item->category->specifics->where('id', $spec->id)->first())
+                              <br>{{ $spec->name }}:&nbsp; {{ $spec_value.$spec_unit }}
+                              @endif
+                            @endforeach
                           </td>
                           <td>
-                            {{ $item->year }}
+                            @if ($item->category->truck_mounted == 1)
+                              <br>Truck Year: {{ $item->truck_year }} &nbsp;&nbsp; Truck Make: {{ $item->truckmake_id != NULL ? $item->truckmake->name : '' }}
+                              <br>Truck Model: {{ $item->truck_model }} &nbsp;&nbsp; Truck Engine: {{ $item->truck_engine }}
+                              <br>Truck Trans: {{ $item->truck_trans }} &nbsp;&nbsp; Truck Suspension: {{ $item->truck_suspension }}
+                              <br>Truck Condition: {{ $item->truck_condition.$item->truck_condition_unit }}
+                            @endif
                           </td>
                           <td>
                             {{ $item->created_at->format('Y-m-d') }}
+                          </td>
+                          <td>
+                            {{ $item->updated_at->format('Y-m-d') }}
+                          </td>
+                          <td>
+                            {{ 'Admin' }}
                           </td>
                           @can('manage-deals', App\Deal::class)
                             @if (auth()->user()->can('update', $item) || auth()->user()->can('delete', $item))

@@ -16,8 +16,10 @@ class CreateTruckmakesTable extends Migration
         Schema::create('truckmakes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100);
-            $table->text('description')->nullable();
+            $table->unsignedInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

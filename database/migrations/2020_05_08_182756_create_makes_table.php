@@ -16,7 +16,10 @@ class CreateMakesTable extends Migration
         Schema::create('makes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50);
+            $table->unsignedInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

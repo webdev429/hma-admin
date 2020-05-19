@@ -76,7 +76,7 @@ class DealRequest extends FormRequest
                 'nullable'
             ],
             'photo' => [
-                $this->route()->item ? 'nullable' : 'required', 'image'
+                $this->route()->deal ? 'nullable' : 'required', 'image'
             ],
             'auc_enddate' => [
                 'nullable',
@@ -111,45 +111,6 @@ class DealRequest extends FormRequest
                 'nullable'
             ],
             'truck_condition_unit' => [
-                'nullable'
-            ],
-            'spec_capacity_ton' => [
-                'nullable'
-            ],
-            'spec_capacity_ton_unit' => [
-                'nullable'
-            ],
-            'spec_capacity_weight' => [
-                'nullable'
-            ],
-            'spec_capacity_weight_unit' => [
-                'nullable'
-            ],
-            'spec_capacity_cubic' => [
-                'nullable'
-            ],
-            'spec_capacity_cubic_unit' => [
-                'nullable'
-            ],
-            'spec_length' => [
-                'nullable'
-            ],
-            'spec_length_unit' => [
-                'nullable'
-            ],
-            'spec_hours' => [
-                'nullable'
-            ],
-            'spec_extendahoe' => [
-                'nullable'
-            ],
-            'spec_rear_aux_hyd' => [
-                'nullable'
-            ],
-            'spec_cabin' => [
-                'nullable'
-            ],
-            'spec_4wd' => [
                 'nullable'
             ]
         ];

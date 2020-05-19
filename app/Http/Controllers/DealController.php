@@ -25,11 +25,11 @@ class DealController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Deal $model)
+    public function index(Deal $model, Specific $specific)
     {
         $this->authorize('manage-deals', User::class);
         
-        return view('deal.index', ['items' => $model->all()]);
+        return view('deal.index', ['items' => $model->all(), 'specifics' => $specific->all()]);
     }
 
     /**
@@ -57,7 +57,8 @@ class DealController extends Controller
      */
     public function store(DealRequest $request, Deal $model)
     {
-        $deal = $model->create($request->merge([
+        $model->create($request->merge([
+            'user_id' => auth()->user()->id,
             'picture' => $request->photo->store('pictures', 'public'),
             'auc_enddate' => $request->auc_enddate ? Carbon::parse($request->auc_enddate)->format('Y-m-d') : null
         ])->all());
@@ -106,6 +107,7 @@ class DealController extends Controller
     {
         $deal->update(
             $request->merge([
+                'user_id' => auth()->user()->id,
                 'picture' => $request->photo ? $request->photo->store('pictures', 'public') : null,
                 'auc_enddate' => $request->auc_enddate ? Carbon::parse($request->auc_enddate)->format('Y-m-d') : null
             ])->except([$request->hasFile('photo') ? '' : 'picture'])

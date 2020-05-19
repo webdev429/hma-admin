@@ -37,19 +37,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
-                                <div class="col-sm-7">
-                                    <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">
-                                        <textarea cols="30" rows="10"
-                                            class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
-                                            name="description" id="input-description" type="text"
-                                            placeholder="{{ __('Description') }}" required="true"
-                                            aria-required="true">{{ old('description', $specific->description) }}</textarea>
-                                        @include('alerts.feedback', ['field' => 'description'])
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <label class="col-sm-2 col-form-label">{{ __('Unit') }}</label>
                                 <div class="col-sm-7">
                                     <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }}">
@@ -100,6 +87,8 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="prev_col_name" value="{{ $specific->column_name }}">
+                        <input type="hidden" name="prev_col_type" value="{{ $specific->type }}">
                         <div class="card-footer ml-auto mr-auto">
                             <button type="submit" class="btn btn-rose">{{ __('Save') }}</button>
                         </div>

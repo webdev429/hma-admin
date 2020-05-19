@@ -55,7 +55,7 @@ Management')])
                                         <select class="selectpicker col-sm-12 pl-0 pr-0" name="specifics[]"
                                             data-style="select-with-transition" multiple title="-" data-size="7">
                                             @foreach ($specifics as $specific)
-                                              <option value="{{ $specific->id }}" {{ in_array($specific->id, old('specifics') ?? []) ? 'selected' : '' }}>{{ $specific->name }}({{ $specific->unit }})</option>
+                                              <option value="{{ $specific->id }}" {{ in_array($specific->id, old('specifics') ?? []) ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
                                             @endforeach
                                         </select>
                                         @include('alerts.feedback', ['field' => 'specifics'])

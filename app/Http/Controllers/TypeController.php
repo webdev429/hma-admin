@@ -38,7 +38,7 @@ class TypeController extends Controller
      */
     public function store(TypeRequest $request, Type $model)
     {
-        $model ->create($request->all());
+        $model ->create($request->merge(['user_id' => auth()->user()->id])->all());
 
         return redirect() ->route('type.index') ->withStatus(__('Equipment type data successfully created.'));
     }
@@ -74,7 +74,7 @@ class TypeController extends Controller
      */
     public function update(Request $request, Type $type)
     {
-        $type ->update($request ->all());
+        $type ->update($request->merge(['user_id' => auth()->user()->id])->all());
 
         return redirect() ->route('type.index') ->withStatus(__('Equipment type data successfully updated.'));
     }

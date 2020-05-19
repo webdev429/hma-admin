@@ -19,6 +19,7 @@ namespace App;
 
 use App\Specific;
 use App\Type;
+use App\Deal;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -28,7 +29,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'truck_mounted', 'type_id'];
+    protected $fillable = ['name', 'truck_mounted', 'type_id', 'user_id'];
     
     /**
      * Get the category of the item
@@ -49,5 +50,18 @@ class Category extends Model
     {
         return $this->belongsToMany(Specific::class);
     }
-
+    
+    /**
+     * Get the tags of the item
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function deals()
+    {
+        return $this->hasMany(Deal::class);
+    }
+    
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

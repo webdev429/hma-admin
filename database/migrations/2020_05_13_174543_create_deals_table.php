@@ -45,20 +45,7 @@ class CreateDealsTable extends Migration
             $table->string('truck_condition', 50)->nullable();
             $table->string('truck_condition_unit', 10)->nullable();
             // Specific Fields 
-            $table->float('spec_capacity_ton')->nullable();
-            $table->string('spec_capacity_ton_unit', 10)->nullable();
-            $table->float('spec_capacity_weight')->nullable();
-            $table->string('spec_capacity_weight_unit', 10)->nullable();
-            $table->float('spec_capacity_cubic')->nullable();
-            $table->string('spec_capacity_cubic_unit', 10)->nullable();
-            $table->float('spec_length')->nullable();
-            $table->string('spec_length_unit', 10)->nullable();
-            $table->string('spec_hours', 20)->nullable();
-            $table->string('spec_extendahoe', 3)->nullable();
-            $table->string('spec_rear_aux_hyd', 3)->nullable();
-            $table->string('spec_cabin', 3)->nullable();
-            $table->string('spec_4wd', 3)->nullable();
-
+            $table->unsignedInteger('user_id');
             $table->timestamps();
 
             $table->foreign('type_id')->references('id')->on('types');
@@ -66,6 +53,7 @@ class CreateDealsTable extends Migration
             $table->foreign('make_id')->references('id')->on('makes');
             $table->foreign('modeld_id')->references('id')->on('modelds');
             $table->foreign('truckmake_id')->references('id')->on('truckmakes');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

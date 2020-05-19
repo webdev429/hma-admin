@@ -33,7 +33,13 @@
                         {{ __('Tags') }}
                       </th>
                       <th>
-                        {{ __('Creation date') }}
+                        {{ __('Created date') }}
+                      </th>
+                      <th>
+                        {{ __('Updated date') }}
+                      </th>
+                      <th>
+                        {{ __('Creator') }}
                       </th>
                       @can('manage-items', App\User::class)
                         <th class="text-right">
@@ -57,6 +63,12 @@
                           </td>
                           <td>
                             {{ $item->created_at->format('Y-m-d') }}
+                          </td>
+                          <td>
+                            {{ $item->updated_at->format('Y-m-d') }}
+                          </td>
+                          <td>
+                            {{ 'Admin' }}
                           </td>
                           @can('manage-items', App\User::class)
                             @if (auth()->user()->can('update', $item) || auth()->user()->can('delete', $item))

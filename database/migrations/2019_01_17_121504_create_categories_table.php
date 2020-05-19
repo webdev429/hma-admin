@@ -19,9 +19,11 @@ class CreateCategoriesTable extends Migration
             $table->text('description')->nullable();
             $table->integer('truck_mounted')->default(0);
             $table->unsignedInteger('type_id');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
 
             $table->foreign('type_id')->references('id')->on('types');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

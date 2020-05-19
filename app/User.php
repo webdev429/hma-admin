@@ -96,4 +96,32 @@ class User extends Authenticatable
     {
         return $this->role_id == 3;
     }
+
+    public function truckmake() {
+        return $this->hasMany(Truckmake::class); 
+    }
+    
+    public function make() {
+        return $this->hasMany(Make::class); 
+    }
+
+    public function modeld() {
+        return $this->hasMany(Modeld::class); 
+    }
+
+    public function category() {
+        return $this->hasMany(Category::class); 
+    }
+
+    public function specific() {
+        return $this->hasMany(Specific::class); 
+    }
+
+    public function type() {
+        return $this->hasMany(Type::class); 
+    }
+
+    public function deal() {
+        return $this->hasMany(Deal::class); 
+    }
 }

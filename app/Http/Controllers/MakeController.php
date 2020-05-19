@@ -38,7 +38,7 @@ class MakeController extends Controller
      */
     public function store(MakeRequest $request, Make $model)
     {
-        $model->create($request->all());
+        $model->create($request->merge(['user_id' => auth()->user()->id])->all());
 
         return redirect()->route('make.index')->withStatus(__('Make Data successfully created.'));
     }
@@ -74,7 +74,7 @@ class MakeController extends Controller
      */
     public function update(Request $request, Make $make)
     {
-        $make->update($request->all());
+        $make->update($request->merge(['user_id' => auth()->user()->id])->all());
 
         return redirect()->route('make.index')->withStatus(__('Make Data successfully updated.'));
     }

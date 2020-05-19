@@ -29,9 +29,6 @@ class SpecificRequest extends FormRequest
             'name' => [
                 'required', 'min:3'
             ],
-            'description' => [
-                'nullable', 'min:5'
-            ],
             'unit' => [
                 'nullable', 'min:1'
             ],

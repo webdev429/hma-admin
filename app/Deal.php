@@ -7,7 +7,10 @@ use App\Make;
 use App\Modeld;
 use App\Type;
 use App\Truckmake;
+use App\Specifics;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class Deal extends Model
 {
@@ -43,20 +46,27 @@ class Deal extends Model
         'truck_suspension',
         'truck_condition',
         'truck_condition_unit',
-        'spec_capacity_ton',
-        'spec_capacity_ton_unit',
-        'spec_capacity_weight',
-        'spec_capacity_weight_unit',
-        'spec_capacity_cubic',
-        'spec_capacity_cubic_unit',
-        'spec_length',
-        'spec_length_unit',
-        'spec_hours',
-        'spec_extendahoe',
-        'spec_rear_aux_hyd',
-        'spec_cabin',
-        'spec_4wd'
+        'user_id'
     ];
+
+    public function __construct(array $attributes = array()) 
+    {
+        $this->setFillable();
+        parent::__construct($attributes);
+    }
+
+    public function setFillable()
+    {
+        $speclist = DB::table('specifics')->get();
+
+        foreach ($speclist as $spec) {
+            // print_r($this->fillable);exit();
+            array_push($this->fillable, $spec->column_name);
+            if ($spec->unit != '') {
+                array_push($this->fillable, $spec->column_name.'_unit');
+            }
+        }
+    }
 
     /**
      * Get the category 
@@ -106,6 +116,10 @@ class Deal extends Model
     public function truckmake()
     {
         return $this->belongsTo(Truckmake::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(Users::class);
     }
     
     /**
