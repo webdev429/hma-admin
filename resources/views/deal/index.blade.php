@@ -26,6 +26,7 @@
                     <style>
                       th {
                         min-width: 100px;
+                        max-height: 190px;
                       }
                     </style>
                       <th>
@@ -125,7 +126,9 @@
                             {{ $item->modeld_id != NULL ? $item->modeld->name : '' }}
                           </td>
                           <td>
-                            {{ $item->city }} &nbsp; {{ $item->state }} &nbsp; {{ $item->country }}
+                            {{ $item->city }}{{ $item->city ? ',' : '' }} 
+                            {{ $item->state }}{{ $item->state ? ',' : '' }} 
+                            {{ $item->country }}
                           </td>
                           <td>
                             {{ $item->auc_enddate }}
@@ -137,7 +140,7 @@
                             {{ $item->auc_auctioneer }}
                           </td>
                           <td>
-                            {{ $item->price }}
+                            {{ $item->price }} {{ $item->price ? $item->price_currency : '' }}
                           </td>
                           <td>
                             {{ $item->url }}
@@ -150,7 +153,7 @@
                                 $spec_unit = eval('if(isset($item->'.$spec->column_name.'_unit)) return $item->'.$spec->column_name.'_unit;');
                               @endphp
                               @if ($item->category->specifics->where('id', $spec->id)->first())
-                              <br>{{ $spec->name }}:&nbsp; {{ $spec_value.$spec_unit }}
+                                <br>{{ $spec->name }}:&nbsp; {{ $spec_value.$spec_unit }}
                               @endif
                             @endforeach
                           </td>
