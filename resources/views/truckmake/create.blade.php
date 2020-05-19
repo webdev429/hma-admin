@@ -14,7 +14,7 @@
                             <div class="card-icon">
                                 <i class="material-icons">category</i>
                             </div>
-                            <h4 class="card-title">{{ __('Add Truck Make Data') }}</h4>
+                            <h4 class="card-title">{{ __('Add Truck Make') }}</h4>
                         </div>
                         <div class="card-body ">
                             <div class="row">

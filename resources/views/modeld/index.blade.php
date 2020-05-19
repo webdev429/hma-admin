@@ -10,7 +10,7 @@
                 <div class="card-icon">
                   <i class="material-icons">filter_none</i>
                 </div>
-                <h4 class="card-title">{{ __('Models') }}</h4>
+                <h4 class="card-title">{{ __('Model') }}</h4>
               </div>
               <div class="card-body">
                 @can('create', App\Modeld::class)

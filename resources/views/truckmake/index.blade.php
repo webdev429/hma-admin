@@ -10,7 +10,7 @@
                 <div class="card-icon">
                   <i class="material-icons">filter_none</i>
                 </div>
-                <h4 class="card-title">{{ __('Truck Make Data') }}</h4>
+                <h4 class="card-title">{{ __('Truck Make') }}</h4>
               </div>
               <div class="card-body">
                 @can('create', App\Make::class)
