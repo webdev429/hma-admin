@@ -56,6 +56,7 @@
                     <p>{{ __('Dashboard') }}</p>
                 </a>
             </li>
+            @can ('manage-items', App\User::class)
             <li class="nav-item {{ ($menuParent == 'laravel' || $activePage == 'dashboard') ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#laravelExample"
                     {{ ($menuParent == 'laravel' || $activePage == 'dashboard') ? ' aria-expanded="true"' : '' }}>
@@ -83,18 +84,11 @@
                             </a>
                         </li>
                         @endcan
-                        @can('manage-items', App\User::class)
-                        <li class="nav-item{{ $activePage == 'tag-management' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('tag.index') }}">
-                                <span class="sidebar-mini"> TM </span>
-                                <span class="sidebar-normal"> {{ __('Tag Management') }} </span>
-                            </a>
-                        </li>
-                        @endcan
 
                     </ul>
                 </div>
             </li>
+            @endcan
             <li class="nav-item {{ $menuParent == 'deal' ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#dealManage"
                     {{ $menuParent == 'deal' ? ' aria-expanded="true"' : '' }}>
@@ -112,14 +106,12 @@
                                 <span class="sidebar-normal"> {{ __('Deals') }} </span>
                             </a>
                         </li>
-                        @can('manage-items', App\User::class)
                         <li class="nav-item{{ $activePage == 'deal_add' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('deal.create') }}">
                                 <span class="sidebar-mini"> AD </span>
                                 <span class="sidebar-normal"> {{ __('Add Deal') }} </span>
                             </a>
                         </li>
-                        @endcan
                         @can('manage-items', App\User::class)
                         <li class="nav-item {{ $menuParent == 'characteristics' ? ' active' : '' }}">
                             <a class="nav-link" data-toggle="collapse" href="#characterManage">
