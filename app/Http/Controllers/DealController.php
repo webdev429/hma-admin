@@ -63,7 +63,7 @@ class DealController extends Controller
             'auc_enddate' => $request->auc_enddate ? Carbon::parse($request->auc_enddate)->format('Y-m-d') : null
         ])->all());
 
-        return redirect()->route('deal.create')->withStatus(__('Deal successfully created.'));
+        return redirect()->route('deal.index')->withStatus(__('Deal successfully created.'));
     }
 
     /**
