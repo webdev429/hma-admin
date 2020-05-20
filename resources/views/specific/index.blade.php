@@ -36,6 +36,9 @@
                         {{ __('Type') }}
                       </th>
                       <th>
+                        {{ __('Data Type') }}
+                      </th>
+                      <th>
                         {{ __('Value') }}
                       </th>
                       <th>
@@ -67,6 +70,13 @@
                           </td>
                           <td>
                             {{ $item->type == 1 ? 'Text' : 'Select Box' }}
+                          </td>
+                          <td>
+                            @if ($item->data_type == 1)
+                              String
+                            @elseif ($item->data_type == 2)
+                              Numeric
+                            @endif
                           </td>
                           <td>
                             {{ $item->value }}

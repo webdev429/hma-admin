@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .dropdown.bootstrap-select {
-        width: 100% !important;
+        /* width: 100% !important; */
     }
 
 </style>
@@ -11,10 +11,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <form method="post" enctype="multipart/form-data" action="{{ route('deal.update', $deal) }}" class="form-horizontal" autocomplete="off">
+                <form id="editDealForm" method="post" enctype="multipart/form-data" action="{{ route('deal.update', $deal) }}" class="form-horizontal" autocomplete="off">
                     @csrf
                     @method('put')
-                    <div class="card ">
+                    <div class="card">
                         <div class="card-header card-header-rose card-header-text">
                             <div class="card-text">
                                 <h4 class="card-title">Edit Deal</h4>
@@ -27,181 +27,316 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 col-sm-12">
-                                    <!-- Title -->
-                                    <div class="row">
-                                        <label class="col-md-4 col-form-label">Title</label>
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" value="{{ old('title', $deal->title) }}" name="title" require="true">
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-6 col-sm-12 row">
                                     <!-- Deal Type -->
-                                    <div class="row">
-                                        <label class="col-md-4 col-form-label">Deal Type</label>
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <select class="selectpicker" name="deal_type" id="deal_type" onchange="onChangeDealType()" data-style="select-with-transition" require="true">
-                                                    <option value="0" {{ $deal->deal_type == 0 ? 'selected' : '' }}>Sale </option>
-                                                    <option value="1" {{ $deal->deal_type == 1 ? 'selected' : '' }}>Auction</option>
-                                                </select>
-                                            </div>
+                                    <label class="col-sm-4 col-form-label">Deal Type</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="deal_type" id="deal_type" onchange="onChangeDealType()" data-style="select-with-transition" required="true">
+                                                <option value="0" {{ $deal->deal_type == 0 ? 'selected' : '' }}>Sale </option>
+                                                <option value="1" {{ $deal->deal_type == 1 ? 'selected' : '' }}>Auction</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <!-- Equipment Type -->
-                                    <div class="row">
-                                        <label class="col-md-4 col-form-label">Equipment Type</label>
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <select class="selectpicker" onchange="onChangeEqupmentType();" name="type_id" id="type_id" data-style="select-with-transition" require="true">
-                                                    <option value="0"></option>
-                                                    @foreach($types as $item)
-                                                        <option value="{{ $item->id }}" {{ $item->id == old('type_id', $deal->type_id) ? 'selected' : '' }}>{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                    <label class="col-md-4 col-form-label">Equipment Type</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <select class="selectpicker" onchange="onChangeEqupmentType();" name="type_id" id="type_id" data-style="select-with-transition" required="true">
+                                                <option value="0"></option>
+                                                @foreach($types as $item)
+                                                    <option value="{{ $item->id }}" {{ $item->id == old('type_id', $deal->type_id) ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <!-- Equipment Category -->
-                                    <div class="row">
-                                        <label class="col-md-4 col-form-label">Equipment Category</label>
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <select class="selectpicker" onchange="onChangeEquipmentCategory();" name="category_id" id="category_id" data-style="select-with-transition" require="true">
-                                                    <option value="0"></option>
-                                                    @foreach($equipment_category as $item)
-                                                        <option class="category_{{ $item->id }}" value="{{ $item->id }}" {{ $item->id == old('category_id', $deal->category_id) ? 'selected' : '' }} style="display:none;">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                    <label class="col-md-4 col-form-label">Equipment Category</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <select class="selectpicker" onchange="onChangeEquipmentCategory();" name="category_id" id="category_id" data-style="select-with-transition" required="true">
+                                                <option value="0"></option>
+                                                @foreach($equipment_category as $item)
+                                                    <option class="category_{{ $item->id }}" value="{{ $item->id }}" {{ $item->id == old('category_id', $deal->category_id) ? 'selected' : '' }} style="display:none;">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12 row">
+                                    <!-- Make -->
+                                    <label class="col-sm-4 col-form-label">Make</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <select class="selectpicker" onchange="onChangeMake();" data-style="select-with-transition" name="make_id" id="make_id" required="true">
+                                                <option value=""></option>
+                                                @foreach($makes as $item)
+                                                    <option value="{{ $item->id }}" {{ $item->id == old('make_id', $deal->make_id) ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Model -->
+                                    <label class="col-sm-4 col-form-label">Model</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <select class="selectpicker" onchange="onChangeModel();" data-style="select-with-transition" name="modeld_id" id="modeld_id" required="true">
+                                                <option value=""></option>
+                                                @foreach($modelds as $item)
+                                                    <option class="modeld_{{ $item->id }}" value="{{ $item->id }}" {{ $item->id == old('modeld_id', $deal->modeld_id) ? 'selected' : '' }} style="display:none;">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Year -->
+                                    <label class="col-sm-4 col-form-label">Year</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" onchange="onChangeYear();" class="form-control" name="year" id="year" number="true" range="[1800, 2100]" value="{{ $deal->year }}" required="true">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 row">
+                                    <!-- Country -->
+                                    <label class="col-sm-4 col-form-label">Country</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="country" onchange="onChangeCountry();" id="country" data-style="select-with-transition">
+                                                <option value="United States" {{ $deal->country == 'United States' ? 'selected' : '' }}>United States</option>
+                                                <option value="Canada" {{ $deal->country == 'Canada' ? 'selected' : '' }}>Canada</option>
+                                                <option value="Mexico" {{ $deal->country == 'Mexico' ? 'selected' : '' }}>Mexico</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- State -->
+                                    <label class="col-sm-4 col-form-label">State</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="state" id="state" data-style="select-with-transition">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- City -->
+                                    <label class="col-sm-4 col-form-label">City</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="city" value="{{ $deal->city }}">
+                                        </div>
+                                    </div>
+                                    <!-- Auctioneer -->
+                                    <label class="col-sm-4 col-form-label auctioneer-title">Company Name</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="auc_auctioneer" id="auctioneer" value="{{ $deal->auc_auctioneer }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 row">
+                                    <!-- Price -->
+                                    <label class="col-sm-4 col-form-label price-item">Price</label>
+                                    <div class="col-sm-5 price-item">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" value="{{ $deal->price }}" name="price" id="price" number="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 price-item" style="padding:0;">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="price_currency" data-style="select-with-transition">
+                                                <option value="USD" {{ $deal->price_currency == "USD" ? 'selected' : '' }}>USD</option>
+                                                <option value="CAD" {{ $deal->price_currency == "CAD" ? 'selected' : '' }}>CAD</option>
+                                                <option value="MXN" {{ $deal->price_currency == "MXN" ? 'selected' : '' }}>MXN</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- AuctionEndDate  -->
+                                    <label class="col-sm-4 col-form-label auction-field">Auction Date</label>
+                                    <div class="col-sm-8 auction-field">
+                                        <div class="form-group{{ $errors->has('auc_enddate') ? ' has-danger' : '' }}">
+                                            <input type="text"  name="auc_enddate" id="auc_enddate"
+                                            placeholder="{{ __('Select date') }}" class="form-control datetimepicker" value="{{ $deal->auc_enddate ? $deal->auc_enddate : now()->format('d-m-Y') }}"/>
+                                            @include('alerts.feedback', ['field' => 'auc_enddate'])
+                                        </div>
+                                    </div>
+                                    <!-- Serial Number -->
+                                    <label class="col-sm-4 col-form-label">SN</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="sn" id="sn" value="{{ $deal->sn }}">
+                                        </div>
+                                    </div>
+                                    <!-- Url -->
+                                    <label class="col-sm-4 col-form-label">URL</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="url" id="url" value="{{ $deal->url }}">
+                                        </div>
+                                    </div>
+                                    <!-- LOT# -->
+                                    <label class="col-sm-4 col-form-label auction-field">Lot #</label>
+                                    <div class="col-sm-8 auction-field">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="auc_lot" id="lot" value="{{ $deal->lot }}">
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <hr>
+                            <h4 class="specific_title">Equipment Specific Information</h4>
+                            <div class="row" id="specific_field">
+                                @foreach ($specifics as $specific)
+                                    @php
+                                        $show_flag = eval('return $deal->'. $specific->column_name . ';');
+                                    @endphp
+                                    @if ($specific->type == 1)
+                                        @if ($specific->unit != '')
+                                            @php
+                                                $unitAry = explode('/', $specific->unit);
+                                                $valueUnit = eval('return $deal->'.$specific->column_name.'_unit;');
+                                            @endphp
+                                            <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}"> {{ $specific->name }}</label>
+                                            <div class='col-md-2 col-sm-5 {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
+                                                <div class='form-group'>
+                                                    <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' number="{{ $specific->data_type == 2 ? 'true' : 'false' }}" value="{{ $show_flag }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-sm-2 {{ $specific->column_name }} specific_item" style="padding-left:0;display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}"">
+                                                <div class='form-group'>
+                                                    <select class='selectpicker' name='{{ $specific->column_name }}_unit' id='{{ $specific->column_name }}_unit' data-style='select-with-transition'>
+                                                        @foreach ($unitAry as $unit)
+                                                        <option value='{{ $unit }}' {{ $valueUnit == $unit ? 'selected' : '' }}>{{ $unit }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-sm-1"></div>
+                                        @else
+                                            <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}"> {{ $specific->name }}</label>
+                                            <div class='col-md-4 col-sm-8 col-sm-9 {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
+                                                <div class='form-group'>
+                                                    <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' value="{{ $show_flag }}">
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @else
+                                        @php
+                                        $optionAry = explode('/', $specific->value);
+                                        @endphp
+                                        <label class='col-md-1 col-sm-3 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">{{ $specific->name }}</label>
+                                        <div class='col-md-2 col-sm-9 {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
+                                            <div class='form-group'>
+                                            <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition'>
+                                                @foreach ($optionAry as $option)
+                                                <option value='{{ $option }}' {{ $show_flag == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                @endforeach
+                                            </select>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <h4 class="truck-mounted-title" style="display:{{ $deal->category->truck_mounted == 1 ? 'block;' : 'none;' }}">Truck Information</h4>
+                            <div class="row truck-mounted-fields">
+                                <div class="col-md-6 col-sm-12 row">
+                                    <!-- Truck Make -->
+                                    <label class="col-sm-4 col-form-label">Truck Make</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="truckmake_id" data-style="select-with-transition">
+                                                <option value=""></option>
+                                                @foreach ($truckmakes as $truckmake)
+                                                <option value="{{ $truckmake->id }}" {{ $deal->truckmake_id == $truckmake->id ? 'selected' : '' }}>{{ $truckmake->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Truck Model -->
+                                    <label class="col-sm-4 col-form-label">Truck Model</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="truck_model" value="{{ $deal->truck_model }}">
+                                        </div>
+                                    </div>
+                                    <!-- Truck Year -->
+                                    <label class="col-sm-4 col-form-label">Truck Year</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="truck_year" number="true" range="[1800, 2100]" value="{{ $deal->truck_year }}">
+                                        </div>
+                                    </div>
+                                    <!-- Truck Condition(km/mi) -->
+                                    <label class="col-sm-4 col-form-label">Truck Condition</label>
+                                    <div class="col-sm-6 col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="truck_condition" number="true" value="{{ $deal->truck_condition }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="truck_condition_unit" data-style="select-with-transition">
+                                                <option value="Km" {{ $deal->truck_condition_unit == 'Km' ? 'selected' : '' }}>Km</option>
+                                                <option value="mile" {{ $deal->truck_condition_unit == 'mile' ? 'selected' : '' }}>mile</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 row">
+                                    <!-- Truck Engine -->
+                                    <label class="col-sm-4 col-form-label">Truck Engine</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="truck_engine" value="{{ $deal->truck_engine }}">
+                                        </div>
+                                    </div>
+                                    <!-- Truck Trans -->
+                                    <label class="col-sm-4 col-form-label">Truck Transmission</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="truck_trans" data-style="select-with-transition">
+                                                <option value="Manual" {{ $deal->truck_trans == 'Manual' ? 'selected' : '' }}>Manual</option>
+                                                <option value="Automatic" {{ $deal->truck_trans == 'Automatic' ? 'selected' : '' }}>Automatic</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Truck Suspension -->
+                                    <label class="col-sm-4 col-form-label">Truck Fuel Type</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="truck_suspension" data-style="select-with-transition">
+                                                <option value="Diesel" {{ $deal->truck_suspension == 'Diesel' ? 'selected' : '' }}>Diesel</option>
+                                                <option value="Gas" {{ $deal->truck_suspension == 'Gas' ? 'selected' : '' }}>Gas</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4>Ad Information</h4>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 row">
+                                    <!-- Title -->
+                                    <label class="col-md-4 col-form-label">Title</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control disabled" name="title" id="title" value="{{ $deal->title }}">
+                                        </div>
+                                    </div>
+                                    <!-- Description -->
                                     <label class="col-md-4 col-form-label">{{ __('Description') }}</label>
                                     <div class="col-md-8">
                                         <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">
                                             <textarea cols="30" rows="10"
                                                 class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
-                                                name="description" id="input-description" type="text"
-                                                placeholder="{{ __('Description') }}" required="true"
-                                                aria-required="true">{{ old('description', $deal->description) }}</textarea>
+                                                name="description" id="input-description" type="text">
+                                                {{ $deal->description }}
+                                            </textarea>
                                             @include('alerts.feedback', ['field' => 'description'])
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-9 col-sm-12" style="margin-top:30px;">
-                                    <h4>General Properties</h4>
-                                    <div class="row">
-                                        <!-- Year -->
-                                        <label class="col-md-1 col-sm-3 col-form-label">Year</label>
-                                        <div class="col-md-3 col-sm-9">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="year" value="{{ $deal->year }}">
-                                            </div>
-                                        </div>
-                                        <!-- Make -->
-                                        <label class="col-md-1 col-sm-3 col-form-label">Make</label>
-                                        <div class="col-md-3 col-sm-9">
-                                            <div class="form-group">
-                                                <select class="selectpicker" onchange="onChangeMake();" data-style="select-with-transition" name="make_id" id="make_id">
-                                                    <option value=""></option>
-                                                    @foreach($makes as $item)
-                                                        <option value="{{ $item->id }}" {{ $item->id == old('make_id', $deal->make_id) ? 'selected' : '' }}>{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <!-- Model -->
-                                        <label class="col-md-1 col-sm-3 col-form-label">Model</label>
-                                        <div class="col-md-3 col-sm-9">
-                                            <div class="form-group">
-                                                <select class="selectpicker" data-style="select-with-transition" name="modeld_id" id="modeld_id">
-                                                    <option value=""></option>
-                                                    @foreach($modelds as $item)
-                                                        <option class="modeld_{{ $item->id }}" value="{{ $item->id }}" {{ $item->id == old('modeld_id', $deal->modeld_id) ? 'selected' : '' }} style="display:none;">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <!-- City -->
-                                        <label class="col-md-1 col-sm-3 col-form-label">City</label>
-                                        <div class="col-md-3 col-sm-9">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="city" value="{{ $deal->city }}">
-                                            </div>
-                                        </div>
-                                        <!-- State -->
-                                        <label class="col-md-1 col-sm-3 col-form-label">State</label>
-                                        <div class="col-md-3 col-sm-9">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="state" value="{{ $deal->state }}">
-                                            </div>
-                                        </div>
-                                        <!-- Country -->
-                                        <label class="col-md-1 col-sm-3 col-form-label">Country</label>
-                                        <div class="col-md-3 col-sm-9">
-                                            <div class="form-group">
-                                                <select class="selectpicker" name="country" data-style="select-with-transition">
-                                                    <option value="United States" {{ $deal->country == 'United States' ? 'selected' : '' }}>United States</option>
-                                                    <option value="Canada" {{ $deal->country == 'Canada' ? 'selected' : '' }}>Canada</option>
-                                                    <option value="Mexico" {{ $deal->country == 'Mexico' ? 'selected' : '' }}>Mexico</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <!-- AuctionEndDate  -->
-                                        <label class="col-md-1 col-sm-3 col-form-label auction-field" style="display:{{ $deal->deal_type == 1 ? 'block;' : 'none;' }}">EndDate</label>
-                                        <div class="col-md-3 col-sm-9 auction-field" style="display:{{ $deal->deal_type == 1 ? 'block;' : 'none;' }}">
-                                            <div class="form-group{{ $errors->has('auc_enddate') ? ' has-danger' : '' }}">
-                                                <input type="text"  name="auc_enddate" id="auc_enddate"
-                                                placeholder="{{ __('Select date') }}" class="form-control datetimepicker" value="{{ old('auc_enddate', $deal->auc_enddate) }}"/>
-                                                @include('alerts.feedback', ['field' => 'auc_enddate'])
-                                            </div>
-                                        </div>
-                                        <!-- LOT -->
-                                        <label class="col-md-1 col-sm-3 col-form-label auction-field" style="display:{{ $deal->deal_type == 1 ? 'block;' : 'none;' }}">LOT</label>
-                                        <div class="col-md-3 col-sm-9 auction-field" style="display:{{ $deal->deal_type == 1 ? 'block;' : 'none;' }}">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="auc_lot" id="lot" value="{{ $deal->auc_lot }}">
-                                            </div>
-                                        </div>
-                                        <!-- Auctioneer -->
-                                        <label class="col-md-1 col-sm-3 col-form-label auction-field" style="display:{{ $deal->deal_type == 1 ? 'block;' : 'none;' }}">Auctioneer</label>
-                                        <div class="col-md-3 col-sm-9 auction-field" style="display:{{ $deal->deal_type == 1 ? 'block;' : 'none;' }}">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="auc_auctioneer" id="auctioneer" value="{{ $deal->auc_auctioneer }}">
-                                            </div>
-                                        </div>
-                                        <!-- Price -->
-                                        <label class="col-md-1 col-sm-3 col-form-label">Price</label>
-                                        <div class="col-md-3 col-sm-7">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="price" id="price" value="{{ $deal->price }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1 col-sm-2" style="padding:0;">
-                                            <div class="form-group">
-                                                <select class="selectpicker" name="price_currency" data-style="select-with-transition">
-                                                    <option value="USD" {{ $deal->price_currency == 'USD' ? 'selected' : '' }}>USD</option>
-                                                    <option value="CAD" {{ $deal->price_currency == 'CAD' ? 'selected' : '' }}>CAD</option>
-                                                    <option value="MXN" {{ $deal->price_currency == 'MXN' ? 'selected' : '' }}>MXN</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <!-- Url -->
-                                        <label class="col-md-1 col-sm-3 col-form-label">URL</label>
-                                        <div class="col-md-6 col-sm-9">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="url" id="url" value="{{ $deal->url }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-sm-12"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-12" style="text-align:center;">
+                                <div class="col-md-6 col-sm-12" style="text-align:center;">
                                     <h4 class="title">Primary Picture</h4>
                                     <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail">
@@ -216,7 +351,11 @@
                                             <span class="btn btn-rose btn-file">
                                             <span class="fileinput-new">{{ __('Select image') }}</span>
                                             <span class="fileinput-exists">{{ __('Change') }}</span>
-                                            <input type="file" name="photo" id = "input-picture" />
+                                            @if ($deal->picture)
+                                                <input type="file" name="photo" id = "input-picture" />
+                                            @else
+                                                <input type="file" name="photo" id = "input-picture" required="true" />
+                                            @endif
                                             </span>
                                             <a href="#pablo" class="btn btn-danger fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> {{ __('Remove') }}</a>
                                         </div>
@@ -224,131 +363,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <h4 class="truck-mounted-title" style="display:{{ $deal->category->truck_mounted == 1 ? 'block;' : 'none;' }}">Truck Mounted Data</h4>
-                            <div class="truck-mounted-fields" style="display:{{ $deal->category->truck_mounted == 1 ? 'block;' : 'none;' }}">
-                                <div class="row">
-                                    <!-- Truck Year -->
-                                    <label class="col-md-1 col-sm-3 col-form-label">Truck Year</label>
-                                    <div class="col-md-2 col-sm-9">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_year" value="{{ $deal->truck_year }}">
-                                        </div>
-                                    </div>
-                                    <!-- Truck Make -->
-                                    <label class="col-md-1 col-sm-3 col-form-label">Truck Make</label>
-                                    <div class="col-md-2 col-sm-9">
-                                        <div class="form-group">
-                                            <select class="selectpicker" name="truckmake_id" data-style="select-with-transition">
-                                                <option value=""></option>
-                                                @foreach ($truckmakes as $truckmake)
-                                                <option value="{{ $truckmake->id }}" {{ $deal->truckmake_id == $truckmake->id ? 'selected' : '' }}>{{ $truckmake->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!-- Truck Model -->
-                                    <label class="col-md-1 col-sm-3 col-form-label">Truck Model</label>
-                                    <div class="col-md-2 col-sm-9">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_model" value="{{ $deal->truck_model }}">
-                                        </div>
-                                    </div>
-                                    <!-- Truck Engine -->
-                                    <label class="col-md-1 col-sm-3 col-form-label">Truck Engine</label>
-                                    <div class="col-md-2 col-sm-9">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_engine" value="{{ $deal->truck_engine }}">
-                                        </div>
-                                    </div>
-                                    <!-- Truck Trans -->
-                                    <label class="col-md-1 col-sm-3 col-form-label">Truck Trans</label>
-                                    <div class="col-md-2 col-sm-9">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_trans" value="{{ $deal->truck_trans }}">
-                                        </div>
-                                    </div>
-                                    <!-- Truck Suspension -->
-                                    <label class="col-md-1 col-sm-3 col-form-label">Truck Suspension</label>
-                                    <div class="col-md-2 col-sm-9">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_suspension" value="{{ $deal->truck_suspension }}">
-                                        </div>
-                                    </div>
-                                    <!-- Truck Condition(km/mi) -->
-                                    <label class="col-md-1 col-sm-3 col-form-label">Truck Condition</label>
-                                    <div class="col-md-2 col-sm-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_condition" value="{{ $deal->truck_condition }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-1 col-sm-3">
-                                        <div class="form-group">
-                                            <select class="selectpicker" name="truck_condition_unit" data-style="select-with-transition">
-                                                <option value="Km" {{ $deal->truck_condition_unit == 'Km' ? 'selected' : '' }}>Km</option>
-                                                <option value="mile" {{ $deal->truck_condition_unit == 'mile' ? 'selected' : '' }}>mile</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <h4>Specific Properties</h4>
-                            <div class="row" id="specific_field">
-                                @foreach ($specifics as $specific)
-                                    @php
-                                        $show_flag = eval('return $deal->'. $specific->column_name . ';');
-                                    @endphp
-                                    @if ($specific->type == 1)
-                                        @if ($specific->unit != '')
-                                        @php
-                                            $unitAry = explode('/', $specific->unit);
-                                            $valueUnit = eval('return $deal->'.$specific->column_name.'_unit;');
-                                        @endphp
-                                        <label class='col-md-1 col-sm-2 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}"> {{ $specific->name }}</label>
-                                        <div class='col-md-2 col-sm-8 {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
-                                            <div class='form-group'>
-                                                <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' value="{{ $show_flag }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1 col-sm-2 {{ $specific->column_name }} specific_item" style="padding:0;display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
-                                            <div class='form-group'>
-                                                <select class='selectpicker' name='{{ $specific->column_name }}_unit' id='{{ $specific->column_name }}_unit' data-style='select-with-transition'>
-                                                    @foreach ($unitAry as $unit)
-                                                    <option value='{{ $unit }}' {{ $valueUnit == $unit ? 'selected' : '' }}>{{ $unit }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        @else
-                                        <label class='col-md-1 col-sm-3 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}"> {{ $specific->name }}</label>
-                                        <div class='col-md-2 col-sm-9 {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
-                                            <div class='form-group'>
-                                                <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' value="{{ $show_flag }}">
-                                            </div>
-                                        </div>
-                                        @endif
-                                    @else
-                                        @php
-                                        $optionAry = explode('/', $specific->value);
-                                        @endphp
-                                        <label class='col-md-1 col-sm-3 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $show_flag != NULL ? 'block;' : 'none;' }}">{{ $specific->name }}</label>
-                                        <div class='col-md-2 col-sm-9 {{ $specific->column_name }} specific_item' style="display:{{ $show_flag != NULL ? 'block;' : 'none;' }}">
-                                            <div class='form-group'>
-                                            <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition'>
-                                                @foreach ($optionAry as $option)
-                                                <option value='{{ $option }}' {{ $show_flag == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                @endforeach
-                                            </select>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
                         </div>
                         <div class="card-footer ml-auto mr-auto">
                             <button type="submit" class="btn btn-rose">Save</button>
                         </div>
-                        <input type="hidden" id="category_selected" value="" />
-                        <input type="hidden" id="make_selected" value="" />
                     </div>
                 </form>
             </div>
@@ -362,10 +380,10 @@
     .truck-mounted-title {
         display: none;
     }
-    .truck-mounted-fields {
+    .specific_item {
         display: none;
     }
-    .specific_item {
+    .specific_title {
         display: none;
     }
 </style>
@@ -373,6 +391,11 @@
 
 @push('js')
 <script>
+    var makeStr = '';
+    var modelStr = '';
+    var yearStr = '';
+    var titleStr = '';
+
     function onChangeEqupmentType() {
         var eType = $('#type_id').val();
         $(".specific_item").fadeOut();
@@ -399,6 +422,8 @@
     function onChangeEquipmentCategory() {
         var eCategory = $('#category_id').val();
         $(".specific_item").fadeOut();
+        $(".specific_title").fadeIn();
+        $('.dropdown.bootstrap-select').css('width', '100% !important');
         $.ajax({
             type: 'POST',
             url: 'ajax_get_specific_properties',
@@ -424,6 +449,10 @@
     }
 
     function onChangeMake() {
+        makeStr = $('#make_id').text();
+        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
+        $("#title").val(titleStr);
+
         var mId = $('#make_id').val();
         $.ajax({
             type: "POST",
@@ -445,13 +474,29 @@
         $('#make_selected').val(mId);
     }
 
+    function onChangeModel() {
+        modelStr = $('#modeld_id').text();
+        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
+        $("#title").val(titleStr);
+    }
+
+    function onChangeYear() {
+        yearStr = $('#year').val();
+        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
+        $("#title").val(titleStr);
+    }
+
     function onChangeDealType() {
         var deal_type = $('#deal_type').val();
         
         if (deal_type == 0) {
             $('.auction-field').fadeOut();
+            $('.price-item').fadeIn();
+            $('.auctioneer-title').html('Company Name');
         } else {
             $('.auction-field').fadeIn();
+            $('.price-item').fadeOut();
+            $('.auctioneer-title').text('Auctioneer');
         }
     }
 
@@ -471,8 +516,33 @@
         });
     }
 
+    function onChangeCountry() {
+        var country = $('#country').val();
+        $.ajax({
+            type: "POST",
+            url: "ajax_get_state_list",
+            data: {
+                country: country,
+                _token: '<?php echo csrf_token() ?>'       
+            },
+            success: function(data) {
+                $('#state option').remove();
+                $('#state').append("<option value=''></option>");
+                for(var item in data) {
+                    var state = data[item];
+                    $('#state').append("<option value='"+state+"'>"+state+"</option>");
+                }
+                $('#state').selectpicker('destroy').selectpicker();
+            }
+        });
+    }
+
     $(document).ready(function () {
-        
+        setFormValidation('#editDealForm');
+        var condition = <?php echo $deal->category->truck_mounted; ?>;
+        if (condition != 1) {
+            $('.truck-mounted-fields').css('display', 'none');
+        }
         $('.datetimepicker').datetimepicker({
             icons: {
                 time: "fa fa-clock-o",
@@ -486,6 +556,29 @@
                 close: 'fa fa-remove'
             },
             format: 'DD-MM-YYYY'
+        });
+        $.ajax({
+            type: "POST",
+            url: "ajax_get_state_list",
+            data: {
+                country: "<?php echo $deal->country;?>",
+                _token: '<?php echo csrf_token() ?>'       
+            },
+            success: function(data) {
+                $('#state option').remove();
+                $('#state').append("<option value=''></option>");
+                var selectedStr = "";
+                for(var item in data) {
+                    var state = data[item];
+                    if (state == "<?php echo $deal->state;?>") {
+                        selectedStr = "selected";
+                    } else {
+                        selectedStr = "";
+                    }
+                    $('#state').append("<option value='"+state+"'"+selectedStr+">"+state+"</option>");
+                }
+                $('#state').selectpicker('destroy').selectpicker();
+            }
         });
     });
 

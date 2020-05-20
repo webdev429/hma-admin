@@ -13,7 +13,7 @@ class Specific extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'unit', 'column_name', 'type', 'value', 'user_id' ];
+    protected $fillable = ['name', 'unit', 'column_name', 'type', 'data_type', 'value', 'user_id' ];
     /**
      * Get the categories of the specific data
      *

@@ -41,9 +41,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('deal/ajax_get_specific_properties', 'AjaxController@get_specific_properties');
     Route::post('deal/ajax_get_equipment_category', 'AjaxController@get_equipment_category');
     Route::post('deal/ajax_get_modeld', 'AjaxController@get_modeld');
+    Route::post('deal/ajax_get_state_list', 'AjaxController@get_state_list');
     Route::post('deal/{id}/ajax_get_specific_properties', 'AjaxController@get_specific_properties');
     Route::post('deal/{id}/ajax_get_equipment_category', 'AjaxController@get_equipment_category');
     Route::post('deal/{id}/ajax_get_modeld', 'AjaxController@get_modeld');
+    Route::post('deal/{id}/ajax_get_state_list', 'AjaxController@get_state_list');
     
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);

@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         DB::table('specifics')->truncate();
 
         $this->call([RolesTableSeeder::class, UsersTableSeeder::class]);
-        $this->call([SpecificsTableSeeder::class]);
+        // $this->call([SpecificsTableSeeder::class]);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }

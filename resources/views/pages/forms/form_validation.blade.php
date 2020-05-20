@@ -69,7 +69,7 @@
         </form>
       </div>
       <div class="col-md-12">
-        <form id="TypeValidation" class="form-horizontal" action="" method="">
+        <form id="TypeValidation" class="form-horizontal" action="{{ route('deal.store') }}" method="post">
           <div class="card ">
             <div class="card-header card-header-rose card-header-text">
               <div class="card-text">

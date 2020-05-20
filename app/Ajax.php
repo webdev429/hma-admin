@@ -37,6 +37,126 @@ class Ajax extends Model
         return $modeldList;
     }
 
+    static function getStatesOfCountries($country = ''){
+        $us_states = array('AL'=>"Alabama",  
+            'AK'=>"Alaska",  
+            'AZ'=>"Arizona",  
+            'AR'=>"Arkansas",  
+            'CA'=>"California",
+            'CO'=>"Colorado",  
+            'CT'=>"Connecticut",  
+            'DE'=>"Delaware",  
+            'DC'=>"District Of Columbia",  
+            'FL'=>"Florida",  
+            'GA'=>"Georgia",  
+            'HI'=>"Hawaii",  
+            'ID'=>"Idaho",  
+            'IL'=>"Illinois",  
+            'IN'=>"Indiana",  
+            'IA'=>"Iowa",  
+            'KS'=>"Kansas",  
+            'KY'=>"Kentucky",  
+            'LA'=>"Louisiana",  
+            'ME'=>"Maine",  
+            'MD'=>"Maryland",  
+            'MA'=>"Massachusetts",  
+            'MI'=>"Michigan",  
+            'MN'=>"Minnesota",  
+            'MS'=>"Mississippi",  
+            'MO'=>"Missouri",  
+            'MT'=>"Montana",
+            'NE'=>"Nebraska",
+            'NV'=>"Nevada",
+            'NH'=>"New Hampshire",
+            'NJ'=>"New Jersey",
+            'NM'=>"New Mexico",
+            'NY'=>"New York",
+            'NC'=>"North Carolina",
+            'ND'=>"North Dakota",
+            'OH'=>"Ohio",  
+            'OK'=>"Oklahoma",  
+            'OR'=>"Oregon",  
+            'PA'=>"Pennsylvania",  
+            'RI'=>"Rhode Island",  
+            'SC'=>"South Carolina",  
+            'SD'=>"South Dakota",
+            'TN'=>"Tennessee",  
+            'TX'=>"Texas",  
+            'UT'=>"Utah",  
+            'VT'=>"Vermont",  
+            'VA'=>"Virginia",  
+            'WA'=>"Washington",  
+            'WV'=>"West Virginia",  
+            'WI'=>"Wisconsin",  
+            'WY'=>"Wyoming");
+        $canadian_states = array( 
+            "BC" => "British Columbia", 
+            "ON" => "Ontario", 
+            "NL" => "Newfoundland and Labrador", 
+            "NS" => "Nova Scotia", 
+            "PE" => "Prince Edward Island", 
+            "NB" => "New Brunswick", 
+            "QC" => "Quebec", 
+            "MB" => "Manitoba", 
+            "SK" => "Saskatchewan", 
+            "AB" => "Alberta", 
+            "NT" => "Northwest Territories", 
+            "NU" => "Nunavut",
+            "YT" => "Yukon Territory"
+        );
+        $mexico_states = array( 
+            "AG" => "Aguascalientes",
+            "BC" => "Baja California",
+            "BS" => "Baja California Sur",
+            "CH" => "Chihuahua",
+            "CL" => "Colima",
+            "CM" => "Campeche",
+            "CO" => "Coahuila",
+            "CS" => "Chiapas",
+            "DF" => "Federal District",
+            "DG" => "Durango",
+            "GR" => "Guerrero",
+            "GT" => "Guanajuato",
+            "HG" => "Hidalgo",
+            "JA" => "Jalisco",
+            "ME" => "México State",
+            "MI" => "Michoacán",
+            "MO" => "Morelos",
+            "NA" => "Nayarit",
+            "NL" => "Nuevo León",
+            "OA" => "Oaxaca",
+            "PB" => "Puebla",
+            "QE" => "Querétaro",
+            "QR" => "Quintana Roo",
+            "SI" => "Sinaloa",
+            "SL" => "San Luis Potosí",
+            "SO" => "Sonora",
+            "TB" => "Tabasco",
+            "TL" => "Tlaxcala",
+            "TM" => "Tamaulipas",
+            "VE" => "Veracruz",
+            "YU" => "Yucatán",
+            "ZA" => "Zacatecas",
+        );
+        switch ($country) {
+            case 'United States':
+                return $us_states;
+                break;
+            
+            case 'Canada':
+                return $canadian_states;
+                break;
+            
+            case 'Mexico':
+                return $mexico_states;
+                break;
+            
+            default:
+                return $us_states;
+                break;
+        }
+    }
+
     static function getDoctorlist($per_page='', $page='', $search='', $practice='', $available='') {
         $doctorlist = DB::table('cms_doctor');
         

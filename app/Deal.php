@@ -33,6 +33,7 @@ class Deal extends Model
         'country',
         'price',
         'price_currency',
+        'sn',
         'url',
         'picture',
         'auc_enddate',

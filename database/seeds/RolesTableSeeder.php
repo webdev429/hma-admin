@@ -22,7 +22,7 @@ class RolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'id' => 2,
             'name' => 'Creator',
-            'description' => 'This is the creator role',
+            'description' => 'This is the company employee role',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -30,7 +30,7 @@ class RolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'id' => 3,
             'name' => 'Member',
-            'description' => 'This is the member role',
+            'description' => 'This is the contributor role',
             'created_at' => now(),
             'updated_at' => now()
         ]);

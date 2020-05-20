@@ -48,37 +48,40 @@
                         {{ __('Equipment Category') }}
                       </th>
                       <th>
-                          {{ __('Year') }}
-                      </th>
-                      <th>
                           {{ __('Make') }}
                       </th>
                       <th>
                           {{ __('Model') }}
                       </th>
                       <th>
+                          {{ __('Year') }}
+                      </th>
+                      <th>
                           {{ __('Address') }}
                       </th>
                       <th>
-                          {{ __('End Date') }}
-                      </th>
-                      <th>
-                          {{ __('LOT') }}
-                      </th>
-                      <th>
-                          {{ __('Auctioneer') }}
+                          {{ __('Company Name/Auctioneer') }}
                       </th>
                       <th>
                           {{ __('Price') }}
                       </th>
                       <th>
+                          {{ __('Auction Date') }}
+                      </th>
+                      <th>
+                          {{ __('SN') }}
+                      </th>
+                      <th>
                           {{ __('Url') }}
                       </th>
                       <th>
-                          {{ __('Specific Properties') }}
+                          {{ __('Lot #') }}
                       </th>
                       <th>
-                          {{ __('Truck Mounted') }}
+                          {{ __('Specific Information') }}
+                      </th>
+                      <th>
+                          {{ __('Truck Information') }}
                       </th>
                       <th>
                         {{ __('Created Date') }}
@@ -117,24 +120,18 @@
                             {{ $item->category_id != NULL ? $item->category->name : '' }}
                           </td>
                           <td>
-                            {{ $item->year }}
-                          </td>
-                          <td>
                             {{ $item->make_id != NULL ? $item->make->name : '' }}
                           </td>
                           <td>
                             {{ $item->modeld_id != NULL ? $item->modeld->name : '' }}
                           </td>
                           <td>
+                            {{ $item->year }}
+                          </td>
+                          <td>
                             {{ $item->city }}{{ $item->city ? ',' : '' }} 
                             {{ $item->state }}{{ $item->state ? ',' : '' }} 
                             {{ $item->country }}
-                          </td>
-                          <td>
-                            {{ $item->auc_enddate }}
-                          </td>
-                          <td>
-                            {{ $item->auc_lot }}
                           </td>
                           <td>
                             {{ $item->auc_auctioneer }}
@@ -143,7 +140,16 @@
                             {{ $item->price }} {{ $item->price ? $item->price_currency : '' }}
                           </td>
                           <td>
+                            {{ $item->auc_enddate }}
+                          </td>
+                          <td>
+                            {{ $item->sn }}
+                          </td>
+                          <td>
                             {{ $item->url }}
+                          </td>
+                          <td>
+                            {{ $item->auc_lot }}
                           </td>
                           <td>
                             @foreach ($specifics as $spec)
@@ -159,10 +165,19 @@
                           </td>
                           <td>
                             @if ($item->category->truck_mounted == 1)
-                              <br>Truck Year: {{ $item->truck_year }} &nbsp;&nbsp; Truck Make: {{ $item->truckmake_id != NULL ? $item->truckmake->name : '' }}
-                              <br>Truck Model: {{ $item->truck_model }} &nbsp;&nbsp; Truck Engine: {{ $item->truck_engine }}
-                              <br>Truck Trans: {{ $item->truck_trans }} &nbsp;&nbsp; Truck Suspension: {{ $item->truck_suspension }}
-                              <br>Truck Condition: {{ $item->truck_condition.$item->truck_condition_unit }}
+                            <div class="row" style="max-width:400px;">
+                              <div class="col-md-6 col-sm-12">
+                                <strong>Truck Year:</strong> {{ $item->truck_year }} <br>
+                                <strong>Truck Make:</strong> {{ $item->truckmake_id != NULL ? $item->truckmake->name : '' }} <br>
+                                <strong>Truck Model:</strong> {{ $item->truck_model }} <br>
+                                <strong>Truck Engine:</strong> {{ $item->truck_engine }}
+                              </div>
+                              <div class="col-md-6 col-sm-12">
+                                <strong>Truck Trans:</strong> {{ $item->truck_trans }} <br>
+                                <strong>Truck Fuel Type:</strong> {{ $item->truck_suspension }} <br>
+                                <strong>Truck Condition:</strong> {{ $item->truck_condition.$item->truck_condition_unit }}
+                              </div>
+                            </div>
                             @endif
                           </td>
                           <td>

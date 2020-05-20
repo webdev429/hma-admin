@@ -41,4 +41,12 @@ class AjaxController extends Controller {
 
         return response() ->json($modeld_data);
     }
+
+    public function get_state_list(Request $request) {
+        $country = $request ->country;
+        
+        $state_list = Ajax::getStatesOfCountries($country);
+
+        return response() ->json($state_list);
+    }
 }

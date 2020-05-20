@@ -30,7 +30,7 @@ class DealRequest extends FormRequest
     {
         return [
             'title' => [
-                'required', 'min:3'
+                
             ],
             'description' => [
                 'nullable'
@@ -45,9 +45,7 @@ class DealRequest extends FormRequest
                 'required', 'exists:'.(new Category)->getTable().',id'
             ],
             'year' => [
-                'nullable',
-                'min:4',
-                'max:4'
+                'nullable'
             ],
             'make_id' => [
                 'nullable',
@@ -70,6 +68,9 @@ class DealRequest extends FormRequest
                 'nullable'
             ],
             'price_currency' => [
+                'nullable'
+            ],
+            'sn' => [
                 'nullable'
             ],
             'url' => [

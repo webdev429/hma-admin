@@ -75,6 +75,20 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Data Type') }}</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group{{ $errors->has('data_type') ? ' has-danger' : '' }}">
+                                        <select class="selectpicker col-sm-12 pl-0 pr-0" name="data_type"
+                                            data-style="select-with-transition" title="" data-size="100">
+                                            <option value=""></option>
+                                            <option value="1" {{ old('data_type', $specific->data_type) == 1 ? 'selected' : '' }}>String</option>
+                                            <option value="2" {{ old('data_type', $specific->data_type) == 2 ? 'selected' : '' }}>Numeric</option>
+                                        </select>
+                                        @include('alerts.feedback', ['field' => 'data_type'])
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <label class="col-sm-2 col-form-label">{{ __('Value') }}</label>
                                 <div class="col-sm-7">
                                     <div class="form-group{{ $errors->has('value') ? ' has-danger' : '' }}">

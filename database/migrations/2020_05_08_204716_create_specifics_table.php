@@ -19,6 +19,7 @@ class CreateSpecificsTable extends Migration
             $table->string('unit', 20)->nullable();
             $table->string('column_name', 50);
             $table->integer('type');
+            $table->integer('data_type');
             $table->text('value')->nullable();
             $table->unsignedInteger('user_id');
             $table->timestamps();

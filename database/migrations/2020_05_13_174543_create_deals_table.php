@@ -21,14 +21,15 @@ class CreateDealsTable extends Migration
             $table->unsignedInteger('type_id');
             $table->unsignedInteger('category_id');
             $table->text('description')->nullable();
-            $table->string('year', 4)->nullable();
-            $table->unsignedInteger('make_id')->nullable();
-            $table->unsignedInteger('modeld_id')->nullable();
+            $table->string('year', 4);
+            $table->unsignedInteger('make_id');
+            $table->unsignedInteger('modeld_id');
             $table->string('city', 100)->nullable();
             $table->string('state', 100)->nullable();
             $table->string('country', 50)->nullable();
             $table->string('price', 50)->nullable();
             $table->string('price_currency', 10)->nullable();
+            $table->text('sn')->nullable();
             $table->text('url')->nullable();
             $table->string('picture')->nullable();
             // Auction Fields

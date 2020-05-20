@@ -38,6 +38,9 @@ class SpecificRequest extends FormRequest
             'type' => [
                 'nullable'
             ],
+            'data_type' => [
+                'nullable'
+            ],
             'value' => [
                 'nullable'
             ]

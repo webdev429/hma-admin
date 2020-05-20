@@ -15,21 +15,21 @@ class UsersTableSeeder extends Seeder
         factory(App\User::class)->create([
             'id' => 1,
             'name' => 'Admin',
-            'email' => 'admin@material.com',
+            'email' => 'admin@hma.com',
             'role_id' => 1,
         ]);
 
         factory(App\User::class)->create([
             'id' => 2,
-            'name' => 'Creator',
-            'email' => 'creator@material.com',
+            'name' => 'Company User',
+            'email' => 'creator@hma.com',
             'role_id' => 2,
         ]);
 
         factory(App\User::class)->create([
             'id' => 3,
-            'name' => 'Member',
-            'email' => 'member@material.com',
+            'name' => 'Non-Company user',
+            'email' => 'member@hma.com',
             'role_id' => 3,
         ]);
     }
