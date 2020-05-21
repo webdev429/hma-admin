@@ -65,6 +65,24 @@
                   </div>
                 </div>
                 <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Phone Number') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group{{ $errors->has('phone_number') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('phone_number') ? ' is-invalid' : '' }}" name="phone_number" id="phone_number" type="text" value="{{ old('phone_number', $user->phone_number) }}" number="true" />
+                      @include('alerts.feedback', ['field' => 'phone_number'])
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Company Name') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group{{ $errors->has('company') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('company') ? ' is-invalid' : '' }}" name="company" id="company" type="text" value="{{ old('company', $user->company) }}" />
+                      @include('alerts.feedback', ['field' => 'company'])
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Role') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('role_id') ? ' has-danger' : '' }}">

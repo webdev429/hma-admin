@@ -2,8 +2,14 @@
 
 @section('content')
 <style>
-    .dropdown.bootstrap-select {
-        /* width: 100% !important; */
+    .specific_item div .dropdown.bootstrap-select {
+        width: 100% !important;
+    }
+    .truck_unit div .dropdown.bootstrap-select {
+        width: 100% !important;
+    }
+    .price_unit div .dropdown.bootstrap-select {
+        width: 100% !important;
     }
 
 </style>
@@ -127,23 +133,35 @@
                                             <input type="text" class="form-control" name="city" value="{{ $deal->city }}">
                                         </div>
                                     </div>
-                                    <!-- Auctioneer -->
-                                    <label class="col-sm-4 col-form-label auctioneer-title">Company Name</label>
-                                    <div class="col-sm-8">
+                                    <!-- Company Name -->
+                                    <label class="col-sm-4 col-form-label company_item" style="display:{{ $deal->deal_type == 0 ? 'block' : 'none' }};">Company Name</label>
+                                    <div class="col-sm-8 company_item" style="display:{{ $deal->deal_type == 0 ? 'block' : 'none' }};">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="auc_auctioneer" id="auctioneer" value="{{ $deal->auc_auctioneer }}">
+                                            <input type="text" class="form-control" name="company" id="company" value="{{ $deal->company }}">
+                                        </div>
+                                    </div>
+                                    <!-- Auctioneer -->
+                                    <label class="col-sm-4 col-form-label auction-field" style="display:{{ $deal->deal_type == 1 ? 'block' : 'none' }};">Auctioneer</label>
+                                    <div class="col-sm-8 auction-field" style="display:{{ $deal->deal_type == 1 ? 'block' : 'none' }};">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="auctioneer_id" id="auctioneer_id" data-style="select-with-transition">
+                                                <option value=""></option>
+                                                @foreach ($auctioneers as $auctioneer)
+                                                    <option value="{{ $auctioneer->id }}" {{ $auctioneer->id == $deal->auctioneer_id ? 'select' : '' }}>{{ $auctioneer->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12 row">
                                     <!-- Price -->
-                                    <label class="col-sm-4 col-form-label price-item">Price</label>
-                                    <div class="col-sm-5 price-item">
+                                    <label class="col-sm-4 col-form-label price-item" style="display:{{ $deal->deal_type == 0 ? 'block' : 'none' }};">Price</label>
+                                    <div class="col-sm-5 price-item" style="display:{{ $deal->deal_type == 0 ? 'block' : 'none' }};">
                                         <div class="form-group">
                                             <input type="text" class="form-control" value="{{ $deal->price }}" name="price" id="price" number="true">
                                         </div>
                                     </div>
-                                    <div class="col-sm-3 price-item" style="padding:0;">
+                                    <div class="col-sm-3 price-item price_unit" style="display:{{ $deal->deal_type == 0 ? 'block' : 'none' }};">
                                         <div class="form-group">
                                             <select class="selectpicker" name="price_currency" data-style="select-with-transition">
                                                 <option value="USD" {{ $deal->price_currency == "USD" ? 'selected' : '' }}>USD</option>
@@ -153,8 +171,8 @@
                                         </div>
                                     </div>
                                     <!-- AuctionEndDate  -->
-                                    <label class="col-sm-4 col-form-label auction-field">Auction Date</label>
-                                    <div class="col-sm-8 auction-field">
+                                    <label class="col-sm-4 col-form-label auction-field" style="display:{{ $deal->deal_type == 1 ? 'block' : 'none' }};">Auction Date</label>
+                                    <div class="col-sm-8 auction-field" style="display:{{ $deal->deal_type == 1 ? 'block' : 'none' }};">
                                         <div class="form-group{{ $errors->has('auc_enddate') ? ' has-danger' : '' }}">
                                             <input type="text"  name="auc_enddate" id="auc_enddate"
                                             placeholder="{{ __('Select date') }}" class="form-control datetimepicker" value="{{ $deal->auc_enddate ? $deal->auc_enddate : now()->format('d-m-Y') }}"/>
@@ -176,8 +194,8 @@
                                         </div>
                                     </div>
                                     <!-- LOT# -->
-                                    <label class="col-sm-4 col-form-label auction-field">Lot #</label>
-                                    <div class="col-sm-8 auction-field">
+                                    <label class="col-sm-4 col-form-label auction-field" style="display:{{ $deal->deal_type == 1 ? 'block' : 'none' }};">Lot #</label>
+                                    <div class="col-sm-8 auction-field" style="display:{{ $deal->deal_type == 1 ? 'block' : 'none' }};">
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="auc_lot" id="lot" value="{{ $deal->lot }}">
                                         </div>
@@ -274,7 +292,7 @@
                                             <input type="text" class="form-control" name="truck_condition" number="true" value="{{ $deal->truck_condition }}">
                                         </div>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2 truck_unit">
                                         <div class="form-group">
                                             <select class="selectpicker" name="truck_condition_unit" data-style="select-with-transition">
                                                 <option value="Km" {{ $deal->truck_condition_unit == 'Km' ? 'selected' : '' }}>Km</option>
@@ -492,11 +510,11 @@
         if (deal_type == 0) {
             $('.auction-field').fadeOut();
             $('.price-item').fadeIn();
-            $('.auctioneer-title').html('Company Name');
+            $('.company_item').fadeIn();
         } else {
             $('.auction-field').fadeIn();
             $('.price-item').fadeOut();
-            $('.auctioneer-title').text('Auctioneer');
+            $('.company_item').fadeOut();
         }
     }
 
@@ -580,6 +598,17 @@
                 $('#state').selectpicker('destroy').selectpicker();
             }
         });
+        // var deal_type = "<?php echo $deal->deal_type;?>";
+        // console.log(deal_type);
+        // if (deal_type == '0') {
+        //     $('.auction-field').fadeOut();
+        //     $('.price-item').fadeIn();
+        //     $('.company_item').fadeIn();
+        // } else {
+        //     $('.auction-field').fadeIn();
+        //     $('.price-item').fadeOut();
+        //     $('.company_item').fadeOut();
+        // }
     });
 
 </script>

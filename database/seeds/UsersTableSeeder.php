@@ -16,6 +16,8 @@ class UsersTableSeeder extends Seeder
             'id' => 1,
             'name' => 'Admin',
             'email' => 'admin@hma.com',
+            'phone_number' => '+12345678900',
+            'company' => 'Admin Corporation LTD',
             'role_id' => 1,
         ]);
 
@@ -23,6 +25,8 @@ class UsersTableSeeder extends Seeder
             'id' => 2,
             'name' => 'Company User',
             'email' => 'creator@hma.com',
+            'phone_number' => '+12345678900',
+            'company' => 'User Corporation LTD',
             'role_id' => 2,
         ]);
 
@@ -30,6 +34,8 @@ class UsersTableSeeder extends Seeder
             'id' => 3,
             'name' => 'Non-Company user',
             'email' => 'member@hma.com',
+            'phone_number' => '+12345678900',
+            'company' => 'Contributor Corporation LTD',
             'role_id' => 3,
         ]);
     }

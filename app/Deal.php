@@ -38,7 +38,8 @@ class Deal extends Model
         'picture',
         'auc_enddate',
         'auc_lot',
-        'auc_auctioneer',
+        'company',
+        'auctioneer_id',
         'truck_year',
         'truckmake_id',
         'truck_model',
@@ -117,6 +118,16 @@ class Deal extends Model
     public function truckmake()
     {
         return $this->belongsTo(Truckmake::class);
+    }
+
+    /**
+     * Get the modeld
+     *
+     * @return \App\Auctioneer
+     */
+    public function auctioneer()
+    {
+        return $this->belongsTo(Auctioneer::class);
     }
 
     public function user() {

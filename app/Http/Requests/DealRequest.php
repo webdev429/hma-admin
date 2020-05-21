@@ -86,7 +86,10 @@ class DealRequest extends FormRequest
             'auc_lot' => [
                 'nullable'
             ],
-            'auc_auctineer' => [
+            'company' => [
+                'nullable'
+            ],
+            'auctioneer_id' => [
                 'nullable'
             ],
             'truck_year' => [

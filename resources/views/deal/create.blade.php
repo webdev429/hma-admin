@@ -2,9 +2,16 @@
 
 @section('content')
 <style>
-    .dropdown.bootstrap-select {
-        /* width: 100% !important; */
+    .specific_item div .dropdown.bootstrap-select {
+        width: 100% !important;
     }
+    .truck_unit div .dropdown.bootstrap-select {
+        width: 100% !important;
+    }
+    .price_unit div .dropdown.bootstrap-select {
+        width: 100% !important;
+    }
+
 
 </style>
 <div class="content">
@@ -124,11 +131,23 @@
                                             <input type="text" class="form-control" name="city">
                                         </div>
                                     </div>
-                                    <!-- Auctioneer -->
-                                    <label class="col-sm-4 col-form-label auctioneer-title">Company Name</label>
-                                    <div class="col-sm-8">
+                                    <!-- Company Name -->
+                                    <label class="col-sm-4 col-form-label company_item">Company Name</label>
+                                    <div class="col-sm-8 company_item">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="auc_auctioneer" id="auctioneer">
+                                            <input type="text" class="form-control" name="company" id="company">
+                                        </div>
+                                    </div>
+                                    <!-- Auctioneer -->
+                                    <label class="col-sm-4 col-form-label auction-field">Auctioneer</label>
+                                    <div class="col-sm-8 auction-field">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="auctioneer_id" id="auctioneer_id" data-style="select-with-transition">
+                                                <option value=""></option>
+                                                @foreach ($auctioneers as $auctioneer)
+                                                    <option value="{{ $auctioneer->id }}">{{ $auctioneer->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +159,7 @@
                                             <input type="text" class="form-control" name="price" id="price" number="true">
                                         </div>
                                     </div>
-                                    <div class="col-sm-3 price-item" style="padding:0;">
+                                    <div class="col-sm-3 price-item price-unit">
                                         <div class="form-group">
                                             <select class="selectpicker" name="price_currency" data-style="select-with-transition">
                                                 <option value="USD">USD</option>
@@ -267,7 +286,7 @@
                                             <input type="text" class="form-control" name="truck_condition" number="true">
                                         </div>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2 truck_unit">
                                         <div class="form-group">
                                             <select class="selectpicker" name="truck_condition_unit" data-style="select-with-transition">
                                                 <option value="Km">Km</option>
@@ -477,11 +496,11 @@
         if (deal_type == 0) {
             $('.auction-field').fadeOut();
             $('.price-item').fadeIn();
-            $('.auctioneer-title').html('Company Name');
+            $('.company_item').fadeIn();
         } else {
             $('.auction-field').fadeIn();
             $('.price-item').fadeOut();
-            $('.auctioneer-title').text('Auctioneer');
+            $('.company_item').fadeOut();
         }
     }
 

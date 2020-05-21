@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('specific', 'SpecificController', ['except' => ['show']]);
     Route::resource('deal', 'DealController', ['except' => ['show']]);
     Route::resource('type', 'TypeController', ['except' => ['show']]);
+    Route::resource('auctioneer', 'AuctioneerController', ['except' => ['show']]);
   
     // Routes for Ajax Communications
     Route::post('deal/ajax_get_specific_properties', 'AjaxController@get_specific_properties');

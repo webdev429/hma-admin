@@ -152,4 +152,15 @@ class UserPolicy
     {
         return $user->isAdmin() || $user->isCreator() || $user->isMember();
     }
+
+    /**
+     * Determine whether the authenticate user can manage items and other related entities(tags, categories).
+     *
+     * @param  \App\User  $user
+     * @return boolean
+     */
+    public function manageAuctioneers(User $user)
+    {
+        return $user->isAdmin() || $user->isCreator();
+    }
 }

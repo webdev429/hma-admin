@@ -33,6 +33,12 @@ class UserRequest extends FormRequest
             'email' => [
                 'required', 'email', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
             ],
+            'phone_number' => [
+                'nullable'
+            ],
+            'company' => [
+                'nullable'
+            ],
             'role_id' => [
                 'required', 'exists:'.(new Role)->getTable().',id'
             ],

@@ -174,6 +174,12 @@
                                             <span class="sidebar-normal"> {{ __('Truck Make') }} </span>
                                         </a>
                                     </li>
+                                    <li class="nav-item{{ $activePage == 'auctioneer-management' ? ' active' : '' }}">
+                                        <a class="nav-link" href="{{ route('auctioneer.index') }}">
+                                            <span class="sidebar-mini"> AM </span>
+                                            <span class="sidebar-normal"> {{ __('Auctioneer') }} </span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>

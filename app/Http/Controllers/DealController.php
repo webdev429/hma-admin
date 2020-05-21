@@ -9,6 +9,7 @@ use App\Make;
 use App\Modeld;
 use App\Specific;
 use App\Truckmake;
+use App\Auctioneer;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -40,7 +41,7 @@ class DealController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Category $category, Make $make, Modeld $modeld, Specific $specific, Type $type, Truckmake $truckmake)
+    public function create(Category $category, Make $make, Modeld $modeld, Specific $specific, Type $type, Truckmake $truckmake, Auctioneer $auctioneer)
     {
         $data['equipment_category'] = $category->get(['id', 'name']);
         $data['makes'] = $make ->get(['id', 'name']);
@@ -48,6 +49,7 @@ class DealController extends Controller
         $data['specifics'] = $specific ->all();
         $data['types'] = $type ->get(['id', 'name']);
         $data['truckmakes'] = $truckmake ->get(['id', 'name']);
+        $data['auctioneers'] = $auctioneer ->get(['id', 'name']);
         
         return view('deal.create', $data);
     }
@@ -86,7 +88,7 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Deal $deal, Category $category, Make $make, Modeld $modeld, Specific $specific, Type $type, Truckmake $truckmake)
+    public function edit(Deal $deal, Category $category, Make $make, Modeld $modeld, Specific $specific, Type $type, Truckmake $truckmake, Auctioneer $auctioneer)
     {
         return view('deal.edit', [
             'deal' => $deal,
@@ -96,6 +98,7 @@ class DealController extends Controller
             'specifics' => $specific->all(),
             'types' => $type->get(['id', 'name']),
             'truckmakes' => $truckmake->get(['id', 'name']),
+            'auctioneers' => $auctioneer->get(['id', 'name']),
         ]);
     }
 

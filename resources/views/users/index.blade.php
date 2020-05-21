@@ -33,6 +33,12 @@
                         {{ __('Email') }}
                       </th>
                       <th>
+                        {{ __('Phone Number') }}
+                      </th>
+                      <th>
+                        {{ __('Company Name') }}
+                      </th>
+                      <th>
                         {{ __('Role') }}
                       </th>
                       <th>
@@ -57,6 +63,12 @@
                           </td>
                           <td>
                             {{ $user->email }}
+                          </td>
+                          <td>
+                            {{ $user->phone_number }}
+                          </td>
+                          <td>
+                            {{ $user->company }}
                           </td>
                           <td>
                             {{ $user->role->name }}

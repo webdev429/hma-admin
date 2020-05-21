@@ -35,7 +35,8 @@ class CreateDealsTable extends Migration
             // Auction Fields
             $table->date('auc_enddate')->nullable();
             $table->string('auc_lot', 50)->nullable();
-            $table->string('auc_auctioneer', 50)->nullable();
+            $table->string('company')->nullable();
+            $table->unsignedInteger('auctioneer_id')->nullable();
             // Truck Fields 
             $table->string('truck_year', 4)->nullable();
             $table->unsignedInteger('truckmake_id')->nullable();
@@ -55,6 +56,7 @@ class CreateDealsTable extends Migration
             $table->foreign('modeld_id')->references('id')->on('modelds');
             $table->foreign('truckmake_id')->references('id')->on('truckmakes');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('auctioneer_id')->references('id')->on('auctioneers');
         });
     }
 
