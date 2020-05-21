@@ -16,7 +16,7 @@ class CreateDealsTable extends Migration
         Schema::create('deals', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             // General Fields
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('title', 100);
             $table->integer('deal_type');
             $table->unsignedInteger('type_id');
