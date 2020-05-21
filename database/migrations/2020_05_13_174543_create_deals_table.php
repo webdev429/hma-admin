@@ -14,6 +14,7 @@ class CreateDealsTable extends Migration
     public function up()
     {
         Schema::create('deals', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             // General Fields
             $table->increments('id');
             $table->string('title', 100);
