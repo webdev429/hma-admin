@@ -134,7 +134,10 @@
                             {{ $item->country }}
                           </td>
                           <td>
-                            {{ $item->deal_type == 0 ? $item->company : $item->auctioneer->name }}
+                            @php
+                              $auctioneerStr = $item->auctioneer_id ? $item->auctioneer->name : '';
+                            @endphp
+                            {{ $item->deal_type == 0 ? $item->company : $auctioneerStr }}
                           </td>
                           <td>
                             {{ $item->price }} {{ $item->price ? $item->price_currency : '' }}

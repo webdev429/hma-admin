@@ -30,6 +30,7 @@ class CreateDealsTable extends Migration
             $table->string('country', 50)->nullable();
             $table->string('price', 50)->nullable();
             $table->string('price_currency', 10)->nullable();
+            $table->integer('premium')->nullable();
             $table->text('sn')->nullable();
             $table->text('url')->nullable();
             $table->string('picture')->nullable();

@@ -70,6 +70,9 @@ class DealRequest extends FormRequest
             'price_currency' => [
                 'nullable'
             ],
+            'premium' => [
+                'nullable'
+            ],
             'sn' => [
                 'nullable'
             ],

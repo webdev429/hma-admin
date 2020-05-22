@@ -12,16 +12,21 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end">
       <ul class="navbar-nav">
+        <li class="nav-item{{ $activePage == 'deal_list' ? ' active' : '' }} ">
+          <a href="{{ route('welcome') }}" class="nav-link">
+            <i class="material-icons">home</i> {{ __('Home') }}
+          </a>
+        </li>
         <li class="nav-item">
           <a href="{{ route('home') }}" class="nav-link">
             <i class="material-icons">dashboard</i> {{ __('Dashboard') }}
           </a>
         </li>
         <li class="nav-item{{ $activePage == 'pricing' ? ' active' : '' }} ">
-            <a href="{{ route('page.pricing') }}" class="nav-link">
-              <i class="material-icons">shopping_basket</i> {{ __('Pricing') }}
-            </a>
-          </li>
+          <a href="{{ route('page.pricing') }}" class="nav-link">
+            <i class="material-icons">shopping_basket</i> {{ __('Pricing') }}
+          </a>
+        </li>
         <li class="nav-item{{ $activePage == 'register' ? ' active' : '' }}">
           <a href="{{ route('register') }}" class="nav-link">
             <i class="material-icons">person_add</i> {{ __('Register') }}

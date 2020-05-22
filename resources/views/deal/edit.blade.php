@@ -147,7 +147,7 @@
                                             <select class="selectpicker" name="auctioneer_id" id="auctioneer_id" data-style="select-with-transition">
                                                 <option value=""></option>
                                                 @foreach ($auctioneers as $auctioneer)
-                                                    <option value="{{ $auctioneer->id }}" {{ $auctioneer->id == $deal->auctioneer_id ? 'select' : '' }}>{{ $auctioneer->name }}</option>
+                                                    <option value="{{ $auctioneer->id }}" {{ $auctioneer->id == old('auctioneer_id', $deal->auctioneer_id) ? 'selected' : '' }}>{{ $auctioneer->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -168,6 +168,13 @@
                                                 <option value="CAD" {{ $deal->price_currency == "CAD" ? 'selected' : '' }}>CAD</option>
                                                 <option value="MXN" {{ $deal->price_currency == "MXN" ? 'selected' : '' }}>MXN</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <!-- Buyer's Premium -->
+                                    <label class="col-sm-4 col-form-label auction-field" style="display:{{ $deal->deal_type == 1 ? 'block' : 'none' }};">Buyer's Premium</label>
+                                    <div class="col-sm-8 auction-field" style="display:{{ $deal->deal_type == 1 ? 'block' : 'none' }};">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="premium" id="premium" number="true" range="[0, 100]" value="{{ $deal->premium }}">
                                         </div>
                                     </div>
                                     <!-- AuctionEndDate  -->
@@ -203,7 +210,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <h4 class="specific_title">Equipment Specific Information</h4>
+                            <h4 class="specific_title"><strong>Equipment Specific Information</strong></h4>
                             <div class="row" id="specific_field">
                                 @foreach ($specifics as $specific)
                                     @php
@@ -256,7 +263,7 @@
                                     @endif
                                 @endforeach
                             </div>
-                            <h4 class="truck-mounted-title" style="display:{{ $deal->category->truck_mounted == 1 ? 'block;' : 'none;' }}">Truck Information</h4>
+                            <h4 class="truck-mounted-title" style="display:{{ $deal->category->truck_mounted == 1 ? 'block;' : 'none;' }}"><strong>Truck Information</strong></h4>
                             <div class="row truck-mounted-fields">
                                 <div class="col-md-6 col-sm-12 row">
                                     <!-- Truck Make -->
@@ -331,7 +338,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <h4>Ad Information</h4>
+                            <h4><strong>Ad Information</strong></h4>
                             <div class="row">
                                 <div class="col-md-6 col-sm-12 row">
                                     <!-- Title -->
@@ -355,7 +362,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12" style="text-align:center;">
-                                    <h4 class="title">Primary Picture</h4>
+                                    <h4 class="title"><strong>Primary Picture</strong></h4>
                                     <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail">
                                             @if ($deal->picture)

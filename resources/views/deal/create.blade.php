@@ -8,11 +8,9 @@
     .truck_unit div .dropdown.bootstrap-select {
         width: 100% !important;
     }
-    .price_unit div .dropdown.bootstrap-select {
+    .price_unit .form-group .dropdown.bootstrap-select {
         width: 100% !important;
     }
-
-
 </style>
 <div class="content">
     <div class="container-fluid">
@@ -168,6 +166,13 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <!-- Buyer's Premium -->
+                                    <label class="col-sm-4 col-form-label auction-field">Buyer's Premium</label>
+                                    <div class="col-sm-8 auction-field">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="premium" id="premium" number="true" range="[0, 100]">
+                                        </div>
+                                    </div>
                                     <!-- AuctionEndDate  -->
                                     <label class="col-sm-4 col-form-label auction-field">Auction Date</label>
                                     <div class="col-sm-8 auction-field">
@@ -201,7 +206,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <h4 class="specific_title">Equipment Specific Information</h4>
+                            <h4 class="specific_title"><strong>Equipment Specific Information</strong></h4>
                             <div class="row" id="specific_field">
                                 @foreach ($specifics as $specific)
                                     @if ($specific->type == 1)
@@ -250,7 +255,7 @@
                                     @endif
                                 @endforeach
                             </div>
-                            <h4 class="truck-mounted-title">Truck Information</h4>
+                            <h4 class="truck-mounted-title"><strong>Truck Information</strong></h4>
                             <div class="row truck-mounted-fields">
                                 <div class="col-md-6 col-sm-12 row">
                                     <!-- Truck Make -->
@@ -325,7 +330,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <h4>Ad Information</h4>
+                            <h4><strong>Ad Information</strong></h4>
                             <div class="row">
                                 <div class="col-md-6 col-sm-12 row">
                                     <!-- Title -->
@@ -349,7 +354,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12" style="text-align:center;">
-                                    <h4 class="title">Primary Picture</h4>
+                                    <h4 class="title"><strong>Primary Picture</strong></h4>
                                     <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail">
                                             <img src="{{ asset('material') }}/img/image_placeholder.jpg" alt="...">
@@ -544,6 +549,9 @@
     $(document).ready(function () {
         setFormValidation('#creatDealForm');
         $('.truck-mounted-fields').css('display', 'none');
+        
+        var today = new Date();
+        
         $('.datetimepicker').datetimepicker({
             icons: {
                 time: "fa fa-clock-o",
@@ -556,7 +564,8 @@
                 clear: 'fa fa-trash',
                 close: 'fa fa-remove'
             },
-            format: 'DD-MM-YYYY'
+            format: 'DD-MM-YYYY',
+            minDate: today
         });
         $.ajax({
             type: "POST",
