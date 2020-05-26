@@ -1085,7 +1085,10 @@
                       modalHtml += "<h5 class='text-warning' style='display:flex;'><i class='material-icons'>calendar_today</i>&nbsp;&nbsp;"+data[i].auc_enddate+"</h5>";
                     }
                     modalHtml += "<h5 style='color:#333333;font-weight:bold;'>Contact Information</h5>";
-                    modalHtml += "<p stle='color:#333333;display:flex;'><i class='material-icons'>place</i>&nbsp;"+data[i].city ? data[i].city+", " : ""+data[i].state ? data[i].state+", " : ""+data[i].country ? data[i].country : ""+"</p>";
+
+                    modalHtml += "<p style='color:#333333;display:flex;'><i class='material-icons'>place</i>&nbsp;"+adStr+"</p>";
+                    if (data[i].user_phone)
+                      modalHtml += "<p style='color:#333333;display:flex;'><i class='material-icons'>phone</i>&nbsp;"+data[i].user_phone+"</p>";
                     modalHtml += "<p style='color:#333333;display:flex;'><i class='material-icons'>person_pin</i>&nbsp;"+data[i].user_name+"</p>";
                     modalHtml += "</div>";
 
