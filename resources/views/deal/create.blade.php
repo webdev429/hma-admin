@@ -242,8 +242,8 @@
                                         @php
                                         $optionAry = explode('/', $specific->value);
                                         @endphp
-                                        <label class='col-md-2 col-sm-3 col-form-label {{ $specific->column_name }} specific_item'>{{ $specific->name }}</label>
-                                        <div class='col-md-2 col-sm-9 {{ $specific->column_name }} specific_item'>
+                                        <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item'>{{ $specific->name }}</label>
+                                        <div class='col-md-4 col-sm-8 {{ $specific->column_name }} specific_item'>
                                             <div class='form-group'>
                                             <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition'>
                                                 @foreach ($optionAry as $option)
