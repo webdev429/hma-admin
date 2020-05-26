@@ -459,7 +459,7 @@
 
     function onChangeMake() {
         makeStr = $('#make_id').text();
-        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
+        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.toString();
         $("#title").val(titleStr);
 
         var mId = $('#make_id').val();
@@ -485,13 +485,13 @@
 
     function onChangeModel() {
         modelStr = $('#modeld_id').text();
-        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
+        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.toString();
         $("#title").val(titleStr);
     }
 
     function onChangeYear() {
         yearStr = $('#year').val();
-        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
+        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.toString();
         $("#title").val(titleStr);
     }
 
