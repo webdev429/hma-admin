@@ -154,6 +154,11 @@
                         </div>
                         <div id="sliderYear" class="slider slider-primary" onchange="onChangeEqYear();"></div>
                       </div>
+                      <div class="text-right">
+                        <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByEqYear();">
+                          Search
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <!-- Address Filter -->
@@ -173,9 +178,13 @@
                           <option value="Mexico">Mexico</option>
                         </select>
                         <select class="selectpicker col-sm-12 pl-0 pr-0" name="makes[]" id="select_state"
-                          data-style="select-with-transition" multiple title="Choose State" data-size="7">
-                          
+                          data-style="select-with-transition" multiple title="Choose State" data-size="7">                          
                         </select>
+                        <div class="text-right">
+                          <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByEqLocation();">
+                            Search
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -240,8 +249,13 @@
                       <div class="collapse-body">
                         <input type="text"  name="auc_fromdate" id="auc_fromdate"
                           placeholder="{{ __('Select date from') }}" class="form-control datetimepicker" value="{{ old('auc_fromdate', now()->format('d-m-Y')) }}"/>
-                        <input type="text"  name="auc_todate" id="auc_todate"
+                        <input type="text"  name="auc_enddate" id="auc_enddate"
                           placeholder="{{ __('Select date until') }}" class="form-control datetimepicker" value="{{ old('auc_enddate', now()->format('d-m-Y')) }}"/>
+                        <div class="text-right">
+                          <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByAucDate();">
+                            Search
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -357,7 +371,7 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="row">
-              <div class="col-md-5col">
+              <div class="col-md-5 col-sm-12">
                 <div style="margin-bottom:10px;">
                   <img style="width:100%;" src="{{ $deal->path() }}" alt="{{ $deal->title }}">
                 </div>
@@ -956,6 +970,7 @@
 
     $("#search_key").change(function() {
       search_key = $(this).val();
+      sendAjaxRequest();
     });
 
     function sendAjaxRequest() {
@@ -1293,6 +1308,22 @@
       sendAjaxRequest();
     }
 
+    function sendAjaxRequestByAucDate() {
+      sendAjaxRequest();
+    }
+
+    function sendAjaxRequestByEqYear() {
+      from_year = $('#from_year').val();
+      end_year = $('#end_year').val();
+      sendAjaxRequest();
+    }
+
+    function sendAjaxRequestByEqLocation() {
+      country = $('#select_country').val();
+      state = $('#select_state').val();
+      sendAjaxRequest();
+    }
+
     function initSliderFilter() {
       var slider_year = document.getElementById('sliderYear');
       var jsDate = new Date();
@@ -1425,8 +1456,7 @@
               clear: 'fa fa-trash',
               close: 'fa fa-remove'
           },
-          format: 'DD-MM-YYYY',
-          minDate: today
+          format: 'DD-MM-YYYY'
       });
         
       $('#auc_enddate').datetimepicker({
@@ -1445,7 +1475,7 @@
           minDate: today
       });
       // initialise Datetimepicker and Sliders
-      md.initFormExtendedDatetimepickers();
+      // md.initFormExtendedDatetimepickers();
       if ($('.slider').length != 0) {
         initSliderFilter();
       }
