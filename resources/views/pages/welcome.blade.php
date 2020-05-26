@@ -338,7 +338,7 @@
                         <button type="button" class="btn btn-primary btn-link" rel="tooltip" data-placement="bottom"  data-toggle="modal" data-target="#dealModal{{ $deal->id }}" title="Detail View">
                           <i class="material-icons">art_track</i>
                         </button>
-                        <a href="{{ $deal->url }}" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="To URL">
+                        <a href="{{ $deal->url }}" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="To URL" target="_blank">
                           <i class="material-icons">link</i>
                         </a>
                         <!-- <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Remove">
@@ -1036,7 +1036,7 @@
               listHtml += "<i class='material-icons'>build</i> Fix Header!";
               listHtml += "</button>";
               listHtml += "<button type='button' class='btn btn-primary btn-link' rel='tooltip' data-placement='bottom' data-toggle='modal' data-target='#dealModal"+data[i].id+"' title='Detail View'><i class='material-icons'>art_track</i></button>";
-              listHtml += "<a href='"+data[i].url+"' class='btn btn-success btn-link' rel='tooltip' data-placement='bottom' title='To URL'><i class='material-icons'>link</i></a>";
+              listHtml += "<a href='"+data[i].url+"' class='btn btn-success btn-link' rel='tooltip' data-placement='bottom' title='To URL' target='_blank'><i class='material-icons'>link</i></a>";
               listHtml += "</div>";
               listHtml += "<h4 class='card-title'><a href='#pablo'>"+data[i].title+"</a></h4>";
               listHtml += "</div>";
