@@ -1042,9 +1042,20 @@
               listHtml += "</div>";
               listHtml += "<div class='card-footer'>";
               listHtml += "<div calss='price'>";
-              listHtml += "<h4>" + data[i].deal_type == 0 ? data[i].price_currency : data[i].auc_enddate +"</h4>";
+              if (data[i].deal_type == 0) {
+                listHtml += "<h4>" + data[i].price + data[i].price_currency + "</h4>";
+              } else {
+                listHtml += "<h4>" + data[i].auc_enddate + "</h4>";
+              }
               listHtml += "</div>";
-              listHtml += "<div class='stats'><p class='card-category'><i class='material-icons'>place</i>"+data[i].city ? data[i].city+", " : "" +data[i].state ? data[i].state+", " : "" + data[i].country ? data[i].country+"," : "" +"</p></div>";
+              var adStr = "";
+              if (data[i].city)
+                adStr += data[i].city;
+              if (data[i].state)
+                adStr += ", " + data[i].state;
+              if (data[i].country)
+                adStr += ", " + data[i].country;
+              listHtml += "<div class='stats'><p class='card-category'><i class='material-icons'>place</i>"+adStr+"</p></div>";
               listHtml += "</div>";
               listHtml += "</div></div>";
 
