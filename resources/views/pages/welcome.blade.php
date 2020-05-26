@@ -1043,9 +1043,11 @@
               listHtml += "<div class='card-footer'>";
               listHtml += "<div calss='price'>";
               if (data[i].deal_type == 0) {
-                listHtml += "<h4>" + data[i].price + data[i].price_currency + "</h4>";
+                if (data[i].price)
+                  listHtml += "<h4>" + data[i].price + data[i].price_currency + "</h4>";
               } else {
-                listHtml += "<h4>" + data[i].auc_enddate + "</h4>";
+                if (data[i].auc_enddate)
+                  listHtml += "<h4>" + data[i].auc_enddate + "</h4>";
               }
               listHtml += "</div>";
               var adStr = "";
