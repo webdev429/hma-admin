@@ -1105,21 +1105,33 @@
                     modalHtml += "<div class='card-body'><div class='tab-content'>";
                     // General Tab
                     modalHtml += "<div class='tab-pane active' id='general"+data[i].id+"'><div class='table-responsive'><table class='table'><tbody>";
-                    modalHtml += "<tr><td>Year</td><td>"+data[i].year+"</td></tr>";
-                    modalHtml += "<tr><td>Make</td><td>"+data[i].make_name+"</td></tr>";
-                    modalHtml += "<tr><td>Model</td><td>"+data[i].modeld_name+"</td></tr>";
-                    modalHtml += "<tr><td>Serial Number</td><td>"+data[i].sn+"</td></tr>";
-                    modalHtml += "<tr><td>Description</td><td>"+data[i].description+"</td></tr>";
+                    if (data[i].year)
+                      modalHtml += "<tr><td>Year</td><td>"+data[i].year+"</td></tr>";
+                    if (data[i].make_id)
+                      modalHtml += "<tr><td>Make</td><td>"+data[i].make_name+"</td></tr>";
+                    if (data[i].modeld_id)
+                      modalHtml += "<tr><td>Model</td><td>"+data[i].modeld_name+"</td></tr>";
+                    if (data[i].sn)
+                      modalHtml += "<tr><td>Serial Number</td><td>"+data[i].sn+"</td></tr>";
+                    if (data[i].description)
+                      modalHtml += "<tr><td>Description</td><td>"+data[i].description+"</td></tr>";
                     modalHtml += "</tbody></table></div></div>";
                     // Truck Tab
                     modalHtml += "<div class='tab-pane' id='truck"+data[i].id+"'><div class='table-responsive'><table class='table'><tbody>";
-                    modalHtml += "<tr><td>Truck Year</td><td>"+data[i].truck_year+"</td></tr>";
-                    modalHtml += "<tr><td>Truck Make</td><td>"+data[i].truckmake_id ? data[i].truckmake_name : ""+"</td></tr>";
-                    modalHtml += "<tr><td>Truck Model</td><td>"+data[i].truck_model+"</td></tr>";
-                    modalHtml += "<tr><td>Condition</td><td>"+data[i].truck_condition+"</td></tr>";
-                    modalHtml += "<tr><td>Engine</td><td>"+data[i].truck_engine+"</td></tr>";
-                    modalHtml += "<tr><td>Transimission</td><td>"+data[i].truck_trans+"</td></tr>";
-                    modalHtml += "<tr><td>Fuel Type</td><td>"+data[i].truck_suspension+"</td></tr>";
+                    if (data[i].truck_year)
+                      modalHtml += "<tr><td>Truck Year</td><td>"+data[i].truck_year+"</td></tr>";
+                    if (data[i].truckmake_id)
+                      modalHtml += "<tr><td>Truck Make</td><td>" + data[i].truckmake_name +"</td></tr>";
+                    if (data[i].truck_model)
+                      modalHtml += "<tr><td>Truck Model</td><td>"+data[i].truck_model+"</td></tr>";
+                    if (data[i].truck_condition)
+                      modalHtml += "<tr><td>Condition</td><td>"+data[i].truck_condition+"</td></tr>";
+                    if (data[i].truck_engine)
+                      modalHtml += "<tr><td>Engine</td><td>"+data[i].truck_engine+"</td></tr>";
+                    if (data[i].truck_trans)
+                      modalHtml += "<tr><td>Transimission</td><td>"+data[i].truck_trans+"</td></tr>";
+                    if (data[i].truck_suspension)
+                      modalHtml += "<tr><td>Fuel Type</td><td>"+data[i].truck_suspension+"</td></tr>";
                     modalHtml += "</tbody></table></div></div>";
                     // Specific Tab
                     modalHtml += "<div class='tab-pane' id='specific"+data[i].id+"'><div class='table-responsive'><table class='table'><tbody>";
