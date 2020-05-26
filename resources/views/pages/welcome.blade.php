@@ -1078,9 +1078,9 @@
                       modalHtml += "<span class='badge badge-pill badge-info'>Auction</span>";
                     }
                     modalHtml += "<h3 style='color:#333333;'>"+data[i].title+"</h3>";
-                    modalHtml += "<h6 style='color:#333333;'>"+data[i].type_name+"</h6>";
+                    modalHtml += "<h6 style='color:#333333;'>"+data[i].type_name+" "+data[i].category_name+"</h6>";
                     if (data[i].deal_type == 0) {
-                      modalHtml += "<h5 class='text-warning' style='display:flex;'><i class='material-icons'>monetization_on</i>&nbsp;&nbsp;"+data[i].price+data[i].price ? data[i].price_currency : ""+"</h5>";
+                      modalHtml += "<h5 class='text-warning' style='display:flex;'><i class='material-icons'>monetization_on</i>&nbsp;&nbsp;"+data[i].price+ data[i].price_currency+"</h5>";
                     } else {
                       modalHtml += "<h5 class='text-warning' style='display:flex;'><i class='material-icons'>calendar_today</i>&nbsp;&nbsp;"+data[i].auc_enddate+"</h5>";
                     }
