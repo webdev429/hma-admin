@@ -214,13 +214,13 @@
                                         @php
                                             $unitAry = explode('/', $specific->unit);
                                         @endphp
-                                        <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item'> {{ $specific->name }}</label>
-                                        <div class='col-md-2 col-sm-5 {{ $specific->column_name }} specific_item'>
+                                        <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item' style='display:none;'> {{ $specific->name }}</label>
+                                        <div class='col-md-2 col-sm-5 {{ $specific->column_name }} specific_item' style='display:none;'>
                                             <div class='form-group'>
                                                 <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' number="{{ $specific->data_type == 2 ? 'true' : 'false' }}">
                                             </div>
                                         </div>
-                                        <div class="col-md-1 col-sm-2 {{ $specific->column_name }} specific_item" style="padding-left:0;">
+                                        <div class="col-md-1 col-sm-2 {{ $specific->column_name }} specific_item" style="padding-left:0;display:none;">
                                             <div class='form-group'>
                                                 <select class='selectpicker' name='{{ $specific->column_name }}_unit' id='{{ $specific->column_name }}_unit' data-style='select-with-transition'>
                                                     @foreach ($unitAry as $unit)
@@ -231,8 +231,8 @@
                                         </div>
                                         <div class="col-md-1 col-sm-1"></div>
                                         @else
-                                        <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item'> {{ $specific->name }}</label>
-                                        <div class='col-md-4 col-sm-8 col-sm-9 {{ $specific->column_name }} specific_item'>
+                                        <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item' style='display:none;'> {{ $specific->name }}</label>
+                                        <div class='col-md-4 col-sm-8 col-sm-9 {{ $specific->column_name }} specific_item' style='display:none;'>
                                             <div class='form-group'>
                                                 <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}'>
                                             </div>
@@ -242,8 +242,8 @@
                                         @php
                                         $optionAry = explode('/', $specific->value);
                                         @endphp
-                                        <label class='col-md-1 col-sm-3 col-form-label {{ $specific->column_name }} specific_item'>{{ $specific->name }}</label>
-                                        <div class='col-md-2 col-sm-9 {{ $specific->column_name }} specific_item'>
+                                        <label class='col-md-1 col-sm-3 col-form-label {{ $specific->column_name }} specific_item' style='display:none;'>{{ $specific->name }}</label>
+                                        <div class='col-md-2 col-sm-9 {{ $specific->column_name }} specific_item' style='display:none;'>
                                             <div class='form-group'>
                                             <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition'>
                                                 @foreach ($optionAry as $option)
