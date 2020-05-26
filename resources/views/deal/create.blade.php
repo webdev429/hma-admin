@@ -458,8 +458,9 @@
     }
 
     function onChangeMake() {
-        makeStr = $('#make_id').text();
-        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.toString();
+        makeStr = $('#make_id option:selected').text();
+        console.log(makeStr);
+        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
         $("#title").val(titleStr);
 
         var mId = $('#make_id').val();
@@ -484,14 +485,16 @@
     }
 
     function onChangeModel() {
-        modelStr = $('#modeld_id').text();
-        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.toString();
+        modelStr = $('#modeld_id option:selected').text();
+        console.log(modelStr);
+        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
         $("#title").val(titleStr);
     }
 
     function onChangeYear() {
+        console.log('year changed');
         yearStr = $('#year').val();
-        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.toString();
+        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
         $("#title").val(titleStr);
     }
 
