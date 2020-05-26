@@ -36,9 +36,6 @@
                           {{ __('Title') }}
                       </th>
                       <th>
-                          {{ __('Description') }}
-                      </th>
-                      <th>
                         {{ __('Deal Type') }}
                       </th>
                       <th>
@@ -106,9 +103,6 @@
                           </td>
                           <td>
                             {{ $item->title }}
-                          </td>
-                          <td>
-                            {{ $item->description }}
                           </td>
                           <td>
                             {{ $item->deal_type == 0 ? 'Sale' : 'Auction' }}
