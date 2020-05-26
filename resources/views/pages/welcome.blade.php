@@ -153,11 +153,11 @@
                           </div>
                         </div>
                         <div id="sliderYear" class="slider slider-primary" onchange="onChangeEqYear();"></div>
-                      </div>
-                      <div class="text-right">
-                        <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByEqYear();">
-                          Search
-                        </button>
+                        <div class="text-right">
+                          <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByEqYear();">
+                            Search
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -210,6 +210,11 @@
                           </div>
                         </div>
                         <div id="sliderPremium" class="slider slider-primary"></div>
+                        <div class="text-right">
+                          <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByPremium();">
+                            Search
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -235,6 +240,11 @@
                           </div>
                         </div>
                         <div id="sliderPrice" class="slider slider-primary slider-price"></div>
+                        <div class="text-right">
+                          <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByPrice();">
+                            Search
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -376,7 +386,7 @@
                   <img style="width:100%;" src="{{ $deal->path() }}" alt="{{ $deal->title }}">
                 </div>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-7 col-sm-12">
                 @if ($deal->deal_type == 0)
                   <span class="badge badge-pill badge-success">Sales</span>
                 @else
@@ -959,6 +969,8 @@
     var state = new Array();
     var start_premium = '';
     var end_premium = '';
+    var start_price = '';
+    var end_price = '';
     var auc_from_date = '';
     var auc_end_date = '';
     var truck_make = new Array();
@@ -990,6 +1002,8 @@
           state: state,
           start_premium: start_premium,
           end_premium: end_premium,
+          start_price: start_price,
+          end_price: end_price,
           auc_from_date: auc_from_date,
           auc_end_date: auc_end_date,
           truck_make: truck_make,
@@ -1321,6 +1335,18 @@
     function sendAjaxRequestByEqLocation() {
       country = $('#select_country').val();
       state = $('#select_state').val();
+      sendAjaxRequest();
+    }
+
+    function sendAjaxRequestByPremium() {
+      start_premium = $('#from_premium').val();
+      end_premium = $('#end_premium').val();
+      sendAjaxRequest();
+    }
+
+    function sendAjaxRequestByPrice() {
+      start_price = $('#eq_price_start').val();
+      end_price = $('#eq_price_end').val();
       sendAjaxRequest();
     }
 

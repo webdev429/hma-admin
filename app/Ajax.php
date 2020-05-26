@@ -383,12 +383,148 @@ class Ajax extends Model
                 return 'fail';
             break;
             default:
-                print_r('default');
+                return 'fail';
                 break;
         }
 
-        if ($request->eq_type) {
+        if ($request->search_key) {
+            $searchResult ->where('deals.title', 'LIKE', '%'.$request->search_key.'%')
+                ->orWhere('deals.description', 'LIKE', '%'.$request->search_key.'%')
+                ->orWhere('makes.name', 'LIKE', '%'.$request->search_key.'%')
+                ->orWhere('modelds.name', 'LIKE', '%'.$request->search_key.'%')
+                ->orWhere('categories.name', 'LIKE', '%'.$request->search_key.'%');
+        }
 
+        if ($request->eq_type) {
+            $flag = 0;
+            foreach ($request->eq_type as $type) {
+                if (sizeof($request->eq_type) == 1 || $flag == 0) {
+                    $searchResult ->where('types.id', $type);
+                    $flag = 1;
+                } else {
+                    $searchResult ->orWhere('types.id', $type);
+                }
+            }
+        }
+
+        if ($request->eq_category) {
+            $flag = 0;
+            foreach ($request->eq_category as $category) {
+                if (sizeof($request->eq_category) == 1 || $flag == 0) {
+                    $searchResult ->where('categories.id', $category);
+                    $flag = 1;
+                } else {
+                    $searchResult ->orWhere('categories.id', $category);
+                }
+            }
+        }
+
+        if ($request->eq_make) {
+            $flag = 0;
+            foreach ($request->eq_make as $make) {
+                if (sizeof($request->eq_make) == 1 || $flag == 0) {
+                    $searchResult ->where('categories.id', $make);
+                    $flag = 1;
+                } else {
+                    $searchResult ->orWhere('categories.id', $make);
+                }
+            }
+        }
+
+        if ($request->eq_model) {
+            $flag = 0;
+            foreach ($request->eq_model as $model) {
+                if (sizeof($request->eq_model) == 1 || $flag == 0) {
+                    $searchResult ->where('modelds.id', $model);
+                    $flag = 1;
+                } else {
+                    $searchResult ->orWhere('modelds.id', $model);
+                }
+            }
+        }
+
+        if ($request->from_year) {
+            if ($request->end_year) {
+                $searchResult ->whereBetween('deals.year', [$request->from_year, $request->end_year]);
+            } else {
+                $searchResult ->where('deals.year', '>=', $request->from_year);
+            }
+        } else {
+            if ($request->end_year) {
+                $searchResult ->where('deals.year', '<=', $request->end_year);                
+            }
+        }
+
+        if ($request->country) {
+            if ($request->state) {
+                if (sizeof($request->country) == 1) {
+                    foreach ($request->country as $country) {
+                        $searchResult ->where('deals.country', $country);
+                    }
+                    if (sizeof($request->state) == 1) {
+                        foreach ($request->state as $state) {
+                            $searchResult ->where('deals.state', $state);
+                        }
+                    } else {      
+                        $flag = 0;                  
+                        foreach ($request->state as $state) {
+                            if ($flag == 0) {
+                                $searchResult ->where('deals.state', $state);
+                                $flag = 1;
+                            } else {
+                                $searchResult ->orWhere('deals.state', $state);
+                            }
+                        }
+                    }
+                } else {
+                    foreach ($request->country as $country) {
+                        $searchResult ->orWhere('deals.country', $country);
+                    }
+                    if (sizeof($request->state) == 1) {
+                        foreach ($request->state as $state) {
+                            $searchResult ->where('deals.state', $state);
+                        }
+                    } else {       
+                        $flag = 0;                 
+                        foreach ($request->state as $state) {
+                            if ($flag == 0) {
+                                $searchResult ->where('deals.state', $state);
+                                $flag = 1;
+                            } else {
+                                $searchResult ->orWhere('deals.state', $state);
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (sizeof($request->state) == 1) {
+                    foreach ($request->state as $state) {
+                        $searchResult ->where('deals.state', $state);
+                    }
+                } else {       
+                    $flag = 0;                 
+                    foreach ($request->state as $state) {
+                        if ($flag == 0) {
+                            $searchResult ->where('deals.state', $state);
+                            $flag = 1;
+                        } else {
+                            $searchResult ->orWhere('deals.state', $state);
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($request->start_premium) {
+            if ($request->end_premium) {
+                $searchResult ->whereBetween('deals.premium', [$request->from_premium, $request->end_premium]);
+            } else {
+                $searchResult ->where('deals.premium', '>=', $request->start_premium);
+            }
+        } else {
+            if ($request->end_premium) {
+                $searchResult ->where('deals.premium', '<=', $request->end_premium);
+            }
         }
 
         $searchResult ->select('deals.*', 
