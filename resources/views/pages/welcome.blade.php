@@ -999,7 +999,7 @@
             var modalHtml = "";
             for (var i in data) {
               listHtml += "<div class='col-md-6 col-sm-12'><div class='card card-product'>";
-              listHtml += "<div class='card-header card-header-image product-image-header' style='background:url() no-repeat center center;' data-header-animation='true'>";
+              listHtml += `<div class='card-header card-header-image product-image-header' style='background:url("/storage/${data[i].picture}") no-repeat center center;' data-header-animation='true'>`;
               listHtml += "</div>";
               listHtml += "<div class='card-body'>";
               listHtml += "<div class='card-actions text-center'>";
@@ -1028,7 +1028,7 @@
                 // Row for general information
                   modalHtml += "<div class='row'>";
 
-                    modalHtml += "<div class='col-md-5 col-sm-12'><img style='width:100%;' src='"+data[i].picture+"' alt='"+data[i].title+"'></div>";
+                    modalHtml += `<div class='col-md-5 col-sm-12'><img style='width:100%;' src="/storage/${data[i].picture}" alt='${data[i].title}'></div>`;
                     modalHtml += "<div class='col-md-7 col-sm-12'>";
                     if (data[i].deal_type == 0) {
                       modalHtml += "<span class='badge badge-pill badge-success'>Sales</span>";
