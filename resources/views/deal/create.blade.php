@@ -1,17 +1,6 @@
 @extends('layouts.app', ['activePage' => 'deal_add', 'menuParent' => 'deal', 'titlePage' => __('Add Deal')])
 
 @section('content')
-<style>
-    .specific_item div .dropdown.bootstrap-select {
-        width: 100% !important;
-    }
-    .truck_unit div .dropdown.bootstrap-select {
-        width: 100% !important;
-    }
-    .price_unit .form-group .dropdown.bootstrap-select {
-        width: 100% !important;
-    }
-</style>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -392,6 +381,15 @@
     }
     .specific_title {
         display: none;
+    }
+    .specific_item div .dropdown.bootstrap-select {
+        width: 100% !important;
+    }
+    .truck_unit div .dropdown.bootstrap-select {
+        width: 100% !important;
+    }
+    .price-unit div .dropdown.bootstrap-select {
+        width: 100% !important;
     }
 </style>
 @endsection
