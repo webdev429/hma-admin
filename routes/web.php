@@ -12,6 +12,12 @@
 */
 
 Route::get('/', 'WelcomeController@index')->name('welcome');
+Route::post('/ajax_get_specifics_by_categories', 'WelcomeController@get_specifics_by_categories');
+Route::post('/ajax_get_cities_by_countries', 'WelcomeController@get_cities_by_countries');
+Route::post('/ajax_get_if_truck', 'WelcomeController@get_if_truck');
+Route::post('/ajax_get_categories_by_types', 'WelcomeController@get_categories_by_types');
+Route::post('/ajax_get_modelds_by_makes', 'WelcomeController@get_modelds_by_makes');
+Route::post('/ajax_get_deals_with_filter', 'WelcomeController@get_deals_with_filter');
 
 Auth::routes();
 

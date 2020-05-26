@@ -370,6 +370,8 @@ md = {
         max: 100
       }
     });
+    
+    
   },
 
   initSidebarsCheck: function() {

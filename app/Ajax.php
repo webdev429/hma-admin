@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\Deal;
 
 class Ajax extends Model
 {
@@ -157,6 +158,251 @@ class Ajax extends Model
         }
     }
 
+    static function getSpecificsByCategories($categories = array()) {
+        $specifics = DB::table('category_specific')
+            ->leftJoin('specifics', 'category_specific.specific_id', '=', 'specifics.id')
+            ->leftJoin('categories', 'category_specific.category_id', '=', 'categories.id');
+        
+        if (!$categories)
+            return 'fail';
+
+        foreach ($categories as $category) {
+            $specifics ->orWhere('category_specific.category_id', $category);
+        }
+
+        $specifics ->select('specifics.name', 
+                        'specifics.unit',
+                        'specifics.column_name',
+                        'specifics.type',
+                        'specifics.data_type',
+                        'specifics.value')
+                ->distinct()
+                ->get();
+        
+        return $specifics->get();
+    }
+
+    static function getCitiesByCountries($countries = array()) {
+        $us_states = array('AL'=>"Alabama",  
+            'AK'=>"Alaska",  
+            'AZ'=>"Arizona",  
+            'AR'=>"Arkansas",  
+            'CA'=>"California",
+            'CO'=>"Colorado",  
+            'CT'=>"Connecticut",  
+            'DE'=>"Delaware",  
+            'DC'=>"District Of Columbia",  
+            'FL'=>"Florida",  
+            'GA'=>"Georgia",  
+            'HI'=>"Hawaii",  
+            'ID'=>"Idaho",  
+            'IL'=>"Illinois",  
+            'IN'=>"Indiana",  
+            'IA'=>"Iowa",  
+            'KS'=>"Kansas",  
+            'KY'=>"Kentucky",  
+            'LA'=>"Louisiana",  
+            'ME'=>"Maine",  
+            'MD'=>"Maryland",  
+            'MA'=>"Massachusetts",  
+            'MI'=>"Michigan",  
+            'MN'=>"Minnesota",  
+            'MS'=>"Mississippi",  
+            'MO'=>"Missouri",  
+            'MT'=>"Montana",
+            'NE'=>"Nebraska",
+            'NV'=>"Nevada",
+            'NH'=>"New Hampshire",
+            'NJ'=>"New Jersey",
+            'NM'=>"New Mexico",
+            'NY'=>"New York",
+            'NC'=>"North Carolina",
+            'ND'=>"North Dakota",
+            'OH'=>"Ohio",  
+            'OK'=>"Oklahoma",  
+            'OR'=>"Oregon",  
+            'PA'=>"Pennsylvania",  
+            'RI'=>"Rhode Island",  
+            'SC'=>"South Carolina",  
+            'SD'=>"South Dakota",
+            'TN'=>"Tennessee",  
+            'TX'=>"Texas",  
+            'UT'=>"Utah",  
+            'VT'=>"Vermont",  
+            'VA'=>"Virginia",  
+            'WA'=>"Washington",  
+            'WV'=>"West Virginia",  
+            'WI'=>"Wisconsin",  
+            'WY'=>"Wyoming");
+        $canadian_states = array( 
+            "BC" => "British Columbia", 
+            "ON" => "Ontario", 
+            "NL" => "Newfoundland and Labrador", 
+            "NS" => "Nova Scotia", 
+            "PE" => "Prince Edward Island", 
+            "NB" => "New Brunswick", 
+            "QC" => "Quebec", 
+            "MB" => "Manitoba", 
+            "SK" => "Saskatchewan", 
+            "AB" => "Alberta", 
+            "NT" => "Northwest Territories", 
+            "NU" => "Nunavut",
+            "YT" => "Yukon Territory"
+        );
+        $mexico_states = array( 
+            "AG" => "Aguascalientes",
+            "BC" => "Baja California",
+            "BS" => "Baja California Sur",
+            "CH" => "Chihuahua",
+            "CL" => "Colima",
+            "CM" => "Campeche",
+            "CO" => "Coahuila",
+            "CS" => "Chiapas",
+            "DF" => "Federal District",
+            "DG" => "Durango",
+            "GR" => "Guerrero",
+            "GT" => "Guanajuato",
+            "HG" => "Hidalgo",
+            "JA" => "Jalisco",
+            "ME" => "México State",
+            "MI" => "Michoacán",
+            "MO" => "Morelos",
+            "NA" => "Nayarit",
+            "NL" => "Nuevo León",
+            "OA" => "Oaxaca",
+            "PB" => "Puebla",
+            "QE" => "Querétaro",
+            "QR" => "Quintana Roo",
+            "SI" => "Sinaloa",
+            "SL" => "San Luis Potosí",
+            "SO" => "Sonora",
+            "TB" => "Tabasco",
+            "TL" => "Tlaxcala",
+            "TM" => "Tamaulipas",
+            "VE" => "Veracruz",
+            "YU" => "Yucatán",
+            "ZA" => "Zacatecas",
+        );
+        $returnAry = array();
+
+        foreach ($countries as $country) {
+            switch($country) {
+                case 'United States':
+                    $returnAry = array_merge($returnAry, $us_states);
+                break;
+                
+                case 'Canada':
+                    $returnAry = array_merge($returnAry, $canadian_states);
+                break;
+                
+                case 'Mexico':
+                    $returnAry = array_merge($returnAry, $mexico_states);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        return $returnAry;
+    } 
+
+    static function getIfTruckByCategories($categories = array()) {
+        $return = DB::table('categories')
+            ->where('truck_mounted', 1);
+        
+        if (empty($categories)) {
+            return 'fail';
+        }
+        
+        foreach ($categories as $category) {
+            $return ->orWhere('id', $category);
+        }
+
+        $return ->get(); 
+
+        if (empty($return)) {
+            return 'fail';
+        } else {
+            return 'success';
+        }
+    }
+
+    static function getCategoryByTypes($types = array()) {
+        $categoryList = DB::table('categories');
+
+        if (empty($types)) 
+            return 'fail';
+
+        foreach ($types as $type) {
+            $categoryList ->orWhere('type_id', $type);
+        }
+
+        $categoryList ->select('id', 'name')
+            ->get();
+
+        return $categoryList->get();
+    }
+
+    static function getModelByMake($makes = array()) {
+        $modeldList = DB::table('modelds');
+
+        if (empty($makes)) 
+            return 'fail';
+        
+        foreach ($makes as $make) {
+            $modeldList ->orWhere('make_id', $make);
+        }
+
+        $modeldList ->select('id', 'name')
+            ->get();
+
+        return $modeldList->get();
+    }
+
+    static function getDealsWithFilter($request = array()) {        
+        $searchResult = DB::table('deals')
+            ->leftJoin('types', 'deals.type_id', '=', 'types.id')
+            ->leftJoin('categories', 'deals.category_id', '=', 'categories.id')
+            ->leftJoin('makes', 'deals.make_id', '=', 'makes.id')
+            ->leftJoin('modelds', 'deals.modeld_id', '=', 'modelds.id')
+            ->leftJoin('truckmakes', 'deals.truckmake_id', '=', 'truckmakes.id')
+            ->leftJoin('users', 'deals.user_id', '=', 'users.id');
+
+        switch ($request->deal_type) {
+            case 0:
+                $searchResult ->where('deals.deal_type', '=', 0);
+            break;
+            case 1:
+                $searchResult ->where('deals.deal_type', '=', 1);
+            break;
+            case 2:
+                $searchResult ->where('deals.deal_type', '=', 1)
+                    ->orWhere('deals.deal_type', '=', 0);
+            break;
+            case 3:
+                return 'fail';
+            break;
+            default:
+                print_r('default');
+                break;
+        }
+
+        if ($request->eq_type) {
+
+        }
+
+        $searchResult ->select('deals.*', 
+            DB::raw('types.name as type_name'), 
+            DB::raw('users.name as user_name'), 
+            DB::raw('categories.truck_mounted as truck_mount'), 
+            DB::raw('makes.name as make_name'),
+            DB::raw('modelds.name as modeld_name'),
+            DB::raw('truckmakes.name as truckmake_name')
+        );
+
+        return $searchResult->get();
+    }
+ 
     static function getDoctorlist($per_page='', $page='', $search='', $practice='', $available='') {
         $doctorlist = DB::table('cms_doctor');
         
