@@ -530,6 +530,7 @@ class Ajax extends Model
         $searchResult ->select('deals.*', 
             DB::raw('types.name as type_name'), 
             DB::raw('users.name as user_name'), 
+            DB::raw('categories.name as category_name'), 
             DB::raw('categories.truck_mounted as truck_mount'), 
             DB::raw('makes.name as make_name'),
             DB::raw('modelds.name as modeld_name'),
