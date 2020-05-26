@@ -1053,8 +1053,12 @@
               var adStr = "";
               if (data[i].city)
                 adStr += data[i].city;
-              if (data[i].state)
-                adStr += ", " + data[i].state;
+              if (data[i].state) {
+                if(adStr == "")
+                  adStr += data[i].state;
+                else
+                  adStr += ", " + data[i].state;
+              }
               if (data[i].country)
                 adStr += ", " + data[i].country;
               listHtml += "<div class='stats'><p class='card-category'><i class='material-icons'>place</i>"+adStr+"</p></div>";
