@@ -6,10 +6,10 @@
     Tip 2: you can also add an image using data-image tag
 -->
     <div class="logo">
-        <a href="http://something.com" class="simple-text logo-mini">
+        <a href="{{ route('welcome') }}" class="simple-text logo-mini">
             {{ __('H') }}
         </a>
-        <a href="http://something.com" class="simple-text logo-normal">
+        <a href="{{ route('welcome') }}" class="simple-text logo-normal">
             {{ __('HMA Project') }}
         </a>
     </div>

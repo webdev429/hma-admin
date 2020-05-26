@@ -347,7 +347,6 @@
                                             <textarea cols="30" rows="10"
                                                 class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
                                                 name="description" id="input-description" type="text">
-                                                {{ old('description') }}
                                             </textarea>
                                             @include('alerts.feedback', ['field' => 'description'])
                                         </div>
@@ -552,7 +551,7 @@
     $(document).ready(function () {
         setFormValidation('#creatDealForm');
         $('.truck-mounted-fields').css('display', 'none');
-        
+        $('#input-description').val('');
         var today = new Date();
         
         $('.datetimepicker').datetimepicker({
