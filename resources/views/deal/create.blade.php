@@ -232,7 +232,7 @@
                                         <div class="col-md-1 col-sm-1 specific_item"></div>
                                         @else
                                         <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item'> {{ $specific->name }}</label>
-                                        <div class='col-md-4 col-sm-8 col-sm-9 {{ $specific->column_name }} specific_item'>
+                                        <div class='col-md-4 col-sm-8 {{ $specific->column_name }} specific_item'>
                                             <div class='form-group'>
                                                 <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}'>
                                             </div>
