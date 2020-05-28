@@ -42,6 +42,15 @@
                         {{ __('Value') }}
                       </th>
                       <th>
+                        {{ __('Eq or Truck') }}
+                      </th>
+                      <th>
+                        {{ __('Limit') }}
+                      </th>
+                      <th>
+                        {{ __('Required') }}
+                      </th>
+                      <th>
                         {{ __('Created Date') }}
                       </th>
                       <th>
@@ -80,6 +89,23 @@
                           </td>
                           <td>
                             {{ $item->value }}
+                          </td>
+                          <td>
+                            @if ($item->truck_data == 0)
+                              <span class="badge badge-primary">Equipment Info Field</span>
+                            @else
+                              <span class="badge badge-success">Truck Info Field</span>
+                            @endif
+                          </td>
+                          <td>
+                            {{ $item->limit }}
+                          </td>
+                          <td>
+                            @if ($item->required == 1)
+                              <span class="badge badge-rose">Required</span>
+                            @else 
+                              <span class="badge badge-info">Not Required</span>
+                            @endif
                           </td>
                           <td>
                             {{ $item->created_at->format('Y-m-d') }}

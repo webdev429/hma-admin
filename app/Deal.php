@@ -44,11 +44,7 @@ class Deal extends Model
         'truck_year',
         'truckmake_id',
         'truck_model',
-        'truck_engine',
-        'truck_trans',
-        'truck_suspension',
-        'truck_condition',
-        'truck_condition_unit',
+        'truck_sn',
         'user_id'
     ];
 

@@ -38,20 +38,6 @@ Management')])
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 col-form-label">{{ __('Specific Data') }}</label>
-                                <div class="col-sm-7">
-                                    <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
-                                        <select class="selectpicker col-sm-12 pl-0 pr-0" name="specifics[]"
-                                            data-style="select-with-transition" multiple title="-" data-size="7">
-                                            @foreach ($specifics as $specific)
-                                                <option value="{{ $specific->id }}" {{ in_array($specific->id, old('specifics', $category->specifics->pluck('id')->toArray()) ?? []) ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
-                                            @endforeach
-                                        </select>
-                                        @include('alerts.feedback', ['field' => 'specifics'])
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <label class="col-sm-2 col-form-label">{{ __('Equipment Type') }}</label>
                                 <div class="col-sm-7" >
                                     <div class="form-group">
@@ -61,6 +47,56 @@ Management')])
                                             <option value="{{ $type->id }}" {{ $type->id == $category->type_id ? 'selected' : '' }}>{{ $type->name }}</option>
                                         @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Equipment Information') }}</label>
+                                <div class="col-sm-2" >
+                                    <div class="form-group">
+                                        <select class="selectpicker" name="equip_info" id="equip_info" data-style="select-with-transition">
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Specific Fields') }}</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
+                                        <select class="selectpicker col-sm-12 pl-0 pr-0" name="equip_specifics[]"
+                                            data-style="select-with-transition" multiple title="-" data-size="7">
+                                            @foreach ($equip_specifics as $specific)
+                                                <option value="{{ $specific->id }}" {{ in_array($specific->id, old('specifics', $category->specifics->pluck('id')->toArray()) ?? []) ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                            @endforeach
+                                        </select>
+                                        @include('alerts.feedback', ['field' => 'specifics'])
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Truck Information') }}</label>
+                                <div class="col-sm-2" >
+                                    <div class="form-group">
+                                        <select class="selectpicker" name="truck_mounted" id="truck_mounted" value="0" data-style="select-with-transition">
+                                            <option value="0" {{ $category->truck_mounted == 0 ? 'selected' : '' }}>No</option>
+                                            <option value="1" {{ $category->truck_mounted == 1 ? 'selected' : '' }}>Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Specific Field') }}</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group{{ $errors->has('optional_field') ? ' has-danger' : '' }}">
+                                        <select class="selectpicker col-sm-12 pl-0 pr-0" name="truck_specifics[]"
+                                            data-style="select-with-transition" multiple title="-" data-size="7">
+                                            @foreach ($truck_specifics as $specific)
+                                                <option value="{{ $specific->id }}" {{ in_array($specific->id, old('specifics', $category->specifics->pluck('id')->toArray()) ?? []) ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                            @endforeach
+                                        </select>
+                                        @include('alerts.feedback', ['field' => 'truck_specifics'])
                                     </div>
                                 </div>
                             </div>

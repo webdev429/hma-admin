@@ -43,6 +43,15 @@ class SpecificRequest extends FormRequest
             ],
             'value' => [
                 'nullable'
+            ],
+            'limit' => [
+                'nullable'
+            ],
+            'required' => [
+                'nullable'
+            ],
+            'truck_data' => [
+                'nullable'
             ]
         ];
     }

@@ -105,19 +105,7 @@ class DealRequest extends FormRequest
             'truck_model' => [
                 'nullable'
             ],
-            'deal_engine' => [
-                'nullable'
-            ],
-            'deal_trans' => [
-                'nullable'
-            ],
-            'truck_suspension' => [
-                'nullable'
-            ],
-            'truck_condition' => [
-                'nullable'
-            ],
-            'truck_condition_unit' => [
+            'truck_sn' => [
                 'nullable'
             ]
         ];

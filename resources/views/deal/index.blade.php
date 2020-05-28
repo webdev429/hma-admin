@@ -149,7 +149,7 @@
                             {{ $item->auc_lot }}
                           </td>
                           <td>
-                            @foreach ($specifics as $spec)
+                            @foreach ($equip_specifics as $spec)
                               @php
                                 $spec_value = eval('return $item->'.$spec->column_name.';');
                                 $spec_unit = '';
@@ -163,16 +163,23 @@
                           <td>
                             @if ($item->category->truck_mounted == 1)
                             <div class="row" style="max-width:400px;">
-                              <div class="col-md-6 col-sm-12">
+                              <div class="col-sm-12">
                                 <strong>Truck Year:</strong> {{ $item->truck_year }} <br>
                                 <strong>Truck Make:</strong> {{ $item->truckmake_id != NULL ? $item->truckmake->name : '' }} <br>
                                 <strong>Truck Model:</strong> {{ $item->truck_model }} <br>
-                                <strong>Truck Engine:</strong> {{ $item->truck_engine }}
+                                <strong>Truck SN:</strong> {{ $item->truck_sn }} <br>
                               </div>
-                              <div class="col-md-6 col-sm-12">
-                                <strong>Truck Trans:</strong> {{ $item->truck_trans }} <br>
-                                <strong>Truck Fuel Type:</strong> {{ $item->truck_suspension }} <br>
-                                <strong>Truck Condition:</strong> {{ $item->truck_condition.$item->truck_condition_unit }}
+                              <div class="col-sm-12">
+                              @foreach ($truck_specifics as $spec)
+                                @php
+                                  $spec_value = eval('return $item->'.$spec->column_name.';');
+                                  $spec_unit = '';
+                                  $spec_unit = eval('if(isset($item->'.$spec->column_name.'_unit)) return $item->'.$spec->column_name.'_unit;');
+                                @endphp
+                                @if ($item->category->specifics->where('id', $spec->id)->first())
+                                  <br>{{ $spec->name }}:&nbsp; {{ $spec_value.$spec_unit }}
+                                @endif
+                              @endforeach
                               </div>
                             </div>
                             @endif

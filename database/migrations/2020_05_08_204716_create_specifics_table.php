@@ -21,6 +21,9 @@ class CreateSpecificsTable extends Migration
             $table->integer('type');
             $table->integer('data_type');
             $table->text('value')->nullable();
+            $table->integer('limit')->nullable();
+            $table->tinyInteger('required')->default(0);
+            $table->tinyInteger('truck_data')->default(0);
             $table->unsignedInteger('user_id');
             $table->timestamps();
 

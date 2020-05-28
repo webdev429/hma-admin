@@ -43,11 +43,7 @@ class CreateDealsTable extends Migration
             $table->string('truck_year', 4)->nullable();
             $table->unsignedInteger('truckmake_id')->nullable();
             $table->string('truck_model', 50)->nullable();
-            $table->string('truck_engine', 50)->nullable();
-            $table->string('truck_trans', 50)->nullable();
-            $table->string('truck_suspension', 50)->nullable();
-            $table->string('truck_condition', 50)->nullable();
-            $table->string('truck_condition_unit', 10)->nullable();
+            $table->string('truck_sn', 50)->nullable();
             // Specific Fields 
             $table->unsignedInteger('user_id');
             $table->timestamps();

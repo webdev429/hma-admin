@@ -36,7 +36,7 @@
                                     <label class="col-md-4 col-form-label">Equipment Type</label>
                                     <div class="col-md-8">
                                         <div class="form-group">
-                                            <select class="selectpicker" onchange="onChangeEqupmentType();" name="type_id" id="type_id" data-style="select-with-transition" required="true">
+                                            <select class="selectpicker" onchange="onChangeEqupmentType();" name="type_id" id="type_id" data-style="select-with-transition" title="Choose Equipment Type" required="true">
                                                 <option value="0"></option>
                                                 @foreach($types as $item)
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -48,7 +48,7 @@
                                     <label class="col-md-4 col-form-label">Equipment Category</label>
                                     <div class="col-md-8">
                                         <div class="form-group">
-                                            <select class="selectpicker" onchange="onChangeEquipmentCategory();" name="category_id" id="category_id" data-style="select-with-transition" required="true">
+                                            <select class="selectpicker" onchange="onChangeEquipmentCategory();" name="category_id" id="category_id" data-style="select-with-transition" title="Choose Category" required="true">
                                                 <option value="0"></option>
                                             </select>
                                         </div>
@@ -59,7 +59,7 @@
                                     <label class="col-sm-4 col-form-label">Make</label>
                                     <div class="col-sm-8">
                                         <div class="form-group">
-                                            <select class="selectpicker" onchange="onChangeMake();" data-style="select-with-transition" name="make_id" id="make_id" required="true">
+                                            <select class="selectpicker" onchange="onChangeMake();" data-style="select-with-transition" name="make_id" id="make_id" title="Choose Make" required="true">
                                                 <option value=""></option>
                                                 @foreach ($makes as $make)
                                                     <option value="{{ $make->id }}">{{ $make->name }}</option>
@@ -71,7 +71,7 @@
                                     <label class="col-sm-4 col-form-label">Model</label>
                                     <div class="col-sm-8">
                                         <div class="form-group">
-                                            <select class="selectpicker" onchange="onChangeModel();" data-style="select-with-transition" name="modeld_id" id="modeld_id" required="true">
+                                            <select class="selectpicker" onchange="onChangeModel();" data-style="select-with-transition" name="modeld_id" id="modeld_id" title="Choose Model" required="true">
                                                 <option value=""></option>
                                                 @foreach($modelds as $item)
                                                     <option class="modeld_{{ $item->id }}" value="{{ $item->id }}" style="display:none;">{{ $item->name }}</option>
@@ -84,6 +84,47 @@
                                     <div class="col-sm-8">
                                         <div class="form-group">
                                             <input type="text" onchange="onChangeYear();" class="form-control" name="year" id="year" number="true" range="[1800, 2100]" required="true">
+                                        </div>
+                                    </div>
+                                    <!-- Serial Number -->
+                                    <label class="col-sm-4 col-form-label">SN</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="sn" id="sn">
+                                        </div>
+                                    </div>
+                                    <hr class="col-sm-12 truck-mounted-fields">
+                                    <!-- Truck Make -->
+                                    <label class="col-sm-4 col-form-label  truck-mounted-fields">Truck Make</label>
+                                    <div class="col-sm-8 truck-mounted-fields">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="truckmake_id" data-style="select-with-transition" title="Choose Truck Make">
+                                                <option value=""></option>
+                                                @foreach ($truckmakes as $truckmake)
+                                                <option value="{{ $truckmake->id }}">{{ $truckmake->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Truck Model -->
+                                    <label class="col-sm-4 col-form-label  truck-mounted-fields">Truck Model</label>
+                                    <div class="col-sm-8 truck-mounted-fields">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="truck_model" id="truck_model">
+                                        </div>
+                                    </div>
+                                    <!-- Truck Year -->
+                                    <label class="col-sm-4 col-form-label  truck-mounted-fields">Truck Year</label>
+                                    <div class="col-sm-8 truck-mounted-fields">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="truck_year" id="truck_year" number="true" range="[1800, 2100]">
+                                        </div>
+                                    </div>
+                                    <!-- Truck Serial Number -->
+                                    <label class="col-sm-4 col-form-label truck-mounted-fields">Truck SN</label>
+                                    <div class="col-sm-8 truck-mounted-fields">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="truck_sn" id="truck_sn">
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +147,7 @@
                                     <label class="col-sm-4 col-form-label">State</label>
                                     <div class="col-sm-8">
                                         <div class="form-group">
-                                            <select class="selectpicker" name="state" id="state" data-style="select-with-transition">
+                                            <select class="selectpicker" name="state" id="state" data-style="select-with-transition" title="Choose State">
                                                 <option value=""></option>
                                             </select>
                                         </div>
@@ -170,14 +211,7 @@
                                             placeholder="{{ __('Select date') }}" class="form-control datetimepicker" value="{{ old('auc_enddate', now()->format('d-m-Y')) }}"/>
                                             @include('alerts.feedback', ['field' => 'auc_enddate'])
                                         </div>
-                                    </div>
-                                    <!-- Serial Number -->
-                                    <label class="col-sm-4 col-form-label">SN</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="sn" id="sn">
-                                        </div>
-                                    </div>
+                                    </div>                                    
                                     <!-- Url -->
                                     <label class="col-sm-4 col-form-label">URL</label>
                                     <div class="col-sm-8">
@@ -195,9 +229,9 @@
                                 </div>
                             </div>
                             <hr>
-                            <h4 class="specific_title"><strong>Equipment Specific Information</strong></h4>
+                            <h4 class="specific_title"><strong>Equipment Information</strong></h4>
                             <div class="row" id="specific_field">
-                                @foreach ($specifics as $specific)
+                                @foreach ($equip_specifics as $specific)
                                     @if ($specific->type == 1)
                                         @if ($specific->unit != '')
                                         @php
@@ -245,78 +279,51 @@
                             </div>
                             <h4 class="truck-mounted-title"><strong>Truck Information</strong></h4>
                             <div class="row truck-mounted-fields">
-                                <div class="col-md-6 col-sm-12 row">
-                                    <!-- Truck Make -->
-                                    <label class="col-sm-4 col-form-label">Truck Make</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <select class="selectpicker" name="truckmake_id" data-style="select-with-transition">
-                                                <option value=""></option>
-                                                @foreach ($truckmakes as $truckmake)
-                                                <option value="{{ $truckmake->id }}">{{ $truckmake->name }}</option>
+                                @foreach ($truck_specifics as $specific)
+                                    @if ($specific->type == 1)
+                                        @if ($specific->unit != '')
+                                        @php
+                                            $unitAry = explode('/', $specific->unit);
+                                        @endphp
+                                        <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item'> {{ $specific->name }}</label>
+                                        <div class='col-md-3 col-sm-5 {{ $specific->column_name }} specific_item'>
+                                            <div class='form-group'>
+                                                <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' number="{{ $specific->data_type == 2 ? 'true' : 'false' }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 col-sm-2 {{ $specific->column_name }} specific_item" style="padding-left:0;">
+                                            <div class='form-group'>
+                                                <select class='selectpicker' name='{{ $specific->column_name }}_unit' id='{{ $specific->column_name }}_unit' data-style='select-with-transition'>
+                                                    @foreach ($unitAry as $unit)
+                                                    <option value='{{ $unit }}'>{{ $unit }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        @else
+                                        <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item'> {{ $specific->name }}</label>
+                                        <div class='col-md-4 col-sm-8 {{ $specific->column_name }} specific_item'>
+                                            <div class='form-group'>
+                                                <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}'>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @else
+                                        @php
+                                        $optionAry = explode('/', $specific->value);
+                                        @endphp
+                                        <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item'>{{ $specific->name }}</label>
+                                        <div class='col-md-4 col-sm-8 {{ $specific->column_name }} specific_item'>
+                                            <div class='form-group'>
+                                            <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition'>
+                                                @foreach ($optionAry as $option)
+                                                <option value='{{ $option }}'>{{ $option }}</option>
                                                 @endforeach
                                             </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!-- Truck Model -->
-                                    <label class="col-sm-4 col-form-label">Truck Model</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_model">
-                                        </div>
-                                    </div>
-                                    <!-- Truck Year -->
-                                    <label class="col-sm-4 col-form-label">Truck Year</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_year" number="true" range="[1800, 2100]">
-                                        </div>
-                                    </div>
-                                    <!-- Truck Condition(km/mi) -->
-                                    <label class="col-sm-4 col-form-label">Truck Condition</label>
-                                    <div class="col-sm-6 col-sm-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_condition" number="true">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2 truck_unit">
-                                        <div class="form-group">
-                                            <select class="selectpicker" name="truck_condition_unit" data-style="select-with-transition">
-                                                <option value="Km">Km</option>
-                                                <option value="mile">mile</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12 row">
-                                    <!-- Truck Engine -->
-                                    <label class="col-sm-4 col-form-label">Truck Engine</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_engine">
-                                        </div>
-                                    </div>
-                                    <!-- Truck Trans -->
-                                    <label class="col-sm-4 col-form-label">Truck Transmission</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <select class="selectpicker" name="truck_trans" data-style="select-with-transition">
-                                                <option value="Manual">Manual</option>
-                                                <option value="Automatic">Automatic</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!-- Truck Suspension -->
-                                    <label class="col-sm-4 col-form-label">Truck Fuel Type</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <select class="selectpicker" name="truck_suspension" data-style="select-with-transition">
-                                                <option value="Diesel">Diesel</option>
-                                                <option value="Gas">Gas</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                                    @endif
+                                @endforeach
                             </div>
                             <h4><strong>Ad Information</strong></h4>
                             <div class="row">
@@ -441,9 +448,15 @@
                 if (data[0].truck_mounted == 1) {
                     $('.truck-mounted-title').fadeIn();
                     $('.truck-mounted-fields').fadeIn();
+                    $('#truckmake_id').prop('required', 'true');
+                    $('#truck_model').prop('required', 'true');
+                    $('#truck_year').prop('required', 'true');
                 } else {
                     $('.truck-mounted-title').fadeOut();
                     $('.truck-mounted-fields').fadeOut();
+                    $('#truckmake_id').prop('required', 'false');
+                    $('#truck_model').prop('required', 'false');
+                    $('#truck_year').prop('required', 'false');
                 }
                 for (var item in data) {
                     var class_str = '.' + data[item].column_name;

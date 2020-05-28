@@ -30,10 +30,16 @@
                           {{ __('Type') }}
                       </th>
                       <th>
+                          {{ __('Equipment') }}
+                      </th>
+                      <th>
+                        {{ __('Data Field') }}
+                      </th>
+                      <th>
                         {{ __('Truck Mounted') }}
                       </th>
                       <th>
-                        {{ __('Specific Data Field') }}
+                        {{ __('Data Field') }}
                       </th>
                       <th>
                         {{ __('Created Date') }}
@@ -60,6 +66,18 @@
                             {{ $category->type->name }}
                           </td>
                           <td>
+                          @if ($category->equip_info == 1)
+                            <span class="badge badge-success">Yes</span>
+                          @else
+                            <span class="badge badge-warning">No</span>
+                          @endif
+                          </td>
+                          <td>
+                            @foreach ($category->specifics->where('truck_data', 0) as $specific)
+                                <span class="badge badge-default">{{ $specific->name }} {{ $specific->unit != '' ? '('.$specific->unit.')' : "" }}</span>
+                            @endforeach
+                          </td>
+                          <td>
                           @if ($category->truck_mounted == 1)
                             <span class="badge badge-success">Yes</span>
                           @else
@@ -67,7 +85,7 @@
                           @endif
                           </td>
                           <td>
-                            @foreach ($category->specifics as $specific)
+                            @foreach ($category->specifics->where('truck_data', 1) as $specific)
                                 <span class="badge badge-default">{{ $specific->name }} {{ $specific->unit != '' ? '('.$specific->unit.')' : "" }}</span>
                             @endforeach
                           </td>

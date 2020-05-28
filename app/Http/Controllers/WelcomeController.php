@@ -17,7 +17,7 @@ class WelcomeController extends Controller
     public function index(Deal $model, Specific $specific, Type $type, Category $category, Make $make, Modeld $modeld, Truckmake $truckmake)
     {
         return view('pages.welcome', [
-            'deals' => $model->all(),
+            'deals' => $model->paginate(10),
             'specifics' => $specific->all(),
             'types' => $type->all(),
             'categories' => $category->all(),
@@ -71,9 +71,17 @@ class WelcomeController extends Controller
         return $return;
     }
 
-    public function get_deals_with_filter (Request $request) {
+    public function get_deals_with_filter (Request $request, Specific $specific, Type $type, Category $category, Make $make, Modeld $modeld, Truckmake $truckmake) {
         $return = Ajax::getDealsWithFilter($request);
-
-        return $return;
+        
+        if ($return == 'fail') {
+            $pagination = "";
+        } else {
+            $pagination = (string) $return->links("vendor.pagination.ajax");
+        }
+        return response() ->json([
+            'data' => $return,
+            'pagination' => $pagination
+        ]);
     } 
 }

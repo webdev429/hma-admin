@@ -101,6 +101,47 @@
                                             <input type="text" onchange="onChangeYear();" class="form-control" name="year" id="year" number="true" range="[1800, 2100]" value="{{ $deal->year }}" required="true">
                                         </div>
                                     </div>
+                                    <!-- Serial Number -->
+                                    <label class="col-sm-4 col-form-label">SN</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="sn" id="sn" value="{{ $deal->sn }}">
+                                        </div>
+                                    </div>
+                                    <hr class="col-sm-12 truck-mounted-fields">
+                                    <!-- Truck Make -->
+                                    <label class="col-sm-4 col-form-label truck-mounted-fields">Truck Make</label>
+                                    <div class="col-sm-8 truck-mounted-fields">
+                                        <div class="form-group">
+                                            <select class="selectpicker" name="truckmake_id" data-style="select-with-transition">
+                                                <option value=""></option>
+                                                @foreach ($truckmakes as $truckmake)
+                                                <option value="{{ $truckmake->id }}" {{ $deal->truckmake_id == $truckmake->id ? 'selected' : '' }}>{{ $truckmake->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Truck Model -->
+                                    <label class="col-sm-4 col-form-label truck-mounted-fields">Truck Model</label>
+                                    <div class="col-sm-8 truck-mounted-fields">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="truck_model" value="{{ $deal->truck_model }}">
+                                        </div>
+                                    </div>
+                                    <!-- Truck Year -->
+                                    <label class="col-sm-4 col-form-label truck-mounted-fields">Truck Year</label>
+                                    <div class="col-sm-8 truck-mounted-fields">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="truck_year" number="true" range="[1800, 2100]" value="{{ $deal->truck_year }}">
+                                        </div>
+                                    </div>
+                                    <!-- Truck Serial Number -->
+                                    <label class="col-sm-4 col-form-label">Truck SN</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="truck_sn" id="sn" value="{{ $deal->truck_sn }}">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <hr>
@@ -185,14 +226,7 @@
                                             placeholder="{{ __('Select date') }}" class="form-control datetimepicker" value="{{ $deal->auc_enddate ? $deal->auc_enddate : now()->format('d-m-Y') }}"/>
                                             @include('alerts.feedback', ['field' => 'auc_enddate'])
                                         </div>
-                                    </div>
-                                    <!-- Serial Number -->
-                                    <label class="col-sm-4 col-form-label">SN</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="sn" id="sn" value="{{ $deal->sn }}">
-                                        </div>
-                                    </div>
+                                    </div>                                    
                                     <!-- Url -->
                                     <label class="col-sm-4 col-form-label">URL</label>
                                     <div class="col-sm-8">
@@ -210,9 +244,9 @@
                                 </div>
                             </div>
                             <hr>
-                            <h4 class="specific_title"><strong>Equipment Specific Information</strong></h4>
+                            <h4 class="specific_title"><strong>Equipment Information</strong></h4>
                             <div class="row" id="specific_field">
-                                @foreach ($specifics as $specific)
+                                @foreach ($equip_specifics as $specific)
                                     @php
                                         $show_flag = eval('return $deal->'. $specific->column_name . ';');
                                     @endphp
@@ -265,78 +299,56 @@
                             </div>
                             <h4 class="truck-mounted-title" style="display:{{ $deal->category->truck_mounted == 1 ? 'block;' : 'none;' }}"><strong>Truck Information</strong></h4>
                             <div class="row truck-mounted-fields">
-                                <div class="col-md-6 col-sm-12 row">
-                                    <!-- Truck Make -->
-                                    <label class="col-sm-4 col-form-label">Truck Make</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <select class="selectpicker" name="truckmake_id" data-style="select-with-transition">
-                                                <option value=""></option>
-                                                @foreach ($truckmakes as $truckmake)
-                                                <option value="{{ $truckmake->id }}" {{ $deal->truckmake_id == $truckmake->id ? 'selected' : '' }}>{{ $truckmake->name }}</option>
+                                @foreach ($truck_specifics as $specific)
+                                    @php
+                                        $show_flag = eval('return $deal->'. $specific->column_name . ';');
+                                    @endphp
+                                    @if ($specific->type == 1)
+                                        @if ($specific->unit != '')
+                                            @php
+                                                $unitAry = explode('/', $specific->unit);
+                                                $valueUnit = eval('return $deal->'.$specific->column_name.'_unit;');
+                                            @endphp
+                                            <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}"> {{ $specific->name }}</label>
+                                            <div class='col-md-2 col-sm-5 {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
+                                                <div class='form-group'>
+                                                    <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' number="{{ $specific->data_type == 2 ? 'true' : 'false' }}" value="{{ $show_flag }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-sm-2 {{ $specific->column_name }} specific_item" style="padding-left:0;display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}"">
+                                                <div class='form-group'>
+                                                    <select class='selectpicker' name='{{ $specific->column_name }}_unit' id='{{ $specific->column_name }}_unit' data-style='select-with-transition'>
+                                                        @foreach ($unitAry as $unit)
+                                                        <option value='{{ $unit }}' {{ $valueUnit == $unit ? 'selected' : '' }}>{{ $unit }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-sm-1"></div>
+                                        @else
+                                            <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}"> {{ $specific->name }}</label>
+                                            <div class='col-md-4 col-sm-8 col-sm-9 {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
+                                                <div class='form-group'>
+                                                    <input type='text' class='form-control' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' value="{{ $show_flag }}">
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @else
+                                        @php
+                                        $optionAry = explode('/', $specific->value);
+                                        @endphp
+                                        <label class='col-md-1 col-sm-3 col-form-label {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">{{ $specific->name }}</label>
+                                        <div class='col-md-2 col-sm-9 {{ $specific->column_name }} specific_item' style="display:{{ $deal->category->specifics->where('id', $specific->id)->first() ? 'block;' : 'none;' }}">
+                                            <div class='form-group'>
+                                            <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition'>
+                                                @foreach ($optionAry as $option)
+                                                <option value='{{ $option }}' {{ $show_flag == $option ? 'selected' : '' }}>{{ $option }}</option>
                                                 @endforeach
                                             </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!-- Truck Model -->
-                                    <label class="col-sm-4 col-form-label">Truck Model</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_model" value="{{ $deal->truck_model }}">
-                                        </div>
-                                    </div>
-                                    <!-- Truck Year -->
-                                    <label class="col-sm-4 col-form-label">Truck Year</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_year" number="true" range="[1800, 2100]" value="{{ $deal->truck_year }}">
-                                        </div>
-                                    </div>
-                                    <!-- Truck Condition(km/mi) -->
-                                    <label class="col-sm-4 col-form-label">Truck Condition</label>
-                                    <div class="col-sm-6 col-sm-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_condition" number="true" value="{{ $deal->truck_condition }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2 truck_unit">
-                                        <div class="form-group">
-                                            <select class="selectpicker" name="truck_condition_unit" data-style="select-with-transition">
-                                                <option value="Km" {{ $deal->truck_condition_unit == 'Km' ? 'selected' : '' }}>Km</option>
-                                                <option value="mile" {{ $deal->truck_condition_unit == 'mile' ? 'selected' : '' }}>mile</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12 row">
-                                    <!-- Truck Engine -->
-                                    <label class="col-sm-4 col-form-label">Truck Engine</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="truck_engine" value="{{ $deal->truck_engine }}">
-                                        </div>
-                                    </div>
-                                    <!-- Truck Trans -->
-                                    <label class="col-sm-4 col-form-label">Truck Transmission</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <select class="selectpicker" name="truck_trans" data-style="select-with-transition">
-                                                <option value="Manual" {{ $deal->truck_trans == 'Manual' ? 'selected' : '' }}>Manual</option>
-                                                <option value="Automatic" {{ $deal->truck_trans == 'Automatic' ? 'selected' : '' }}>Automatic</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!-- Truck Suspension -->
-                                    <label class="col-sm-4 col-form-label">Truck Fuel Type</label>
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <select class="selectpicker" name="truck_suspension" data-style="select-with-transition">
-                                                <option value="Diesel" {{ $deal->truck_suspension == 'Diesel' ? 'selected' : '' }}>Diesel</option>
-                                                <option value="Gas" {{ $deal->truck_suspension == 'Gas' ? 'selected' : '' }}>Gas</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                                    @endif
+                                @endforeach
                             </div>
                             <h4><strong>Ad Information</strong></h4>
                             <div class="row">
@@ -409,7 +421,7 @@
         display: none;
     }
     .specific_title {
-        display: none;
+        /* display: none; */
     }
 </style>
 @endsection

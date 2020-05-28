@@ -52,7 +52,8 @@ class CategoryController extends Controller
     public function create(Specific $specific, Type $type)
     {
         return view('categories.create', [
-            'specifics' => $specific->all(), 
+            'equip_specifics' => $specific->where('truck_data', 0)->get(), 
+            'truck_specifics' => $specific->where('truck_data', 1)->get(), 
             'types' => $type->get(['id', 'name'])
         ]);
     }
@@ -67,7 +68,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request, Category $model)
     {
         $category = $model->create($request->merge(['user_id' => auth()->user()->id])->all());
-        $category->specifics()->sync($request->get('specifics'));
+        $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));
 
         return redirect()->route('category.index')->withStatus(__('Category successfully created.'));
     }
@@ -83,7 +84,9 @@ class CategoryController extends Controller
         return view('categories.edit', [
             'category' => $category->load('specifics'),
             'types' => $type->get(['id', 'name']),
-            'specifics' => $specificModel->get(['id', 'name', 'unit'])
+            'specifics' => $specificModel->all(),
+            'equip_specifics' => $specificModel->where('truck_data', 0)->get(['id', 'name', 'unit']),
+            'truck_specifics' => $specificModel->where('truck_data', 1)->get(['id', 'name', 'unit'])
         ]);
     }
 
@@ -98,7 +101,7 @@ class CategoryController extends Controller
     {
         $category->update($request->merge(['user_id' => auth()->user()->id])->all());
 
-        $category->specifics()->sync($request->get('specifics'));
+        $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));
 
         return redirect()->route('category.index')->withStatus(__('Category data successfully updated.'));
     }

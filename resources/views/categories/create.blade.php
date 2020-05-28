@@ -49,12 +49,23 @@ Management')])
                                 </div>
                             </div>
                             <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Equipment Information') }}</label>
+                                <div class="col-sm-2" >
+                                    <div class="form-group">
+                                        <select class="selectpicker" name="equip_info" id="equip_info" data-style="select-with-transition">
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <label class="col-sm-2 col-form-label">{{ __('Specific Field') }}</label>
                                 <div class="col-sm-7">
                                     <div class="form-group{{ $errors->has('optional_field') ? ' has-danger' : '' }}">
-                                        <select class="selectpicker col-sm-12 pl-0 pr-0" name="specifics[]"
-                                            data-style="select-with-transition" multiple title="-" data-size="7">
-                                            @foreach ($specifics as $specific)
+                                        <select class="selectpicker col-sm-12 pl-0 pr-0" name="equip_specifics[]"
+                                            data-style="select-with-transition" multiple title="-" id="equip_info_select" data-size="7">
+                                            @foreach ($equip_specifics as $specific)
                                               <option value="{{ $specific->id }}" {{ in_array($specific->id, old('specifics') ?? []) ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
                                             @endforeach
                                         </select>
@@ -63,13 +74,27 @@ Management')])
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-2 col-form-label">{{ __('Truck Mounted') }}</label>
+                                <label class="col-sm-2 col-form-label">{{ __('Truck Information') }}</label>
                                 <div class="col-sm-2" >
                                     <div class="form-group">
-                                        <select class="selectpicker" name="truck_mounted" value="0" data-style="select-with-transition">
+                                        <select class="selectpicker" name="truck_mounted" id="truck_mounted" value="0" data-style="select-with-transition">
                                             <option value="0">No</option>
                                             <option value="1">Yes</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Specific Field') }}</label>
+                                <div class="col-sm-7">
+                                    <div class="form-group{{ $errors->has('optional_field') ? ' has-danger' : '' }}">
+                                        <select class="selectpicker col-sm-12 pl-0 pr-0" name="truck_specifics[]" id="truck_info_select"
+                                            data-style="select-with-transition" multiple title="-" data-size="7" disabled>
+                                            @foreach ($truck_specifics as $specific)
+                                              <option value="{{ $specific->id }}" {{ in_array($specific->id, old('specifics') ?? []) ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                            @endforeach
+                                        </select>
+                                        @include('alerts.feedback', ['field' => 'specifics'])
                                     </div>
                                 </div>
                             </div>
@@ -84,3 +109,29 @@ Management')])
     </div>
 </div>
 @endsection
+
+@push('js')
+<script>
+    $('#equip_info').change(function() {
+        var equip_info = $(this).val();
+        if(equip_info == 1) {
+            $('#equip_info_select').prop('disabled', false);
+            $('#equip_info_select').selectpicker('refresh');
+        } else {
+            $('#equip_info_select').prop('disabled', true);
+            $('#equip_info_select').selectpicker('refresh');
+        }
+    });
+    $('#truck_mounted').change(function() {
+        var equip_info = $(this).val();
+        console.log(equip_info);
+        if(equip_info == 1) {
+            $('#truck_info_select').prop('disabled', false);
+            $('#truck_info_select').selectpicker('refresh');
+        } else {
+            $('#truck_info_select').prop('disabled', true);
+            $('#truck_info_select').selectpicker('refresh');
+        }
+    });
+</script>
+@endpush

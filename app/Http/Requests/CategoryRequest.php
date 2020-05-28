@@ -31,11 +31,20 @@ class CategoryRequest extends FormRequest
             'name' => [
                 'required', 'min:3', Rule::unique((new Category)->getTable())->ignore($this->route()->category->id ?? null)
             ],
-            'specifics' => [
+            'equip_specifics' => [
                 
             ],
-            'specifics.*' => [
+            'equip_specifics.*' => [
                 'exists:'.(new Specific)->getTable().',id'
+            ],
+            'truck_specifics' => [
+                
+            ],
+            'truck_specifics.*' => [
+                'exists:'.(new Specific)->getTable().',id'
+            ],
+            'equip_info' => [
+                'nullable'
             ],
             'truck_mounted' => [
                 'nullable'

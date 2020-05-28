@@ -38,7 +38,8 @@ class SpecificController extends Controller
      */
     public function store(SpecificRequest $request, Specific $specific)
     {
-        $specific->create($request->merge(['user_id' => auth()->user()->id])->all());
+        $specific->create($request->merge(['user_id' => auth()->user()->id, 
+            'required' =>$request->require ? $request->require : 0])->all());
         if ($request->unit != '') {
             $specific->createColumnToDealTable($request->column_name, $request->type, $request->unit);
         } else {
@@ -79,7 +80,8 @@ class SpecificController extends Controller
      */
     public function update(SpecificRequest $request, Specific $specific)
     {
-        $specific->update($request->merge(['user_id' => auth()->user()->id])->all());
+        $specific->update($request->merge(['user_id' => auth()->user()->id, 
+            'required' =>$request->require ? $request->require : 0])->all());
         
         if ($request->column_name != $request->prev_col_name) {
             if ($request->unit != '') {

@@ -256,7 +256,7 @@
                       </div>
                     </a>
                     <div class="collapse" id="eq_enddate">
-                      <div class="collapse-body">
+                      <div class="collapse-body" style="border-bottom:1px solid lightgray;border-bottom-left-radius:5px;border-bottom-right-radius:5px;">
                         <input type="text"  name="auc_fromdate" id="auc_fromdate"
                           placeholder="{{ __('Select date from') }}" class="form-control datetimepicker" value="{{ old('auc_fromdate', now()->format('d-m-Y')) }}"/>
                         <input type="text"  name="auc_enddate" id="auc_enddate"
@@ -364,6 +364,7 @@
                 </div>
                 
               @endforeach
+              {{ $deals->links() }}
             </div>
           </div>
           
@@ -592,13 +593,13 @@
     height: 10em;
   }
   .loader {
-    margin: 60px auto;
+    margin: auto;
     font-size: 10px;
     position: relative;
     text-indent: -9999em;
-    border-top: 1.1em solid rgba(255, 255, 255, 0.2);
-    border-right: 1.1em solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+    border-top: 1.1em solid rgba(0, 0, 0, 0.2);
+    border-right: 1.1em solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1.1em solid rgba(0, 0, 0, 0.2);
     border-left: 1.1em solid #333333;
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);
@@ -1020,6 +1021,7 @@
     var truck_engine = '';
     var truck_trans = new Array();
     var truck_fuel = new Array();
+    var page = 0;
 
     $("#search_key").change(function() {
       search_key = $(this).val();
@@ -1057,18 +1059,19 @@
           truck_engine: truck_engine,
           truck_trans: truck_trans,
           truck_fuel: truck_fuel,
+          page: page,
           _token: '<?php echo csrf_token();?>'
         },
-        success: function(data) {
-          $("#modalArea").empty();
-          $("#listArea").empty();
-          if (data == 'fail') {
+        success: function(res) {
+          var data = res.data.data;
+          var pagination = res.pagination;
+          console.log(res);
+          if (res.data == 'fail') {
             var noHtml = "<h4 style='margin:auto;'>";
             noHtml += "There is no result which you are searching...";
             noHtml += "</h4>";
             $('#listArea').html(noHtml);
           } else {
-            console.log(data);
             var listHtml = "";
             var modalHtml = "";
             for (var i in data) {
@@ -1204,15 +1207,19 @@
               modalHtml += "</div></div>";
               
               modalHtml += "</div>";
-              $('#listArea').append(listHtml);
-              $('#modalArea').append(modalHtml);
-              listHtml = "";
-              modalHtml = "";
             }
-
+            $('#listArea').empty().html(listHtml);
+            $('#listArea').append(`<div id="pagination"></div>`);
+            $('#pagination').html(pagination);
+            $('#modalArea').empty().html(modalHtml);
           }
         }
       });
+    }
+
+    function sendAjaxRequestByPage(paramPage) {
+      page = paramPage;
+      sendAjaxRequest();
     }
 
     function sendAjaxRequestbySale() {

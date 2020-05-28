@@ -538,7 +538,9 @@ class Ajax extends Model
             DB::raw('truckmakes.name as truckmake_name')
         );
 
-        return $searchResult->get();
+        $return = $searchResult->paginate(10);
+        
+        return $return;
     }
  
     static function getDoctorlist($per_page='', $page='', $search='', $practice='', $available='') {

@@ -30,9 +30,13 @@ class DealController extends Controller
     {
         $this->authorize('manage-deals', User::class);
         if (auth()->user()->isAdmin() || auth()->user()->isCreator()) {
-            return view('deal.index', ['items' => $model->all(), 'specifics' => $specific->all()]);
+            return view('deal.index', ['items' => $model->all(), 
+                'equip_specifics' => $specific->where('truck_data', 0)->get(),
+                'truck_specifics' => $specific->where('truck_data', 1)->get()]);
         } else if (auth()->user()->isMember()) {
-            return view('deal.index', ['items' => $model->where('user_id', auth()->user()->id)->get(), 'specifics' => $specific->all()]);
+            return view('deal.index', ['items' => $model->where('user_id', auth()->user()->id)->get(), 
+                'equip_specifics' => $specific->where('truck_data', 0)->get(),
+                'truck_specifics' => $specfic->where('truck_data', 1)->get()]);
         }
     }
 
@@ -46,7 +50,8 @@ class DealController extends Controller
         $data['equipment_category'] = $category->get(['id', 'name']);
         $data['makes'] = $make ->get(['id', 'name']);
         $data['modelds'] = $modeld ->get(['id', 'name']);
-        $data['specifics'] = $specific ->all();
+        $data['equip_specifics'] = $specific ->where('truck_data', 0) ->get();
+        $data['truck_specifics'] = $specific ->where('truck_data', 1) ->get();
         $data['types'] = $type ->get(['id', 'name']);
         $data['truckmakes'] = $truckmake ->get(['id', 'name']);
         $data['auctioneers'] = $auctioneer ->get(['id', 'name']);
@@ -96,6 +101,8 @@ class DealController extends Controller
             'makes' => $make->get(['id', 'name']),
             'modelds' => $modeld->get(['id', 'name']),
             'specifics' => $specific->all(),
+            'equip_specifics' => $specific->where('truck_data', 0)->get(),
+            'truck_specifics' => $specific->where('truck_data', 1)->get(),
             'types' => $type->get(['id', 'name']),
             'truckmakes' => $truckmake->get(['id', 'name']),
             'auctioneers' => $auctioneer->get(['id', 'name']),
