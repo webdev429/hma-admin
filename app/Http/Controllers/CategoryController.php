@@ -68,7 +68,11 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request, Category $model)
     {
         $category = $model->create($request->merge(['user_id' => auth()->user()->id])->all());
-        $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));
+        if ($request->get('truck_specifics')) {
+            $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));
+        } else {
+            $category->specifics()->sync($request->get('equip_specifics'));
+        }
 
         return redirect()->route('category.index')->withStatus(__('Category successfully created.'));
     }
@@ -100,8 +104,12 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $category->update($request->merge(['user_id' => auth()->user()->id])->all());
-
-        $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));
+        
+        if ($request->get('truck_specifics')) {
+            $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));
+        } else {
+            $category->specifics()->sync($request->get('equip_specifics'));
+        }
 
         return redirect()->route('category.index')->withStatus(__('Category data successfully updated.'));
     }
