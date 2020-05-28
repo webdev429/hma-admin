@@ -267,7 +267,8 @@
                                         <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item'>{{ $specific->name }}</label>
                                         <div class='col-md-4 col-sm-8 {{ $specific->column_name }} specific_item'>
                                             <div class='form-group'>
-                                            <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition'>
+                                            <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition' title="{{ $specific->required == 1 ? 'Choose '.$specific->name : '-' }}">
+                                                <option value=""></option>
                                                 @foreach ($optionAry as $option)
                                                 <option value='{{ $option }}'>{{ $option }}</option>
                                                 @endforeach
@@ -315,7 +316,7 @@
                                         <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item'>{{ $specific->name }}</label>
                                         <div class='col-md-4 col-sm-8 {{ $specific->column_name }} specific_item'>
                                             <div class='form-group'>
-                                            <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition'>
+                                            <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition' title="{{ $specific->required == 1 ? 'Choose '.$specific->name : '-' }}">
                                                 @foreach ($optionAry as $option)
                                                 <option value='{{ $option }}'>{{ $option }}</option>
                                                 @endforeach
