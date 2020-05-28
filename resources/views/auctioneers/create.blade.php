@@ -19,7 +19,7 @@
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-md-12 text-right">
-                                    <a href="{{ route('make.index') }}"
+                                    <a href="{{ route('auctioneer.index') }}"
                                         class="btn btn-sm btn-rose">{{ __('Back to list') }}</a>
                                 </div>
                             </div>
