@@ -42,6 +42,9 @@
                         {{ __('Data Field') }}
                       </th>
                       <th>
+                        {{ __('Title Structure') }}
+                      </th>
+                      <th>
                         {{ __('Created Date') }}
                       </th>
                       <th>
@@ -58,6 +61,43 @@
                     </thead>
                     <tbody>
                       @foreach($categories as $category)
+                        @php
+                          $titleAry = explode(',', $category->title_structure);
+                          $titleStr = array();
+                          $i = 0;
+                          foreach ($titleAry as $title) {
+                            switch ($title) {
+                              case 'year':
+                                $titleStr[$i] = 'Year';
+                                break;
+                              case 'make':
+                                $titleStr[$i] = 'Make';
+                                break;
+                              case 'model':
+                                $titleStr[$i] = 'Model';
+                                break;
+                              case 'truckyear':
+                                $titleStr[$i] = 'Truck Year';
+                                break;
+                              case 'truckmake':
+                                $titleStr[$i] = 'Truck Make';
+                                break;
+                              case 'truckmodel':
+                                $titleStr[$i] = 'Truck Model';
+                                break;
+                              default:
+                                $tmp = $specific->where('id', $title)->get();
+                                if ($tmp[0]->unit) {
+                                  $titleStr[$i] = $tmp[0]->name . '(' . $tmp[0]->unit . ')';
+                                } else {
+                                  $titleStr[$i] = $tmp[0]->name;
+                                }
+                                break;
+                            }
+                            $i++;
+                          }
+                          $title_string = implode(',', $titleStr);
+                        @endphp
                         <tr>
                           <td>
                             {{ $category->name }}
@@ -88,6 +128,11 @@
                             @foreach ($category->specifics->where('truck_data', 1) as $specific)
                                 <span class="badge badge-default">{{ $specific->name }} {{ $specific->unit != '' ? '('.$specific->unit.')' : "" }}</span>
                             @endforeach
+                          </td>
+                          <td>
+                            <span class="badge badge-primary">
+                              {{ $title_string }}
+                            </span>
                           </td>
                           <td>
                             {{ $category->created_at->format('Y-m-d') }}

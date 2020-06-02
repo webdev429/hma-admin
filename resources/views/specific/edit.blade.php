@@ -130,7 +130,7 @@
                                 <div class="col-sm-7">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input class="form-check-input" name="required" type="checkbox" value="1" {{ $specific->required == 1 ? 'checked' : '' }}> Require
+                                        <input class="form-check-input" name="required" type="checkbox" value="1" {{ $specific->required == 1 ? 'checked' : '' }}> Required
                                         <span class="form-check-sign">
                                             <span class="check"></span>
                                         </span>

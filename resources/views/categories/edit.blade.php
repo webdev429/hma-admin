@@ -100,6 +100,123 @@ Management')])
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Title Structure') }}</label>
+                                <div class="col-sm-7">
+                                    <div class="row" style="margin:0 auto;">
+                                        @php
+                                            $title_structure = explode(',', $category->title_structure);
+                                            if (sizeof($title_structure) == 2) {
+                                                $title_structure[2] = 'none';
+                                                $title_structure[3] = 'none';
+                                            } else if (sizeof($title_structure) == 3) {
+                                                $title_structure[3] = 'none';
+                                            }                                        
+                                        @endphp
+                                        <select class="selectpicker col-md-3 col-sm-12 pl-0 pr-0" name="title1" id="title1_select"
+                                            data-style="select-with-transition" title="-" data-size="7" required>
+                                            <option value="year" {{ $title_structure[0] == 'year' ? 'selected' : '' }}>Year</option>
+                                            <option value="make" {{ $title_structure[0] == 'make' ? 'selected' : '' }}>Make</option>
+                                            <option value="model" {{ $title_structure[0] == 'model' ? 'selected' : '' }}>Model</option>
+                                            <option value="truckyear" {{ $title_structure[0] == 'truckyear' ? 'selected' : '' }}>Truck Year</option>
+                                            <option value="truckmake" {{ $title_structure[0] == 'truckmake' ? 'selected' : '' }}>Truck Make</option>
+                                            <option value="truckmodel" {{ $title_structure[0] == 'truckmodel' ? 'selected' : '' }}>Truck Model</option>
+                                            @foreach ($equip_specifics as $specific)
+                                                <option value="{{ $specific->id }}" {{ $title_structure[0] == $specific->id ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                            @endforeach
+                                            @foreach ($truck_specifics as $specific)
+                                                <option value="{{ $specific->id }}" {{ $title_structure[0] == $specific->id ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                            @endforeach
+                                        </select>
+                                        <select class="selectpicker col-md-3 col-sm-12 pl-0 pr-0" name="title2" id="title2_select"
+                                            data-style="select-with-transition" title="-" data-size="7" required>
+                                            <option value="">None</option>
+                                            <option value="year" {{ $title_structure[1] == 'year' ? 'selected' : '' }}>Year</option>
+                                            <option value="make" {{ $title_structure[1] == 'make' ? 'selected' : '' }}>Make</option>
+                                            <option value="model" {{ $title_structure[1] == 'model' ? 'selected' : '' }}>Model</option>
+                                            <option value="truckyear" {{ $title_structure[1] == 'truckyear' ? 'selected' : '' }}>Truck Year</option>
+                                            <option value="truckmake" {{ $title_structure[1] == 'truckmake' ? 'selected' : '' }}>Truck Make</option>
+                                            <option value="truckmodel" {{ $title_structure[1] == 'truckmodel' ? 'selected' : '' }}>Truck Model</option>
+                                            @foreach ($equip_specifics as $specific)
+                                                <option value="{{ $specific->id }}" {{ $title_structure[1] == $specific->id ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                            @endforeach
+                                            @foreach ($truck_specifics as $specific)
+                                                <option value="{{ $specific->id }}" {{ $title_structure[1] == $specific->id ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($title_structure[2] == 'none')
+                                            <select class="selectpicker col-md-3 col-sm-12 pl-0 pr-0" name="title3" id="title3_select"
+                                                data-style="select-with-transition" title="-" data-size="7" required>
+                                                <option value="" selected>None</option>
+                                                <option value="year">Year</option>
+                                                <option value="make">Make</option>
+                                                <option value="model">Model</option>
+                                                <option value="truckyear">Truck Year</option>
+                                                <option value="truckmake">Truck Make</option>
+                                                <option value="truckmodel">Truck Model</option>
+                                                @foreach ($equip_specifics as $specific)
+                                                    <option value="{{ $specific->id }}">{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                                @endforeach
+                                                @foreach ($truck_specifics as $specific)
+                                                    <option value="{{ $specific->id }}">{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                                @endforeach
+                                            </select>
+                                        @else
+                                            <select class="selectpicker col-md-3 col-sm-12 pl-0 pr-0" name="title3" id="title3_select"
+                                                data-style="select-with-transition" title="-" data-size="7" required>
+                                                <option value="">None</option>
+                                                <option value="year" {{ $title_structure[2] == 'year' ? 'selected' : '' }}>Year</option>
+                                                <option value="make" {{ $title_structure[2] == 'make' ? 'selected' : '' }}>Make</option>
+                                                <option value="model" {{ $title_structure[2] == 'model' ? 'selected' : '' }}>Model</option>
+                                                <option value="truckyear" {{ $title_structure[2] == 'truckyear' ? 'selected' : '' }}>Truck Year</option>
+                                                <option value="truckmake" {{ $title_structure[2] == 'truckmake' ? 'selected' : '' }}>Truck Make</option>
+                                                <option value="truckmodel" {{ $title_structure[2] == 'truckmodel' ? 'selected' : '' }}>Truck Model</option>
+                                                @foreach ($equip_specifics as $specific)
+                                                    <option value="{{ $specific->id }}" {{ $title_structure[2] == $specific->id ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                                @endforeach
+                                                @foreach ($truck_specifics as $specific)
+                                                    <option value="{{ $specific->id }}" {{ $title_structure[2] == $specific->id ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif
+                                        @if ($title_structure[3] == 'none')
+                                            <select class="selectpicker col-md-3 col-sm-12 pl-0 pr-0" name="title4" id="title3_select"
+                                                data-style="select-with-transition" title="-" data-size="7" required>
+                                                <option value="title_none" selected>None</option>
+                                                <option value="year">Year</option>
+                                                <option value="make">Make</option>
+                                                <option value="model">Model</option>
+                                                <option value="truckyear">Truck Year</option>
+                                                <option value="truckmake">Truck Make</option>
+                                                <option value="truckmodel">Truck Model</option>
+                                                @foreach ($equip_specifics as $specific)
+                                                    <option value="{{ $specific->id }}">{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                                @endforeach
+                                                @foreach ($truck_specifics as $specific)
+                                                    <option value="{{ $specific->id }}">{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                                @endforeach
+                                            </select>
+                                        @else
+                                            <select class="selectpicker col-md-3 col-sm-12 pl-0 pr-0" name="title4" id="title3_select"
+                                                data-style="select-with-transition" title="-" data-size="7" required>
+                                                <option value="title_none">None</option>
+                                                <option value="year" {{ $title_structure[3] == 'year' ? 'selected' : '' }}>Year</option>
+                                                <option value="make" {{ $title_structure[3] == 'make' ? 'selected' : '' }}>Make</option>
+                                                <option value="model" {{ $title_structure[3] == 'model' ? 'selected' : '' }}>Model</option>
+                                                <option value="truckyear" {{ $title_structure[3] == 'truckyear' ? 'selected' : '' }}>Truck Year</option>
+                                                <option value="truckmake" {{ $title_structure[3] == 'truckmake' ? 'selected' : '' }}>Truck Make</option>
+                                                <option value="truckmodel" {{ $title_structure[3] == 'truckmodel' ? 'selected' : '' }}>Truck Model</option>
+                                                @foreach ($equip_specifics as $specific)
+                                                    <option value="{{ $specific->id }}" {{ $title_structure[3] == $specific->id ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                                @endforeach
+                                                @foreach ($truck_specifics as $specific)
+                                                    <option value="{{ $specific->id }}" {{ $title_structure[3] == $specific->id ? 'selected' : '' }}>{{ $specific->name }}{{ $specific->unit ? '('.$specific->unit.')' : '' }}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer ml-auto mr-auto">
                             <button type="submit" class="btn btn-rose">{{ __('Save') }}</button>

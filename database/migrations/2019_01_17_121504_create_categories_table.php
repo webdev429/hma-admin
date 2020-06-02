@@ -20,6 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->integer('equip_info')->default(1);
             $table->integer('truck_mounted')->default(0);
             $table->unsignedInteger('type_id');
+            $table->string('title_structure');
             $table->unsignedInteger('user_id');
             $table->timestamps();
 

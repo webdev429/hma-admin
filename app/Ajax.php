@@ -542,6 +542,49 @@ class Ajax extends Model
         
         return $return;
     }
+
+    static function getTitleStructure($category_id) {
+        $tmp_result = DB::table('categories')
+            ->where('id', $category_id)
+            ->select('title_structure')
+            ->get();
+
+        $tmp_str = explode(',', $tmp_result[0]->title_structure);
+        $return = array();
+        foreach ($tmp_str as $tmp) {
+            switch ($tmp) {
+                case 'year':
+                    array_push($return, '#year');
+                    break;
+                case 'make':
+                    array_push($return, '#make_id');
+                    break;
+                case 'model':
+                    array_push($return, '#modeld_id');
+                    break;
+                case 'truckmake':
+                    array_push($return, '#truckmake_id');
+                    break;
+                case 'truckmodel':
+                    array_push($return, '#truck_model');
+                    break;
+                case 'truckyear':
+                    array_push($return, '#truck_year');
+                    break;
+                
+                default:
+                    $result = DB::table('specifics')
+                        ->where('id', $tmp)
+                        ->select('column_name')
+                        ->get();
+
+                    array_push($return, '#'.$result[0]->column_name);
+                    break;
+            }
+        }
+
+        return $return;
+    }
  
     static function getDoctorlist($per_page='', $page='', $search='', $practice='', $available='') {
         $doctorlist = DB::table('cms_doctor');

@@ -52,6 +52,18 @@ class CategoryRequest extends FormRequest
             'type_id' => [
                 'required', 'exists:'.(new Type)->getTable().',id'
             ],
+            'title1' => [
+                'required'
+            ],
+            'title2' => [
+                'required'
+            ],
+            'title3' => [
+                'nullable'
+            ],
+            'title4' => [
+                'nullable'
+            ]
         ];
     }
 }

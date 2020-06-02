@@ -98,7 +98,7 @@
                                     <label class="col-sm-4 col-form-label  truck-mounted-fields">Truck Make</label>
                                     <div class="col-sm-8 truck-mounted-fields">
                                         <div class="form-group">
-                                            <select class="selectpicker" name="truckmake_id" data-style="select-with-transition" title="Choose Truck Make">
+                                            <select class="selectpicker" name="truckmake_id" id="truckmake_id" data-style="select-with-transition" title="Choose Truck Make">
                                                 <option value=""></option>
                                                 @foreach ($truckmakes as $truckmake)
                                                 <option value="{{ $truckmake->id }}">{{ $truckmake->name }}</option>
@@ -236,6 +236,7 @@
                                         @if ($specific->unit != '')
                                         @php
                                             $unitAry = explode('/', $specific->unit);
+                                            $unit_flag = 0;
                                         @endphp
                                         <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item'> {{ $specific->name }}</label>
                                         <div class='col-md-3 col-sm-5 {{ $specific->column_name }} specific_item'>
@@ -247,7 +248,12 @@
                                             <div class='form-group'>
                                                 <select class='selectpicker' name='{{ $specific->column_name }}_unit' id='{{ $specific->column_name }}_unit' data-style='select-with-transition'>
                                                     @foreach ($unitAry as $unit)
-                                                    <option value='{{ $unit }}'>{{ $unit }}</option>
+                                                        @if ($unit_flag == 0)
+                                                            <option value='{{ $unit }}' selected>{{ $unit }}</option>
+                                                            <?php $unit_flag = 1; ?>
+                                                        @else
+                                                            <option value='{{ $unit }}'>{{ $unit }}</option>
+                                                        @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -285,6 +291,7 @@
                                         @if ($specific->unit != '')
                                         @php
                                             $unitAry = explode('/', $specific->unit);
+                                            $unit_flag = 0;
                                         @endphp
                                         <label class='col-md-2 col-sm-4 col-form-label {{ $specific->column_name }} specific_item'> {{ $specific->name }}</label>
                                         <div class='col-md-3 col-sm-5 {{ $specific->column_name }} specific_item'>
@@ -296,7 +303,12 @@
                                             <div class='form-group'>
                                                 <select class='selectpicker' name='{{ $specific->column_name }}_unit' id='{{ $specific->column_name }}_unit' data-style='select-with-transition'>
                                                     @foreach ($unitAry as $unit)
-                                                    <option value='{{ $unit }}'>{{ $unit }}</option>
+                                                        @if ($unit_flag == 0)
+                                                            <option value='{{ $unit }}' selected>{{ $unit }}</option>
+                                                            <?php $unit_flag = 1; ?>
+                                                        @else
+                                                            <option value='{{ $unit }}'>{{ $unit }}</option>
+                                                        @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -317,6 +329,7 @@
                                         <div class='col-md-4 col-sm-8 {{ $specific->column_name }} specific_item'>
                                             <div class='form-group'>
                                             <select class='selectpicker' name='{{ $specific->column_name }}' id='{{ $specific->column_name }}' data-style='select-with-transition' title="{{ $specific->required == 1 ? 'Choose '.$specific->name : '-' }}">
+                                                <option value=""></option>
                                                 @foreach ($optionAry as $option)
                                                 <option value='{{ $option }}'>{{ $option }}</option>
                                                 @endforeach
@@ -369,7 +382,9 @@
                             </div>
                         </div>
                         <div class="card-footer ml-auto mr-auto">
-                            <button type="submit" class="btn btn-rose">Add Deal</button>
+                            <button type="button" id="reviewBtn" class="btn btn-warning btn-lg" onclick="onClickReviewBtn();">Review</button>
+                            <button type="button" id="prevBtn" class="btn btn-info btn-lg" onclick="onClickPrevBtn();">Prev</button>
+                            <button type="submit" id="submitBtn" class="btn btn-rose btn-lg" disabled>Submit</button>
                         </div>
                     </div>
                 </form>
@@ -399,6 +414,9 @@
     .price-unit div .dropdown.bootstrap-select {
         width: 100% !important;
     }
+    #prevBtn {
+        display: none;
+    }
 </style>
 @endsection
 
@@ -408,6 +426,7 @@
     var modelStr = '';
     var yearStr = '';
     var titleStr = '';
+    var title_structure = [];
 
     function onChangeEqupmentType() {
         var eType = $('#type_id').val();
@@ -445,8 +464,10 @@
                 _token: '<?php echo csrf_token() ?>'
             },
             success: function(data) {
-                console.log(data);
-                if (data[0].truck_mounted == 1) {
+                title_structure = data.title_structure;
+                console.log(title_structure);
+                var tmpList = data.spec_field_data;
+                if (tmpList[0].truck_mounted == 1) {
                     $('.truck-mounted-title').fadeIn();
                     $('.truck-mounted-fields').fadeIn();
                     $('#truckmake_id').prop('required', 'true');
@@ -459,8 +480,8 @@
                     $('#truck_model').prop('required', 'false');
                     $('#truck_year').prop('required', 'false');
                 }
-                for (var item in data) {
-                    var class_str = '.' + data[item].column_name;
+                for (var item in tmpList) {
+                    var class_str = '.' + tmpList[item].column_name;
                     $(".specific_item"+class_str).fadeIn();
                 }
             }
@@ -468,10 +489,9 @@
     }
 
     function onChangeMake() {
-        makeStr = $('#make_id option:selected').text();
-        console.log(makeStr);
-        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
-        $("#title").val(titleStr);
+        // makeStr = $('#make_id option:selected').text();
+        // titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
+        // $("#title").val(titleStr);
 
         var mId = $('#make_id').val();
         $.ajax({
@@ -495,17 +515,17 @@
     }
 
     function onChangeModel() {
-        modelStr = $('#modeld_id option:selected').text();
-        console.log(modelStr);
-        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
-        $("#title").val(titleStr);
+        // modelStr = $('#modeld_id option:selected').text();
+        // console.log(modelStr);
+        // titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
+        // $("#title").val(titleStr);
     }
 
     function onChangeYear() {
-        console.log('year changed');
-        yearStr = $('#year').val();
-        titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
-        $("#title").val(titleStr);
+        // console.log('year changed');
+        // yearStr = $('#year').val();
+        // titleStr = yearStr.toString() + " " + makeStr.trim() + " " + modelStr.trim();
+        // $("#title").val(titleStr);
     }
 
     function onChangeDealType() {
@@ -557,6 +577,39 @@
                 $('#state').selectpicker('destroy').selectpicker();
             }
         });
+    }
+
+    function onClickReviewBtn() {
+        $('#reviewBtn').fadeOut();
+        $('#submitBtn').attr('disabled', false);
+        $('#prevBtn').fadeIn();
+        $('input').attr('disabled', true);
+        $('select').attr('disabled', true);
+        $('textarea').attr('disabled', true);
+        titleStr = "";
+        for (var i in title_structure) {
+            if($(title_structure[i]).hasClass('selectpicker')) {
+                titleStr += " " + $(title_structure[i] + ' option:selected').text();
+            } else {
+                if ($(title_structure[i] + '_unit').length) {
+                    titleStr += " " + $(title_structure[i]).val() + $(title_structure[i] + '_unit option:selected').text();
+                } else {
+                    titleStr += " " + $(title_structure[i]).val();
+                }
+            }
+        }
+
+        $('#title').val(titleStr);
+    }
+
+    function onClickPrevBtn() {
+        $('#prevBtn').fadeOut();
+        $('#reviewBtn').fadeIn();
+        $('#submitBtn').attr('disabled', true);
+        $('input').attr('disabled', false);
+        $('select').attr('disabled', false);
+        $('textarea').attr('disabled', false);
+        $('.selectpicker').selectpicker('refresh');
     }
 
     $(document).ready(function () {

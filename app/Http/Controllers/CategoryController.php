@@ -38,11 +38,11 @@ class CategoryController extends Controller
      * @param \App\Category  $model
      * @return \Illuminate\View\View
      */
-    public function index(Category $model)
+    public function index(Category $model, Specific $specific)
     {
         $this->authorize('manage-items', User::class);
 
-        return view('categories.index', ['categories' => $model->with(['type'])->get()]);
+        return view('categories.index', ['categories' => $model->with(['type'])->get(), 'specific' => $specific]);
     }
     /**
      * Show the form for creating a new category
@@ -67,7 +67,14 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request, Category $model)
     {
-        $category = $model->create($request->merge(['user_id' => auth()->user()->id])->all());
+        $title_structure = $request->title1 . "," . $request->title2;
+        if ($request->title3 != 'title_none') 
+            $title_structure .= "," . $request->title3;
+        if ($request->title4 != 'title_none')
+            $title_structure .= "," . $request->title4;
+
+        $category = $model->create($request->merge(['user_id' => auth()->user()->id, 'title_structure' => $title_structure])->all());
+
         if ($request->get('truck_specifics')) {
             $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));
         } else {
@@ -103,7 +110,16 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        $category->update($request->merge(['user_id' => auth()->user()->id])->all());
+        $title_structure = $request->title1 . "," . $request->title2;
+        if ($request->title3 != 'title_none') {
+            $title_structure .= "," . $request->title3;
+        }
+        if ($request->title4 != 'title_none') {
+            $title_structure .= "," . $request->title4;
+        }
+        
+        
+        $category->update($request->merge(['user_id' => auth()->user()->id, 'title_structure' => $title_structure])->all());
         
         if ($request->get('truck_specifics')) {
             $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));

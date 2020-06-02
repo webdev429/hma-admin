@@ -23,7 +23,12 @@ class AjaxController extends Controller {
 
         $specific_field_data = Ajax::getSpecificField($category_id);
 
-        return response() ->json($specific_field_data);
+        $title_structure = Ajax::getTitleStructure($category_id);
+
+        return response() ->json([
+            'spec_field_data' => $specific_field_data,
+            'title_structure' => $title_structure
+        ]);
     }
 
     public function get_equipment_category(Request $request) {
