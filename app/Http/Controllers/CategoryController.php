@@ -76,7 +76,11 @@ class CategoryController extends Controller
         $category = $model->create($request->merge(['user_id' => auth()->user()->id, 'title_structure' => $title_structure])->all());
 
         if ($request->get('truck_specifics')) {
-            $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));
+            if ($request->get('equip_specifics')) {
+                $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));
+            } else {
+                $category->specifics()->sync($request->get('truck_specifics'));
+            }
         } else {
             $category->specifics()->sync($request->get('equip_specifics'));
         }
@@ -122,7 +126,11 @@ class CategoryController extends Controller
         $category->update($request->merge(['user_id' => auth()->user()->id, 'title_structure' => $title_structure])->all());
         
         if ($request->get('truck_specifics')) {
-            $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));
+            if ($request->get('equip_specifics')) {
+                $category->specifics()->sync(array_merge($request->get('equip_specifics'), $request->get('truck_specifics')));
+            } else {
+                $category->specifics()->sync($request->get('truck_specifics'));
+            }
         } else {
             $category->specifics()->sync($request->get('equip_specifics'));
         }

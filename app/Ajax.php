@@ -586,6 +586,29 @@ class Ajax extends Model
         return $return;
     }
  
+    static function getModeldByCategory($category_id) {
+        $result = DB::table('modelds')
+            ->where('category_id', $category_id)
+            ->select('id', 'name')
+            ->get();
+
+        return $result;
+    }
+
+    static function getMakeByCategory($category_id) {
+        $result = DB::table('makes')
+            ->leftJoin('modelds', 'makes.id', '=', 'modelds.make_id')
+            ->where('category_id', $category_id)
+            ->select('makes.id', 'makes.name')
+            ->distinct()
+            ->get();
+
+        return $result;
+    }
+
+
+
+
     static function getDoctorlist($per_page='', $page='', $search='', $practice='', $available='') {
         $doctorlist = DB::table('cms_doctor');
         

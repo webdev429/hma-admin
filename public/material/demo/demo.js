@@ -286,17 +286,14 @@ demo = {
     // Code for the Validator
     var $validator = $('.card-wizard form').validate({
       rules: {
-        firstname: {
-          required: true,
-          minlength: 3
+        photo: {
+          required: true
         },
-        lastname: {
-          required: true,
-          minlength: 3
+        type_id: {
+          required: true
         },
-        email: {
-          required: true,
-          minlength: 3,
+        category_id: {
+          required: true
         }
       },
 

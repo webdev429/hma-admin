@@ -54,4 +54,17 @@ class AjaxController extends Controller {
 
         return response() ->json($state_list);
     }
+
+    public function get_make_models (Request $request) {
+        $category_id = $request->ecat_id;
+
+        $modeld = Ajax::getModeldByCategory($category_id);
+
+        $make = Ajax::getMakeByCategory($category_id);
+
+        return response() ->json([
+            'makes' => $make,
+            'modelds' => $modeld
+        ]);
+    }
 }
