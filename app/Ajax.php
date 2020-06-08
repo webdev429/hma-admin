@@ -197,7 +197,7 @@ class Ajax extends Model
 
         $result['data'] = $pre_return ->take(5) ->distinct() ->get();
         if(sizeof($result['data']) > 5) {
-            $result['data_modal'] = $pre_return ->skip(1) ->limit(100000) ->get();
+            $result['data_modal'] = $pre_return ->get();
         } else {
             $result['data_modal'] = 'no_more';
         }
@@ -219,7 +219,7 @@ class Ajax extends Model
 
         $result['data'] = $pre_return ->take(5) ->distinct() ->get();
         if(sizeof($result['data']) > 5) {
-            $result['data_modal'] = $pre_return ->skip(1) ->limit(100000) ->get();
+            $result['data_modal'] = $pre_return ->get();
         } else {
             $result['data_modal'] = 'no_more';
         }
@@ -387,7 +387,7 @@ class Ajax extends Model
         if ($ext == 3) {
             $categoryList ->take(3) ->get();
         } else {
-            $categoryList ->skip(3) ->take(100000) ->get();
+            $categoryList ->get();
         }
 
         return $categoryList->get();

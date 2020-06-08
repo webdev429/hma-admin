@@ -21,7 +21,7 @@ class WelcomeController extends Controller
             'deals' => $model->paginate(10),
             'specifics' => $specific->all(),
             'types_first' => $type->skip(0)->take(3)->get(),
-            'types_modal' => $types_modal,
+            'types_modal' => $type->all(),
             'categories' => $category->all(),
             'makes' => $make->all(),
             'modelds' => $modeld->all(),
@@ -66,7 +66,7 @@ class WelcomeController extends Controller
         return response() ->json($return);
     }
 
-    public function get_categories_by_types (Request $request) {
+    public function get_categories_by_types (Request $request, Category $category) {
         $typeAry = $request ->types;
 
         $return1 = Ajax::getCategoryByTypes($typeAry);

@@ -28,8 +28,20 @@
                     <input type="text" value="" class="form-control" placeholder="Search..." id="search_key">
                   </div>
                   <div id="filter_list">
-                    <div class="filter_item" data-type="checkbox" data-id="deal_sales">sales<i class="material-icons" style="display:none;">close</i></div>
-                    <div class="filter_item" data-type="checkbox" data-id="deal_auctions">auctions<i class="material-icons" style="display:none;">close</i></div>
+                    <div class="filter_item" data-type="checkbox" data-id="deal_sales">sales<i class="material-icons" style="font-size:16px;">close</i></div>
+                    <div class="filter_item" data-type="checkbox" data-id="deal_auctions">auctions<i class="material-icons" style="font-size:16px;">close</i></div>
+                    @foreach ($types_modal as $type)
+                    <div class="filter_item" data-type="checkbox_type" data-id="typecheck_{{ $type->id }}" style="display:none;">{{ $type->name }} <i class="material-icons" style="font-size:16px;">close</i></div>
+                    @endforeach
+                    @foreach ($categories as $category)
+                    <div class="filter_item" data-type="checkbox_category" data-id="categorycheck_{{ $category->id }}" style="display:none;">{{ $category->name }} <i class="material-icons" style="font-size:16px;">close</i></div>
+                    @endforeach
+                    @foreach ($makes as $make)
+                    <div class="filter_item" data-type="checkbox_make" data-id="makecheck_{{ $make->id }}" style="display:none;">{{ $make->name }} <i class="material-icons" style="font-size:16px;">close</i></div>
+                    @endforeach
+                    @foreach ($modelds as $modeld)
+                    <div class="filter_item" data-type="checkbox_modeld" data-id="modeldcheck_{{ $modeld->id }}" style="display:none;">{{ $modeld->name }} <i class="material-icons" style="font-size:16px;">close</i></div>
+                    @endforeach
                   </div>
                 </div>
                 <div class="card-body filter_area">
@@ -73,7 +85,7 @@
                         @foreach ($types_first as $type)
                           <div class="form-check">
                             <label class="form-check-label">
-                              <input class="form-check-input type-filter-check" type="checkbox" unchecked id="typecheck_{{ $type->id }}" value="{{ $type->id }}" onchange="sendAjaxRequestByType();"> {{ $type->name }}{{ $type->unit ? '('.$type->unit.')' : '' }}
+                              <input class="form-check-input type-filter-check" type="checkbox" unchecked id="typecheck_{{ $type->id }}" value="{{ $type->id }}" data-text="{{ $type->name }}{{ $type->unit ? '('.$type->unit.')' : '' }}" onchange="sendAjaxRequestByType();"> {{ $type->name }}{{ $type->unit ? '('.$type->unit.')' : '' }}
                               <span class="form-check-sign">
                                 <span class="check"></span>
                               </span>
@@ -728,6 +740,7 @@
     cursor: pointer;
     text-transform: uppercase;
     margin-right: 5px;
+    margin-bottom: 5px;
   }
   .filter_item:hover {
     font-weight: bolder;
@@ -1188,15 +1201,8 @@
       return true;
     }
 
-    $('.filter_item').hover(function(){
-      $(this).find('.material-icons').fadeIn();
-    });
-
-    $('.filter_item').mouseleave(function(){
-      $(this).find('.material-icons').fadeOut();
-    });
-
     $('.filter_item').click(function() {
+      console.log($(this).attr('data-id'));
       switch ($(this).attr('data-type')) {
         case 'checkbox':
           $(this).fadeOut();    
@@ -1207,7 +1213,26 @@
             sendAjaxRequestbyAuction();
           }
           break;
-      
+        case 'checkbox_type':
+          $('#'+$(this).attr('data-id')).prop('checked', false);
+          sendAjaxRequestByType();
+          $(this).remove();
+          break;
+        case 'checkbox_category':
+          $('#'+$(this).attr('data-id')).prop('checked', false);
+          ajaxSendRequestByCategory();
+          $(this).remove();
+          break;
+        case 'checkbox_make':
+          $('#'+$(this).attr('data-id')).prop('checked', false);
+          sendAjaxRequestByMake();
+          $(this).remove();
+          break;
+        case 'checkbox_modeld':
+          $('#'+$(this).attr('data-id')).prop('checked', false);
+          sendAjaxRequestByModel();
+          $(this).remove();
+          break;
         default:
           break;
       }
@@ -1533,7 +1558,7 @@
         } else {
           deal_type = 0;
         }
-        $('#filter_list').find(`[data-id='deal_sales']`).fadeIn();
+        $('#filter_list').find(`[data-id='deal_sales']`).show();
       } else {
         $('.filter_eqprice').fadeOut();
         $('#eq_price_start').val('0');
@@ -1543,7 +1568,7 @@
         } else {
           deal_type = 3;
         }
-        $('#filter_list').find(`[data-id='deal_sales']`).fadeOut();
+        $('#filter_list').find(`[data-id='deal_sales']`).hide();
       }
       sendAjaxRequest();
     }
@@ -1557,7 +1582,7 @@
         } else {
           deal_type = 1;
         }
-        $('#filter_list').find(`[data-id='deal_auctions']`).fadeIn();
+        $('#filter_list').find(`[data-id='deal_auctions']`).show();
       } else {
         if ($('#deal_sales').prop('checked') === true) {
           deal_type = 0;
@@ -1570,16 +1595,18 @@
         $('.filter_buypremium').fadeOut();
         $('#from_premium').val('0');
         $('#end_premium').val('100');
-        $('#filter_list').find(`[data-id='deal_auctions']`).fadeOut();
+        $('#filter_list').find(`[data-id='deal_auctions']`).hide();
       }
       sendAjaxRequest();
     }
 
     function sendAjaxRequestByType() {
       eq_type = [];
+      $('#filter_list').find(`[data-type='checkbox_type']`).hide();
       $(".type-filter-check").each(function() {
         if ($(this).prop('checked') === true) {
           eq_type.push($(this).attr('value'));
+          $('#filter_list').find(`[data-id='typecheck_${$(this).attr('value')}']`).show();
         } 
       });
       $.ajax({
@@ -1629,9 +1656,11 @@
 
     function ajaxSendRequestByCategory() {
       eq_category = [];
+      $('#filter_list').find(`[data-type='checkbox_category']`).hide();
       $(".category-filter-check").each(function() {
         if ($(this).prop('checked') === true) {
           eq_category.push($(this).attr('value'));
+          $('#filter_list').find(`[data-id='categorycheck_${$(this).attr('value')}']`).show();
         } 
       });
       $.ajax({
@@ -1757,9 +1786,11 @@
 
     function sendAjaxRequestByMake() {
       eq_make = [];
+      $('#filter_list').find(`[data-type='checkbox_make']`).hide();
       $(".make-filter-check").each(function() {
         if ($(this).prop('checked') === true) {
           eq_make.push($(this).attr('value'));
+          $('#filter_list').find(`[data-id='makecheck_${$(this).attr('value')}']`).show();
         } 
       });
       $.ajax({
@@ -1784,9 +1815,11 @@
 
     function sendAjaxRequestByModel() {
       eq_model = [];
+      $('#filter_list').find(`[data-type='checkbox_modeld']`).hide();
       $(".modeld-filter-check").each(function() {
         if ($(this).prop('checked') === true) {
           eq_model.push($(this).attr('value'));
+          $('#filter_list').find(`[data-id='modeldcheck_${$(this).attr('value')}']`).show();
         } 
       });
       sendAjaxRequest();
