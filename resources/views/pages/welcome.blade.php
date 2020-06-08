@@ -7,15 +7,17 @@
 ])
 
 @section('content')
-<div class="container" style="height: auto;">
+<style>
+  .filter_area div a .collapse-header {
+    background: #333333;
+  }
+</style>
+<div class="container" style="height:auto;margin-top:-30px;">
   <div class="row justify-content-center">
     <div class="col-sm-12">
       <div class="card" style="margin:0;">
-        <div class="card-header card-header-rose card-header-icon">
-          <div class="card-icon">
-            <i class="material-icons">local_shipping</i>
-          </div>
-          <h4 class="card-title">{{ __('Heavy Equipment Deal List') }}</h4>
+        <div class="card-header card-header-rose card-header-icon" style="">
+          
         </div>
         <div class="card-body">
           <div class="row">
@@ -25,12 +27,16 @@
                   <div class="input-group no-border">
                     <input type="text" value="" class="form-control" placeholder="Search..." id="search_key">
                   </div>
+                  <div id="filter_list">
+                    <div class="filter_item" data-type="checkbox" data-id="deal_sales">sales<i class="material-icons" style="display:none;">close</i></div>
+                    <div class="filter_item" data-type="checkbox" data-id="deal_auctions">auctions<i class="material-icons" style="display:none;">close</i></div>
+                  </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body filter_area">
                   <!-- Deal Type -->
                   <div class="filter_dealtype">
                     <a href="#deal_type" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="deal_type">
-                      <div class="collapse-header" style="border-top-left-radius:5px;border-top-right-radius:5px;">
+                      <div class="collapse-header">
                         Deal Type
                       </div>
                     </a>
@@ -64,15 +70,21 @@
                     </a>
                     <div class="collapse" id="eq_type">
                       <div class="collapse-body">
-                        <div class="form-group{{ $errors->has('categories') ? ' has-danger' : '' }}">
-                          <select class="selectpicker col-sm-12 pl-0 pr-0" name="types[]" id="select_type"
-                            data-style="select-with-transition" multiple title="Choose Type" data-size="7" onchange="sendAjaxRequestByType();">
-                            @foreach ($types as $type)
-                              <option value="{{ $type->id }}">{{ $type->name }}{{ $type->unit ? '('.$type->unit.')' : '' }}</option>
-                            @endforeach
-                          </select>
-                          @include('alerts.feedback', ['field' => 'types'])
-                        </div>
+                        @foreach ($types_first as $type)
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input type-filter-check" type="checkbox" unchecked id="typecheck_{{ $type->id }}" value="{{ $type->id }}" onchange="sendAjaxRequestByType();"> {{ $type->name }}{{ $type->unit ? '('.$type->unit.')' : '' }}
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div>
+                        @endforeach
+                        @if ($types_modal != 'no_more')
+                          <div class="text-center">
+                            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#typeModal"><i class="material-icons">add</i> Show All</button>
+                          </div>
+                        @endif
                       </div>
                     </div>
                   </div>
@@ -85,12 +97,6 @@
                     </a>
                     <div class="collapse" id="eq_category">
                       <div class="collapse-body">
-                        <div class="form-group{{ $errors->has('categories') ? ' has-danger' : '' }}">
-                          <select class="selectpicker col-sm-12 pl-0 pr-0" id="select_category"
-                            data-style="select-with-transition" multiple title="Choose Category" data-size="7" onchange="ajaxSendRequestByCategory();">
-                              <option value=""></option>
-                          </select>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -103,31 +109,20 @@
                     </a>
                     <div class="collapse" id="eq_make">
                       <div class="collapse-body">
-                        <div class="form-group{{ $errors->has('makes') ? ' has-danger' : '' }}">
-                          <select class="selectpicker col-sm-12 pl-0 pr-0" name="makes[]" id="select_make" onchange="sendAjaxRequestByMake();" data-style="select-with-transition" multiple title="Choose Manufacturer" data-size="7">
-                            @foreach ($makes as $make)
-                              <option value="{{ $make->id }}" {{ in_array($make->id, old('make') ?? []) ? 'selected' : '' }}>{{ $make->name }}{{ $make->unit ? '('.$make->unit.')' : '' }}</option>
-                            @endforeach
-                          </select>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
                   <!-- Model Filter -->
                   <div class="filter_eqmodeld">
-                    <a href="#eq_model" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="eq_model">
+                    <a href="#eq_modeld" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="eq_modeld">
                       <div class="collapse-header">
                         Model
                       </div>
                     </a>
-                    <div class="collapse" id="eq_model">
+                    <div class="collapse" id="eq_modeld">
                       <div class="collapse-body">
-                        <div class="form-group{{ $errors->has('modelds') ? ' has-danger' : '' }}">
-                          <select class="selectpicker col-sm-12 pl-0 pr-0" name="modelds[]" id="select_modeld"
-                            data-style="select-with-transition" multiple title="Choose Model" data-size="7">
-                            <option value=""></option>
-                          </select>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
@@ -153,8 +148,8 @@
                           </div>
                         </div>
                         <div id="sliderYear" class="slider slider-primary" onchange="onChangeEqYear();"></div>
-                        <div class="text-right">
-                          <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByEqYear();">
+                        <div class="text-center">
+                          <button type="button" class="btn btn-sm btn-primary" onclick="sendAjaxRequestByEqYear();">
                             Search
                           </button>
                         </div>
@@ -180,8 +175,8 @@
                         <select class="selectpicker col-sm-12 pl-0 pr-0" name="makes[]" id="select_state"
                           data-style="select-with-transition" multiple title="Choose State" data-size="7">                          
                         </select>
-                        <div class="text-right">
-                          <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByEqLocation();">
+                        <div class="text-center">
+                          <button type="button" class="btn btn-sm btn-primary" onclick="sendAjaxRequestByEqLocation();">
                             Search
                           </button>
                         </div>
@@ -210,8 +205,8 @@
                           </div>
                         </div>
                         <div id="sliderPremium" class="slider slider-primary"></div>
-                        <div class="text-right">
-                          <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByPremium();">
+                        <div class="text-center">
+                          <button type="button" class="btn btn-sm btn-primary" onclick="sendAjaxRequestByPremium();">
                             Search
                           </button>
                         </div>
@@ -240,8 +235,8 @@
                           </div>
                         </div>
                         <div id="sliderPrice" class="slider slider-primary slider-price"></div>
-                        <div class="text-right">
-                          <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByPrice();">
+                        <div class="text-center">
+                          <button type="button" class="btn btn-sm btn-primary" onclick="sendAjaxRequestByPrice();">
                             Search
                           </button>
                         </div>
@@ -261,8 +256,8 @@
                           placeholder="{{ __('Select date from') }}" class="form-control datetimepicker" value="{{ old('auc_fromdate', now()->format('d-m-Y')) }}"/>
                         <input type="text"  name="auc_enddate" id="auc_enddate"
                           placeholder="{{ __('Select date until') }}" class="form-control datetimepicker" value="{{ old('auc_enddate', now()->format('d-m-Y')) }}"/>
-                        <div class="text-right">
-                          <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByAucDate();">
+                        <div class="text-center">
+                          <button type="button" class="btn btn-sm btn-primary" onclick="sendAjaxRequestByAucDate();">
                             Search
                           </button>
                         </div>
@@ -299,8 +294,8 @@
                             <option value="Diesel">Diesel</option>
                             <option value="Gas">Gas</option>
                         </select>
-                        <div class="text-right">
-                          <button type="button" class="btn btn-primary" onclick="sendAjaxRequestByTruckData();">
+                        <div class="text-center">
+                          <button type="button" class="btn btn-sm btn-primary" onclick="sendAjaxRequestByTruckData();">
                             Search
                           </button>
                         </div>
@@ -323,51 +318,109 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-9 col-sm-12 row" id="listArea">
-              @foreach ($deals as $deal)
-                <div class="col-md-6 col-sm-12">
-                  <div class="card card-product">
-                    <div class="card-header card-header-image product-image-header" style="background:url('{{ $deal->path() }}') no-repeat center center;" data-header-animation="true">
-                      
-                    </div>
-                    <div class="card-body">
-                      <div class="card-actions text-center">
-                        <button type="button" class="btn btn-danger btn-link fix-broken-card">
-                          <i class="material-icons">build</i> Fix Header!
-                        </button>
-                        <button type="button" class="btn btn-primary btn-link" rel="tooltip" data-placement="bottom"  data-toggle="modal" data-target="#dealModal{{ $deal->id }}" title="Detail View">
-                          <i class="material-icons">art_track</i>
-                        </button>
-                        <a href="{{ $deal->url }}" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="To URL" target="_blank">
-                          <i class="material-icons">link</i>
-                        </a>
-                        <!-- <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Remove">
-                          <i class="material-icons">close</i>
-                        </button> -->
-                      </div>
-                      <h4 class="card-title">
-                        <a href="#pablo">{{ $deal->title }}</a>
-                      </h4>
-                      <!-- <div class="card-description">
+            <div class="col-md-9 col-sm-12" id="listArea" style="padding-top:20px;">
+              <div class="row">
+                @foreach ($deals as $deal)
+                  <div class="col-md-4 col-sm-12">
+                    <div class="card card-product">
+                      <div class="card-header card-header-image product-image-header" style="background:url('{{ $deal->path() }}') no-repeat center center;" data-header-animation="false">
                         
-                      </div> -->
-                    </div>
-                    <div class="card-footer">
-                      <div class="price">
-                        <h4>{{ $deal->deal_type == 0 ? $deal->price.$deal->price_currency : $deal->auc_enddate }}</h4>
                       </div>
-                      <div class="stats">
-                        <p class="card-category"><i class="material-icons">place</i> {{ $deal->city ? $deal->city.', ' : '' }}{{ $deal->state ? $deal->state.', ' : '' }}{{ $deal->country ? $deal->country.', ' : '' }}</p>
+                      <div class="card-body">
+                        <!-- <div class="card-header-image product-image-header" style="background:url('{{ $deal->path() }}') no-repeat center center;">
+                      </div> -->
+                        <h4 class="card-title flex-horizental">
+                          <a href="#pablo" style="float:left;"><strong>{{ $deal->title }}</strong></a>
+                          <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#dealModal{{ $deal->id }}" style="float:right;">Details</button>
+                        </h4>
+                        <!-- <div class="card-description">
+                          
+                        </div> -->
+                      </div>
+                      <div class="card-footer">
+                        <div class="price">
+                          @if ($deal->deal_type == 0)
+                            <h4 class="text-success flex-horizental"><i class="material-icons">monetization_on</i>  <strong> {{ $deal->price.$deal->price_currency }}</strong></h4>
+                          @else
+                            <h4 class="flex-horizental" style="color:#007bff;"><i class="material-icons">gavel</i>  <strong> {{ $deal->auc_enddate }}</strong></h4>
+                          @endif
+                        </div>
+                        <div class="stats">
+                          <p class="card-category"><i class="material-icons">place</i> <span style="font-size:11px;">{{ $deal->city ? $deal->city.', ' : '' }}{{ $deal->state ? $deal->state.', ' : '' }}{{ $deal->country ? $deal->country.', ' : '' }}</span> </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                
-              @endforeach
-              {{ $deals->links() }}
+                  
+                @endforeach
+              </div>
+              <div class="text-center">
+                {{ $deals->links() }}
+              </div>
             </div>
           </div>
           
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="filter_modalArea">
+  @if ($types_modal != 'no_more')
+    <div class="modal fade filter-modal" id="typeModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">Choose Equipment Type</div>
+          <div class="modal-body">
+            <div class="row" style="padding:20px;">
+            @foreach ($types_modal as $type)
+              <div class="form-check col-md-3 col-sm-12">
+                <label class="form-check-label">
+                  <input class="form-check-input type-filter-check" type="checkbox" unchecked id="typecheck_{{ $type->id }}" value="{{ $type->id }}"> {{ $type->name }}{{ $type->unit ? '('.$type->unit.')' : '' }}
+                  <span class="form-check-sign">
+                    <span class="check"></span>
+                  </span>
+                </label>
+              </div>
+            @endforeach
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary btn-round" onclick="sendAjaxRequestByType();" data-dismiss="modal">Search</button>
+            <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal" style="margin-left:10px;">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  @endif
+  <!-- Modal for Categories -->
+  <div class="modal fade filter-modal" id="categoryModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">Choose Equipment Category</div>
+        <div class="modal-body">
+          <div class="row" style="padding:20px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary btn-round" onclick="ajaxSendRequestByCategory();" data-dismiss="modal">Search</button>
+          <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal" style="margin-left:10px;">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal for Make -->
+  <div class="modal fade filter-modal" id="makeModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">Choose Makes</div>
+        <div class="modal-body">
+          <div class="row" style="padding:20px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary btn-round" onclick="ajaxSendRequestByMake();" data-dismiss="modal">Search</button>
+          <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal" style="margin-left:10px;">Close</button>
         </div>
       </div>
     </div>
@@ -382,28 +435,35 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="row">
-              <div class="col-md-5 col-sm-12">
+              <div class="col-md-12 col-sm-12">
                 <div style="margin-bottom:10px;">
                   <img style="width:100%;" src="{{ $deal->path() }}" alt="{{ $deal->title }}">
                 </div>
+                <div style="min-height:80px;"></div>
               </div>
-              <div class="col-md-7 col-sm-12">
+              <div class="col-md-12 col-sm-12">
                 @if ($deal->deal_type == 0)
                   <span class="badge badge-pill badge-success">Sales</span>
                 @else
                   <span class="badge badge-pill badge-info">Auction</span>
                 @endif
-                <h3 style="color:#333333;">{{ $deal->title }}</h3>
-                <h6 style="color:#333333;">{{ $deal->type->name }} / {{ $deal->category->name }}</h6>
-                @if ($deal->deal_type == 0)
-                  <h5 class="text-warning" style="display:flex;"><i class="material-icons">monetization_on</i> &nbsp;&nbsp;{{ $deal->price }}{{ $deal->price ? $deal->price_currency : '' }}</h5>
-                @else
-                  <h5 class="text-warning" style="display:flex;"><i class="material-icons">calendar_today</i> &nbsp;&nbsp;{{ $deal->auc_enddate }}</h5>
-                @endif
-                <h5 style="color:#333333;font-weight:bold;">Contact Information</h5>
-                <p style="color:#333333;display:flex;"><i class="material-icons">place</i>&nbsp;{{ $deal->city ? $deal->city.', ' : '' }}{{ $deal->state ? $deal->state.', ' : '' }}{{ $deal->country ? $deal->country.', ' : '' }}</p>
-                <p style="color:#333333;display:flex;"><i class="material-icons">phone</i>&nbsp;{{ $deal->user->phone_number }}</p>
-                <p style="color:#333333;display:flex;"><i class="material-icons">person_pin</i>&nbsp;{{ $deal->user->name }}</p>
+                <div style="margin-top:10px;">
+                  <div class="info_item">
+                    <h4 style="color:#333333;">{{ $deal->title }}</h4>
+                    <h6 style="color:#333333;margin-bottom:0;">{{ $deal->type->name }} / {{ $deal->category->name }}</h6>
+                  </div>
+                  <div class="info_item">
+                    @if ($deal->deal_type == 0)
+                      <h5 class="text-success" style="display:flex;margin-bottom:0;"><i class="material-icons">monetization_on</i> &nbsp;&nbsp;{{ $deal->price }}{{ $deal->price ? $deal->price_currency : '' }}</h5>
+                    @else
+                      <h5 class="text-warning" style="display:flex;margin-bottom:0;"><i class="material-icons">calendar_today</i> &nbsp;&nbsp;{{ $deal->auc_enddate }}</h5>
+                    @endif
+                    <p style="color:#333333;display:flex;margin:0;"><i class="material-icons">place</i>&nbsp;{{ $deal->city ? $deal->city.', ' : '' }}{{ $deal->state ? $deal->state.', ' : '' }}{{ $deal->country ? $deal->country.', ' : '' }}</p>
+                  </div>            
+                  <div class="info_item" style="border:none;">
+                    <button class="btn btn-secondary" onclick="location.href='{{ $deal->url }}';"><i class="material-icons">laptop_mac</i>  Vendor's Website</button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row">
@@ -413,22 +473,28 @@
                     <div class="nav-tabs-wrapper">
                       <ul class="nav nav-tabs" data-tabs="tabs">
                         <li class="nav-item">
-                          <a class="nav-link active" href="#general{{ $deal->id }}" data-toggle="tab">
-                            <i class="material-icons">network_check</i> General
+                          <a class="nav-link active" href="#general{{ $deal->id }}" data-toggle="tab" style="color:#333333 !important;">
+                            <i class="material-icons">list</i> Equipment Info
                             <div class="ripple-container"></div>
                           </a>
                         </li>
                         @if ($deal->category->truck_mounted)
                         <li class="nav-item">
-                          <a class="nav-link" href="#truck{{ $deal->id }}" data-toggle="tab">
-                            <i class="material-icons">local_shipping</i> Truck Mounted
+                          <a class="nav-link" href="#truck{{ $deal->id }}" data-toggle="tab" style="color:#333333 !important;">
+                            <i class="material-icons">local_shipping</i> Truck Info
                             <div class="ripple-container"></div>
                           </a>
                         </li>
                         @endif
                         <li class="nav-item">
-                          <a class="nav-link" href="#specific{{ $deal->id }}" data-toggle="tab">
+                          <a class="nav-link" href="#specific{{ $deal->id }}" data-toggle="tab" style="color:#333333 !important;">
                             <i class="material-icons">feedback</i> Specific Info
+                            <div class="ripple-container"></div>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#advice{{ $deal->id }}" data-toggle="tab" style="color:#333333 !important;">
+                            <i class="material-icons">contact_mail</i> Buying Help
                             <div class="ripple-container"></div>
                           </a>
                         </li>
@@ -442,26 +508,36 @@
                       <div class="table-responsive">
                         <table class="table">
                           <tbody>
+                            @if ($deal->year)
                             <tr>
                               <td>Year</td>
                               <td>{{ $deal->year }}</td>
                             </tr>
+                            @endif
+                            @if ($deal->make)
                             <tr>
                               <td>Make</td>
                               <td>{{ $deal->make->name }}</td>
                             </tr>
+                            @endif
+                            @if ($deal->modeld)
                             <tr>
                               <td>Model</td>
                               <td>{{ $deal->modeld->name }}</td>
                             </tr>
+                            @endif
+                            @if ($deal->sn)
                             <tr>
                               <td>Serial Number</td>
                               <td>{{ $deal->sn }}</td>
                             </tr>
+                            @endif
+                            @if ($deal->description)
                             <tr>
                               <td>Description</td>
                               <td>{{ $deal->description }}</td>
                             </tr>
+                            @endif
                           </tbody>
                         </table>
                       </div>
@@ -470,34 +546,48 @@
                       <div class="table-responsive">
                         <table class="table">
                           <tbody>
+                            @if ($deal->truck_year)
                             <tr>
                               <td>Truck Year</td>
                               <td>{{ $deal->truck_year }}</td>
                             </tr>
+                            @endif
+                            @if ($deal->truckmake_id)
                             <tr>
                               <td>Truck Make</td>
                               <td>{{ $deal->truckmake_id ? $deal->truckmake->name : '' }}</td>
                             </tr>
+                            @endif
+                            @if ($deal->truck_model)
                             <tr>
                               <td>Truck Model</td>
                               <td>{{ $deal->truck_model }}</td>
                             </tr>
+                            @endif
+                            @if ($deal->truck_condition)
                             <tr>
                               <td>Condition</td>
                               <td>{{ $deal->truck_condition . $deal->truck_condtion_unit }}</td>
                             </tr>
+                            @endif
+                            @if ($deal->truck_engine)
                             <tr>
                               <td>Engine</td>
                               <td>{{ $deal->truck_engine }}</td>
                             </tr>
+                            @endif
+                            @if ($deal->truck_trans)
                             <tr>
                               <td>Transmission</td>
                               <td>{{ $deal->truck_trans }}</td>
                             </tr>
+                            @endif
+                            @if ($deal->truck_suspension)
                             <tr>
                               <td>Fuel Type</td>
                               <td>{{ $deal->truck_suspension }}</td>
                             </tr>
+                            @endif
                           </tbody>
                         </table>
                       </div>
@@ -516,29 +606,95 @@
                                   $unitAry = explode('/', $specific->unit);
                                   $valueUnit = eval('return $deal->'.$specific->column_name.'_unit;');
                                 @endphp
+                                @if($show_flag)
                                 <tr>
                                   <td>{{ $specific->name }}</td>
                                   <td>{{ $show_flag }}{{ $show_flag ? $valueUnit : ''}}</td>
                                 </tr>
+                                @endif
                               @else
+                                @if ($show_flag)
                                 <tr>
                                   <td>{{ $specific->name }}</td>
                                   <td>{{ $show_flag }}</td>
                                 </tr>
+                                @endif
                               @endif
                             @else
                               @php
                               $optionAry = explode('/', $specific->value);
                               @endphp
+                              @if ($show_flag)
                               <tr>
                                 <td>{{ $specific->name }}</td>
                                 <td>{{ $show_flag }}</td>
                               </tr>
+                              @endif
                             @endif
                           @endforeach
                           </tbody>
                         </table>
                       </div>
+                    </div>
+                    <div class="tab-pane" id="advice{{ $deal->id }}">
+                      <form action="" method="post">
+                        @csrf
+                        @method('post')
+                      <div class="row">
+                        <div class="col-md-5 col-sm-12">
+                          <div class="row">
+                            <label class="col-sm-4 col-form-label">First Name</label>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="firstname" id="firstname" required>
+                                </div>
+                            </div>
+                            <label class="col-sm-4 col-form-label">Last Name</label>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="lastname" id="lastname" required>
+                                </div>
+                            </div>
+                            <label class="col-sm-4 col-form-label">Email</label>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="email" id="email" required>
+                                </div>
+                            </div>
+                            <label class="col-sm-4 col-form-label">Phone Number</label>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="phone" id="phone" required>
+                                </div>
+                            </div>
+                            <label class="col-sm-4 col-form-label">Country</label>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                  <select class="selectpicker" name="country" id="country" data-style="select-with-transition">
+                                    <option value="United States">United States</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="Mexico">Mexico</option>
+                                  </select>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                          <div class="form-group">
+                            <textarea cols="30" rows="13"
+                                class="rounded" style="padding:10px;"
+                                name="message" placeholder="Message"></textarea>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+                      </div>
+                      <hr style="width:100%;">
+                      <div>
+                        <button type="submit" class="btn btn-lg btn-primary" style="float:right;">Send</button>
+                      </div>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -546,7 +702,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger btn-round" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -554,6 +710,39 @@
   @endforeach
 </div>
 <style>
+  #filter_modalArea .modal .modal-dialog .modal-content .modal-header {
+    color: #333333;
+  }
+  #filter_list {
+    margin-top: 10px;
+  }
+  .filter_item {
+    display: flex;
+    background: #999999;
+    border-radius: 8px;
+    color: white;
+    align-items: center;
+    justify-content: space-between;
+    float:left;
+    padding: 3px 7px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-right: 5px;
+  }
+  .filter_item:hover {
+    font-weight: bolder;
+  }
+  .info_item {
+    padding: 5px 10px;
+    border-right: 1px solid #333333;
+    float:left;
+    min-height: 65px;
+  }
+  .flex-horizental {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   td {
     padding: 5px 8px !important;
   }
@@ -999,6 +1188,31 @@
       return true;
     }
 
+    $('.filter_item').hover(function(){
+      $(this).find('.material-icons').fadeIn();
+    });
+
+    $('.filter_item').mouseleave(function(){
+      $(this).find('.material-icons').fadeOut();
+    });
+
+    $('.filter_item').click(function() {
+      switch ($(this).attr('data-type')) {
+        case 'checkbox':
+          $(this).fadeOut();    
+          $('#'+$(this).attr('data-id')).prop('checked', false);
+          if ($(this).attr('data-id') == 'deal_sales') {
+            sendAjaxRequestbySale();
+          } else if ($(this).attr('data-id') == 'deal_auctions') {
+            sendAjaxRequestbyAuction();
+          }
+          break;
+      
+        default:
+          break;
+      }
+    });
+
     var search_key = '';
     var deal_type = 0;
     var eq_type = new Array();
@@ -1022,6 +1236,8 @@
     var truck_trans = new Array();
     var truck_fuel = new Array();
     var page = 0;
+
+    var specific_fields = new Array();
 
     $("#search_key").change(function() {
       search_key = $(this).val();
@@ -1065,7 +1281,6 @@
         success: function(res) {
           var data = res.data.data;
           var pagination = res.pagination;
-          console.log(res);
           if (res.data == 'fail') {
             var noHtml = "<h4 style='margin:auto;'>";
             noHtml += "There is no result which you are searching...";
@@ -1075,8 +1290,8 @@
             var listHtml = "";
             var modalHtml = "";
             for (var i in data) {
-              listHtml += "<div class='col-md-6 col-sm-12'><div class='card card-product'>";
-              listHtml += `<div class='card-header card-header-image product-image-header' style='background:url("/storage/${data[i].picture}") no-repeat center center;' data-header-animation='true'>`;
+              listHtml += "<div class='col-md-4 col-sm-12'><div class='card card-product'>";
+              listHtml += `<div class='card-header card-header-image product-image-header' style='background:url("/storage/${data[i].picture}") no-repeat center center;' data-header-animation='false'>`;
               listHtml += "</div>";
               listHtml += "<div class='card-body'>";
               listHtml += "<div class='card-actions text-center'>";
@@ -1086,16 +1301,17 @@
               listHtml += "<button type='button' class='btn btn-primary btn-link' rel='tooltip' data-placement='bottom' data-toggle='modal' data-target='#dealModal"+data[i].id+"' title='Detail View'><i class='material-icons'>art_track</i></button>";
               listHtml += "<a href='"+data[i].url+"' class='btn btn-success btn-link' rel='tooltip' data-placement='bottom' title='To URL' target='_blank'><i class='material-icons'>link</i></a>";
               listHtml += "</div>";
-              listHtml += "<h4 class='card-title'><a href='#pablo'>"+data[i].title+"</a></h4>";
+              listHtml += "<h4 class='card-title flex-horizental'><a href='#pablo' style='float:left;'><strong>"+data[i].title+"</strong></a>";
+              listHtml += "<button class='btn btn-sm btn-secondary' data-toggle='modal' data-target='#dealModal"+data[i].id+"' style='float:right;'>Details</button></h4>";
               listHtml += "</div>";
               listHtml += "<div class='card-footer'>";
               listHtml += "<div calss='price'>";
               if (data[i].deal_type == 0) {
                 if (data[i].price)
-                  listHtml += "<h4>" + data[i].price + data[i].price_currency + "</h4>";
+                  listHtml += "<h4 class='text-success flex-horizental'><i class='material-icons'>monetization_on</i><strong>" + data[i].price + data[i].price_currency + "</strong></h4>";
               } else {
                 if (data[i].auc_enddate)
-                  listHtml += "<h4>" + data[i].auc_enddate + "</h4>";
+                  listHtml += "<h4 class='flex-horizental' style='color:#007bff;'><i class='material-icons'>gavel</i><strong>" + data[i].auc_enddate + "</strong></h4>";
               }
               listHtml += "</div>";
               var adStr = "";
@@ -1109,7 +1325,7 @@
               }
               if (data[i].country)
                 adStr += ", " + data[i].country;
-              listHtml += "<div class='stats'><p class='card-category'><i class='material-icons'>place</i>"+adStr+"</p></div>";
+              listHtml += "<div class='stats'><p class='card-category'><i class='material-icons'>place</i><span style='font-size:11px;'>"+adStr+"</span></p></div>";
               listHtml += "</div>";
               listHtml += "</div></div>";
 
@@ -1122,40 +1338,48 @@
                 // Row for general information
                   modalHtml += "<div class='row'>";
 
-                    modalHtml += `<div class='col-md-5 col-sm-12'><img style='width:100%;' src="/storage/${data[i].picture}" alt='${data[i].title}'></div>`;
-                    modalHtml += "<div class='col-md-7 col-sm-12'>";
+                    modalHtml += `<div class='col-md-12 col-sm-12'><img style='width:100%;' src="/storage/${data[i].picture}" alt='${data[i].title}'></div>
+                    <div class="col-sm-12" style="min-height:80px;"></div>`;
+                    modalHtml += "<div class='col-md-12 col-sm-12'>";
                     if (data[i].deal_type == 0) {
                       modalHtml += "<span class='badge badge-pill badge-success'>Sales</span>";
                     } else {
                       modalHtml += "<span class='badge badge-pill badge-info'>Auction</span>";
                     }
-                    modalHtml += "<h3 style='color:#333333;'>"+data[i].title+"</h3>";
-                    modalHtml += "<h6 style='color:#333333;'>"+data[i].type_name+" / "+data[i].category_name+"</h6>";
+                    modalHtml += "<div style='margin-top:10px;'><div class='info_item'>";
+                    modalHtml += "<h4 style='color:#333333;'>"+data[i].title+"</h4>";
+                    modalHtml += "<h6 style='color:#333333;'>"+data[i].type_name+" / "+data[i].category_name+"</h6></div>";
+                    modalHtml += "<div class='info_item'>";
                     if (data[i].deal_type == 0) {
-                      modalHtml += "<h5 class='text-warning' style='display:flex;'><i class='material-icons'>monetization_on</i>&nbsp;&nbsp;"+data[i].price+ data[i].price_currency+"</h5>";
+                      modalHtml += "<h5 class='text-success' style='display:flex;margin-bottom:0;'><i class='material-icons'>monetization_on</i>&nbsp;&nbsp;"+data[i].price+ data[i].price_currency+"</h5>";
                     } else {
-                      modalHtml += "<h5 class='text-warning' style='display:flex;'><i class='material-icons'>calendar_today</i>&nbsp;&nbsp;"+data[i].auc_enddate+"</h5>";
-                    }
-                    modalHtml += "<h5 style='color:#333333;font-weight:bold;'>Contact Information</h5>";
+                      modalHtml += "<h5 class='text-warning' style='display:flex;margin-bottom:0;'><i class='material-icons'>calendar_today</i>&nbsp;&nbsp;"+data[i].auc_enddate+"</h5>";
+                    }                    
+                    modalHtml += "<p style='color:#333333;display:flex;'><i class='material-icons'>place</i>&nbsp;"+adStr+"</p></div>";
+                    modalHtml += `<div class="info_item" style="border:none;">
+                                    <button class="btn btn-secondary" onclick="location.href='${data[i].url}';"><i class="material-icons">laptop_mac</i>  Vendor's Website</button>
+                                  </div>`;
 
-                    modalHtml += "<p style='color:#333333;display:flex;'><i class='material-icons'>place</i>&nbsp;"+adStr+"</p>";
-                    if (data[i].user_phone)
-                      modalHtml += "<p style='color:#333333;display:flex;'><i class='material-icons'>phone</i>&nbsp;"+data[i].user_phone+"</p>";
-                    modalHtml += "<p style='color:#333333;display:flex;'><i class='material-icons'>person_pin</i>&nbsp;"+data[i].user_name+"</p>";
-                    modalHtml += "</div>";
-
-                  modalHtml += "</div>";
+                  modalHtml += "</div></div></div>";
                   // Row for detail info
                   modalHtml += "<div class='row'>";
                     modalHtml += "<div class='card'>";
                     // Card Header
                     modalHtml += "<div class='card-header card-header-tabs card-header-rose'>";
                     modalHtml += "<div class='nav-tabs-navigation'><div class='nav-tabs-wrapper'><ul class='nav nav-tabs' data-tabs='tabs'>";
-                    modalHtml += "<li class='nav-item'><a class='nav-link active' href='#general"+data[i].id+"' data-toggle='tab'><i class='material-icons'>network_check</i>General<div class='ripple-container'></div></a></li>";
+                    modalHtml += "<li class='nav-item'><a class='nav-link active' href='#general"+data[i].id+"' data-toggle='tab' style='color:#333333 !important;'><i class='material-icons'>list</i>Equipment Info<div class='ripple-container'></div></a></li>";
                     if (data[i].truck_mount) {
-                      modalHtml += "<li class='nav-item'><a class='nav-link' href='#truck"+data[i].id+"' data-toggle='tab'><i class='material-icons'>local_shipping</i>Truck Mounted</a><div class='ripple-container'></div></li>";
+                      modalHtml += "<li class='nav-item'><a class='nav-link' href='#truck"+data[i].id+"' data-toggle='tab' style='color:#333333 !important;'><i class='material-icons'>local_shipping</i>Truck Info</a><div class='ripple-container'></div></li>";
                     }
-                    modalHtml += "<li class='nav-item'><a class='nav-link' href='#specific"+data[i].id+"' data-toggle='tab'><i class='material-icons'>feedback</i>Specific Info</a><div class='ripple-container'></div></li>";
+                    modalHtml += "<li class='nav-item'><a class='nav-link' href='#specific"+data[i].id+"' data-toggle='tab' style='color:#333333 !important;'><i class='material-icons'>feedback</i>Specific Info</a><div class='ripple-container'></div></li>";
+                    modalHtml += `
+                      <li class="nav-item">
+                        <a class="nav-link" href="#advice${data[i].id}" data-toggle="tab" style="color:#333333 !important;">
+                          <i class="material-icons">contact_mail</i> Buying Help
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+                    `;
                     modalHtml += "</ul></div></div>";
                     modalHtml += "</div>";
                     // Card Body
@@ -1193,14 +1417,92 @@
                     // Specific Tab
                     modalHtml += "<div class='tab-pane' id='specific"+data[i].id+"'><div class='table-responsive'><table class='table'><tbody>";
                     
+                    for (var s in specific_fields) {
+                      var vField = eval('data[i].' + specific_fields[s].column_name);
+                      var fvField = vField;
+                      if (specific_fields[s].unit)
+                        fvField = fvField + ' ' + eval('data[i].' + specific_fields[s].column_name + '_unit');
+                      if (vField) {
+                        modalHtml += `<tr>
+                                        <td>${specific_fields[s].name}</td>
+                                        <td>${fvField}</td>
+                                      </tr>`;
+                      }
+                    }
+                    
+                    modalHtml += ``;
+
                     modalHtml += "</tbody></table></div></div>";
+
+                    modalHtml += `
+                      <div class="tab-pane" id="advice${data[i].id}">
+                        <form action="" method="post">
+                          @csrf
+                          @method('post')
+                        <div class="row">
+                          <div class="col-md-5 col-sm-12">
+                            <div class="row">
+                              <label class="col-sm-4 col-form-label">First Name</label>
+                              <div class="col-sm-8">
+                                  <div class="form-group">
+                                      <input type="text" class="form-control" name="firstname" id="firstname" required>
+                                  </div>
+                              </div>
+                              <label class="col-sm-4 col-form-label">Last Name</label>
+                              <div class="col-sm-8">
+                                  <div class="form-group">
+                                      <input type="text" class="form-control" name="lastname" id="lastname" required>
+                                  </div>
+                              </div>
+                              <label class="col-sm-4 col-form-label">Email</label>
+                              <div class="col-sm-8">
+                                  <div class="form-group">
+                                      <input type="text" class="form-control" name="email" id="email" required>
+                                  </div>
+                              </div>
+                              <label class="col-sm-4 col-form-label">Phone Number</label>
+                              <div class="col-sm-8">
+                                  <div class="form-group">
+                                      <input type="text" class="form-control" name="phone" id="phone" required>
+                                  </div>
+                              </div>
+                              <label class="col-sm-4 col-form-label">Country</label>
+                              <div class="col-sm-8">
+                                  <div class="form-group">
+                                    <select class="selectpicker" name="country" id="country" data-style="select-with-transition">
+                                      <option value="United States">United States</option>
+                                      <option value="Canada">Canada</option>
+                                      <option value="Mexico">Mexico</option>
+                                    </select>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                              <textarea cols="30" rows="13"
+                                  class="rounded" style="padding:10px;"
+                                  name="message" placeholder="Message"></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-3 col-sm-12">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                          </div>
+                        </div>
+                        <hr style="width:100%;">
+                        <div>
+                          <button type="submit" class="btn btn-lg btn-primary" style="float:right;">Send</button>
+                        </div>
+                        </form>
+                      </div>
+                    `;
 
                     modalHtml += "</div></div>";
 
                   modalHtml += "</div></div>";
                   // End of Row for Detail
                   modalHtml += "<div class='modal-footer'>";
-                  modalHtml += "<button type='button' class='btn btn-danger btn-round' data-dismiss='modal'>Close</button>";
+                  modalHtml += "<button type='button' class='btn btn-secondary btn-round' data-dismiss='modal'>Close</button>";
                   modalHtml += "</div>";
                 modalHtml += "</div>";
                 // Modal Body End
@@ -1208,6 +1510,7 @@
               
               modalHtml += "</div>";
             }
+            listHtml = `<div class="row">` + listHtml + `</div>`;
             $('#listArea').empty().html(listHtml);
             $('#listArea').append(`<div id="pagination"></div>`);
             $('#pagination').html(pagination);
@@ -1230,6 +1533,7 @@
         } else {
           deal_type = 0;
         }
+        $('#filter_list').find(`[data-id='deal_sales']`).fadeIn();
       } else {
         $('.filter_eqprice').fadeOut();
         $('#eq_price_start').val('0');
@@ -1239,6 +1543,7 @@
         } else {
           deal_type = 3;
         }
+        $('#filter_list').find(`[data-id='deal_sales']`).fadeOut();
       }
       sendAjaxRequest();
     }
@@ -1252,6 +1557,7 @@
         } else {
           deal_type = 1;
         }
+        $('#filter_list').find(`[data-id='deal_auctions']`).fadeIn();
       } else {
         if ($('#deal_sales').prop('checked') === true) {
           deal_type = 0;
@@ -1264,12 +1570,18 @@
         $('.filter_buypremium').fadeOut();
         $('#from_premium').val('0');
         $('#end_premium').val('100');
+        $('#filter_list').find(`[data-id='deal_auctions']`).fadeOut();
       }
       sendAjaxRequest();
     }
 
     function sendAjaxRequestByType() {
-      eq_type = $('#select_type').val();
+      eq_type = [];
+      $(".type-filter-check").each(function() {
+        if ($(this).prop('checked') === true) {
+          eq_type.push($(this).attr('value'));
+        } 
+      });
       $.ajax({
         type: "POST",
         url: "ajax_get_categories_by_types",
@@ -1277,23 +1589,51 @@
           types: eq_type,
           _token: '<?php echo csrf_token(); ?>'
         },
-        success: function(data) {
-          console.log(data);
-          $('#select_category option').remove();
-          $('#select_category').append("<option value=''></option>");
-          for(var item in data) {
-              var category_itemId = data[item].id;
-              $('#select_category').append("<option value='"+data[item].id+"'>"+data[item].name+"</option>");
+        success: function(res) {
+          var data = res.data_list;
+          var modal_data = res.data_modal;
+          $('#eq_category .collapse-body').empty();
+          for (var item in data) {
+            var strItem = `<div class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input category-filter-check" type="checkbox" unchecked id="categorycheck_${data[item].id}" value="${data[item].id}" onchange="ajaxSendRequestByCategory();"> ${data[item].name}
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div>`;
+            $('#eq_category .collapse-body').append(strItem);
           }
-          $('#select_category').selectpicker('destroy').selectpicker();
+          if (modal_data.length != 0){
+            var btnStr = `<div class="text-center">
+                            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#categoryModal"><i class="material-icons">add</i> Show All</button>
+                          </div>`;
+            $('#eq_category .collapse-body').append(btnStr);
+            $('#categoryModal .modal-dialog .modal-content .modal-body .row').empty();
+            for (var i in modal_data) {
+              var strItem = `<div class="form-check col-md-3 col-sm-12">
+                              <label class="form-check-label">
+                                <input class="form-check-input category-filter-check" type="checkbox" unchecked id="categorycheck_${modal_data[i].id}" value="${ modal_data[i].id }"> ${modal_data[i].name}
+                                <span class="form-check-sign">
+                                  <span class="check"></span>
+                                </span>
+                              </label>
+                            </div>`;
+            }
+            $('#categoryModal .modal-dialog .modal-content .modal-body .row').append(strItem);
+          }
         }
       });
       sendAjaxRequest();
     }
 
     function ajaxSendRequestByCategory() {
-      // sendAjaxRequest();
-      eq_category = $('#select_category').val();
+      eq_category = [];
+      $(".category-filter-check").each(function() {
+        if ($(this).prop('checked') === true) {
+          eq_category.push($(this).attr('value'));
+        } 
+      });
       $.ajax({
           type: "POST",
           url: "ajax_get_specifics_by_categories",
@@ -1301,7 +1641,12 @@
               categories: eq_category,
               _token: '<?php echo csrf_token(); ?>'       
           },
-          success: function(data) {
+          success: function(res) {
+            var data = res.data_specific;
+            var make_data = res.data_make;
+            var make_modal_data = res.data_make_modal;
+            var modeld_data = res.data_modeld;
+            var modeld_modal_data = res.data_modeld_modal;
             if (data == 'fail') {
               $('#eq_specific .collapse-body').empty(); 
               $('.filter_specific').fadeOut();
@@ -1324,7 +1669,73 @@
               });
               $('#eq_specific .selectpicker').selectpicker('destroy').selectpicker();
             }
-          }
+          
+            if (make_data != 'fail') {
+              $('#eq_make .collapse-body').empty();
+              for (var item in make_data) {
+                var strItem = `<div class="form-check">
+                                <label class="form-check-label">
+                                  <input class="form-check-input make-filter-check" type="checkbox" unchecked id="makecheck_${make_data[item].id}" value="${make_data[item].id}" onchange="ajaxSendRequestByMake();"> ${make_data[item].name}
+                                  <span class="form-check-sign">
+                                    <span class="check"></span>
+                                  </span>
+                                </label>
+                              </div>`;
+                $('#eq_make .collapse-body').append(strItem);
+              }
+              if (make_modal_data != 'no_more'){
+                var btnStr = `<div class="text-center">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#makeModal"><i class="material-icons">add</i> Show All</button>
+                              </div>`;
+                $('#eq_make .collapse-body').append(btnStr);
+                $('#makeModal .modal-dialog .modal-content .modal-body .row').empty();
+                for (var i in make_modal_data) {
+                  var strItem = `<div class="form-check col-md-3 col-sm-12">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input make-filter-check" type="checkbox" unchecked id="makecheck_${make_modal_data[i].id}" value="${ make_modal_data[i].id }"> ${make_modal_data[i].name}
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                  </label>
+                                </div>`;
+                }
+                $('#makeModal .modal-dialog .modal-content .modal-body .row').append(strItem);
+              }
+            }
+
+            if (modeld_data != 'fail') {
+              $('#eq_modeld .collapse-body').empty();
+              for (var item in modeld_data) {
+                var strItem = `<div class="form-check">
+                                <label class="form-check-label">
+                                  <input class="form-check-input modeld-filter-check" type="checkbox" unchecked id="modeldcheck_${modeld_data[item].id}" value="${modeld_data[item].id}" onchange="ajaxSendRequestByMake();"> ${modeld_data[item].name}
+                                  <span class="form-check-sign">
+                                    <span class="check"></span>
+                                  </span>
+                                </label>
+                              </div>`;
+                $('#eq_modeld .collapse-body').append(strItem);
+              }
+              if (modeld_modal_data != 'no_more'){
+                var btnStr = `<div class="text-center">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modeldModal"><i class="material-icons">add</i> Show All</button>
+                              </div>`;
+                $('#eq_modeld .collapse-body').append(btnStr);
+                $('#modeldModal .modal-dialog .modal-content .modal-body .row').empty();
+                for (var i in modeld_modal_data) {
+                  var strItem = `<div class="form-check col-md-3 col-sm-12">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input modeld-filter-check" type="checkbox" unchecked id="modeldcheck_${modeld_modal_data[i].id}" value="${ modeld_modal_data[i].id }"> ${modeld_modal_data[i].name}
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                  </label>
+                                </div>`;
+                }
+                $('#makeModal .modal-dialog .modal-content .modal-body .row').append(strItem);
+              }
+            }
+          }          
       });
       $.ajax({
         type: "POST",
@@ -1334,7 +1745,6 @@
           _token: '<?php echo csrf_token(); ?>'
         },
         success: function(data) {
-          console.log(data);
           if (data == 'fail') {
             $('.filter_truckmounted').fadeOut();
           } else if (data == 'success') {
@@ -1346,7 +1756,12 @@
     }
 
     function sendAjaxRequestByMake() {
-      eq_make = $('#select_make').val();
+      eq_make = [];
+      $(".make-filter-check").each(function() {
+        if ($(this).prop('checked') === true) {
+          eq_make.push($(this).attr('value'));
+        } 
+      });
       $.ajax({
         type: "POST",
         url: "ajax_get_modelds_by_makes",
@@ -1355,7 +1770,6 @@
           _token: '<?php echo csrf_token(); ?>'
         },
         success: function(data) {
-          console.log(data);
           $('#select_modeld option').remove();
           $('#select_modeld').append("<option value=''></option>");
           for(var item in data) {
@@ -1369,7 +1783,12 @@
     }
 
     function sendAjaxRequestByModel() {
-      eq_model = $('#select_modeld').val();
+      eq_model = [];
+      $(".modeld-filter-check").each(function() {
+        if ($(this).prop('checked') === true) {
+          eq_model.push($(this).attr('value'));
+        } 
+      });
       sendAjaxRequest();
     }
 
@@ -1383,7 +1802,6 @@
           _token: '<?php echo csrf_token() ?>'
         },
         success: function(data) {
-          // console.log(data);
           $('#select_state option').remove();
           $('#select_state').append("<option value=''></option>");
           for(var item in data) {
@@ -1592,6 +2010,17 @@
       if ($('.slider-price').lengh != 0) {
         initSliderPrice();
       }
+
+      $.ajax({
+        type: 'POST',
+        url: 'ajax_get_specific_fields',
+        data: {
+          _token: '<?php echo csrf_token();?>'
+        },
+        success: function(res) {
+          specific_fields = res;
+        }
+      });
     });
   </script>
 @endpush

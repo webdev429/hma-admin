@@ -120,8 +120,7 @@ class CategoryController extends Controller
         }
         if ($request->title4 != 'title_none') {
             $title_structure .= "," . $request->title4;
-        }
-        
+        }        
         
         $category->update($request->merge(['user_id' => auth()->user()->id, 'title_structure' => $title_structure])->all());
         

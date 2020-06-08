@@ -18,6 +18,7 @@ Route::post('/ajax_get_if_truck', 'WelcomeController@get_if_truck');
 Route::post('/ajax_get_categories_by_types', 'WelcomeController@get_categories_by_types');
 Route::post('/ajax_get_modelds_by_makes', 'WelcomeController@get_modelds_by_makes');
 Route::post('/ajax_get_deals_with_filter', 'WelcomeController@get_deals_with_filter');
+Route::post('/ajax_get_specific_fields', 'WelcomeController@get_specific_fields');
 
 Auth::routes();
 

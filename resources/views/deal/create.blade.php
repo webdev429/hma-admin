@@ -518,7 +518,6 @@
             _token: '<?php echo csrf_token() ?>'
           },
           success: function(data) {
-            console.log(data.modelds);
             var tmp_makes = data.makes;
             var tmp_modelds = data.modelds;
             $('#make_id option').remove();

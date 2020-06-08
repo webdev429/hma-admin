@@ -6,11 +6,8 @@
     Tip 2: you can also add an image using data-image tag
 -->
     <div class="logo">
-        <a href="{{ route('welcome') }}" class="simple-text logo-mini">
-            {{ __('H') }}
-        </a>
-        <a href="{{ route('welcome') }}" class="simple-text logo-normal">
-            {{ __('HMA Project') }}
+        <a href="{{ route('welcome') }}" class="text-center">
+            <img src="{{ asset('material') }}/img/logo.png" style="width:200px;margin-left:25px;" alt="">
         </a>
     </div>
     <div class="sidebar-wrapper">

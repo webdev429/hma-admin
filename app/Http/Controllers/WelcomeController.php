@@ -16,10 +16,12 @@ class WelcomeController extends Controller
 {
     public function index(Deal $model, Specific $specific, Type $type, Category $category, Make $make, Modeld $modeld, Truckmake $truckmake)
     {
+        $types_modal = sizeof($type->all()) > 3 ? $type->skip(3)->take(100000)->get() : 'no_more';
         return view('pages.welcome', [
             'deals' => $model->paginate(10),
             'specifics' => $specific->all(),
-            'types' => $type->all(),
+            'types_first' => $type->skip(0)->take(3)->get(),
+            'types_modal' => $types_modal,
             'categories' => $category->all(),
             'makes' => $make->all(),
             'modelds' => $modeld->all(),
@@ -32,11 +34,20 @@ class WelcomeController extends Controller
 
         $return_specAry = Ajax::getSpecificsByCategories($categoryAry);
         
+        $return1 = Ajax::getMakeByCategories($categoryAry);
+        $return2 = Ajax::getModeldByCategories($categoryAry);
+
         if (empty($return_specAry)) {
             $return_specAry = "fail";
         }
 
-        return response() ->json($return_specAry); 
+        return response() ->json([
+            'data_specific' => $return_specAry,
+            'data_make' => $return1['data'],
+            'data_make_modal' => $return1['data_modal'],
+            'data_modeld' => $return2['data'],
+            'data_modeld_modal' => $return2['data_modal']
+        ]); 
     }
 
     public function get_cities_by_countries (Request $request) {
@@ -58,9 +69,13 @@ class WelcomeController extends Controller
     public function get_categories_by_types (Request $request) {
         $typeAry = $request ->types;
 
-        $return = Ajax::getCategoryByTypes($typeAry);
+        $return1 = Ajax::getCategoryByTypes($typeAry);
+        $return2 = Ajax::getCategoryByTypes($typeAry, 5);
 
-        return response() ->json($return);
+        return response() ->json([
+            'data_list' => $return1,
+            'data_modal' => $return2
+        ]);
     }
 
     public function get_modelds_by_makes (Request $request) {
@@ -84,4 +99,8 @@ class WelcomeController extends Controller
             'pagination' => $pagination
         ]);
     } 
+
+    public function get_specific_fields () {
+        
+    }
 }

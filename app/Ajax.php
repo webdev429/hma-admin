@@ -182,6 +182,51 @@ class Ajax extends Model
         return $specifics->get();
     }
 
+    static function getMakeByCategories($categories = array()) {
+        $return = DB::table('modelds')
+            ->leftJoin('makes', 'modelds.make_id', '=', 'makes.id');
+        
+        if (!$categories)
+            return 'fail';
+
+        foreach ($categories as $category) {
+            $return ->orWhere('modelds.category_id', $category);
+        }
+
+        $pre_return = $return ->select('makes.id', 'makes.name');
+
+        $result['data'] = $pre_return ->take(5) ->distinct() ->get();
+        if(sizeof($result['data']) > 5) {
+            $result['data_modal'] = $pre_return ->skip(1) ->limit(100000) ->get();
+        } else {
+            $result['data_modal'] = 'no_more';
+        }
+
+        return $result;
+    }
+
+    static function getModeldByCategories($categories = array()) {
+        $return = DB::table('modelds');
+        
+        if (!$categories)
+            return 'fail';
+        
+        foreach ($categories as $category) {
+            $return ->orWhere('category_id', $category);
+        }
+
+        $pre_return = $return ->select('id', 'name');
+
+        $result['data'] = $pre_return ->take(5) ->distinct() ->get();
+        if(sizeof($result['data']) > 5) {
+            $result['data_modal'] = $pre_return ->skip(1) ->limit(100000) ->get();
+        } else {
+            $result['data_modal'] = 'no_more';
+        }
+
+        return $result;
+    }
+
     static function getCitiesByCountries($countries = array()) {
         $us_states = array('AL'=>"Alabama",  
             'AK'=>"Alaska",  
@@ -327,7 +372,7 @@ class Ajax extends Model
         }
     }
 
-    static function getCategoryByTypes($types = array()) {
+    static function getCategoryByTypes($types = array(), $ext = 3) {
         $categoryList = DB::table('categories');
 
         if (empty($types)) 
@@ -337,8 +382,13 @@ class Ajax extends Model
             $categoryList ->orWhere('type_id', $type);
         }
 
-        $categoryList ->select('id', 'name')
-            ->get();
+        $categoryList ->select('id', 'name');
+
+        if ($ext == 3) {
+            $categoryList ->take(3) ->get();
+        } else {
+            $categoryList ->skip(3) ->take(100000) ->get();
+        }
 
         return $categoryList->get();
     }
@@ -604,6 +654,12 @@ class Ajax extends Model
             ->get();
 
         return $result;
+    }
+
+    static function getAllSpecificFields() {
+        $return = DB::table('specifics')->get();
+
+        return $return;
     }
 
 
